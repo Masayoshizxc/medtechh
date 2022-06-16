@@ -18,6 +18,11 @@
 		A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979965F2845FEAE00454CEF /* HomeViewController.swift */; };
 		A97996652845FEAF00454CEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A97996642845FEAF00454CEF /* Assets.xcassets */; };
 		A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A97996662845FEAF00454CEF /* LaunchScreen.storyboard */; };
+		AE13BF19285B2F3D00EF27F6 /* TopicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE13BF18285B2F3D00EF27F6 /* TopicController.swift */; };
+		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
+		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
+		AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */; };
+		AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +40,11 @@
 		A97996642845FEAF00454CEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A97996672845FEAF00454CEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A97996692845FEAF00454CEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE13BF18285B2F3D00EF27F6 /* TopicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicController.swift; sourceTree = "<group>"; };
+		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
+		AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ForWeeks.swift; path = MedTech/Frames/ForWeeks.swift; sourceTree = SOURCE_ROOT; };
 		F9A703DE847BCCFCEF34EE44 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -56,13 +66,13 @@
 				0A8EEF095FA647A3982A1AF7 /* Pods-MedTech.debug.xcconfig */,
 				75319410F9648CED869D479E /* Pods-MedTech.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		A901787C284A6C8700FFFBA2 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -110,6 +120,7 @@
 			children = (
 				A979965B2845FEAE00454CEF /* AppDelegate.swift */,
 				A979965D2845FEAE00454CEF /* SceneDelegate.swift */,
+				AE5045F82859F3C00047CA62 /* Frames */,
 				A901787C284A6C8700FFFBA2 /* models */,
 				A901787D284A6C9700FFFBA2 /* view */,
 				A901787E284A6C9F00FFFBA2 /* controllers */,
@@ -118,6 +129,17 @@
 				A97996692845FEAF00454CEF /* Info.plist */,
 			);
 			path = MedTech;
+			sourceTree = "<group>";
+		};
+		AE5045F82859F3C00047CA62 /* Frames */ = {
+			isa = PBXGroup;
+			children = (
+				AE5045F92859F3D40047CA62 /* AppUtility.swift */,
+				AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */,
+				AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */,
+				AE13BF18285B2F3D00EF27F6 /* TopicController.swift */,
+			);
+			path = Frames;
 			sourceTree = "<group>";
 		};
 		B4EC804138FB824F49F89F88 /* Frameworks */ = {
@@ -242,13 +264,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */,
 				A9017888284A6D2300FFFBA2 /* TabBarViewController.swift in Sources */,
 				A9017882284A6CDB00FFFBA2 /* AppointentViewController.swift in Sources */,
+				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
 				A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */,
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
 				A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */,
+				AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */,
+				AE13BF19285B2F3D00EF27F6 /* TopicController.swift in Sources */,
 				A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */,
 				A979965C2845FEAE00454CEF /* AppDelegate.swift in Sources */,
+				AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */,
 				A979965E2845FEAE00454CEF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,6 +423,7 @@
 				INFOPLIST_FILE = MedTech/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -424,6 +452,7 @@
 				INFOPLIST_FILE = MedTech/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
