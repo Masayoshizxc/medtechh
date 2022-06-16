@@ -12,11 +12,50 @@ struct ForWeeks{
 //    let images : UIImageView
 //    ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]
     static func fetchForWeeks() -> [ForWeeks]{
-        let firsItem = ForWeeks(weeksNumbers: "1")
-    
-    let secondItem = ForWeeks(weeksNumbers: "2")
+        let firstWeek = ForWeeks(weeksNumbers: "1")
+        let secondWeek = ForWeeks(weeksNumbers: "2")
+        let thirdWeek = ForWeeks(weeksNumbers: "3")
+        let fourthWeek = ForWeeks(weeksNumbers: "4")
+        let fifthWeek = ForWeeks(weeksNumbers: "5")
+        let sixthWeek = ForWeeks(weeksNumbers: "6")
+        let seventhWeek = ForWeeks(weeksNumbers: "7")
+        let eithWeek = ForWeeks(weeksNumbers: "8")
+        let ninthWeek = ForWeeks(weeksNumbers: "9")
+        let tenthWeek = ForWeeks(weeksNumbers: "10")
+        let eleventhWeek = ForWeeks(weeksNumbers: "11")
+        let twelvethWeek = ForWeeks(weeksNumbers: "12")
+        let thirtinthWeek = ForWeeks(weeksNumbers: "13")
+        let fourtinthWeek = ForWeeks(weeksNumbers: "14")
+        let fiftinthWeek = ForWeeks(weeksNumbers: "15")
+        let sixtinthWeek = ForWeeks(weeksNumbers: "16")
+        let seventinthWeek = ForWeeks(weeksNumbers: "17")
+        let eightinthWeek = ForWeeks(weeksNumbers: "18")
+        let ninetinthWeek = ForWeeks(weeksNumbers: "19")
+        let twentiethWeek = ForWeeks(weeksNumbers: "20")
+        let twentyFirstWeek = ForWeeks(weeksNumbers: "21")
+        let twentySecondWeek = ForWeeks(weeksNumbers: "22")
+        let twentyThirdWeek = ForWeeks(weeksNumbers: "23")
+        let twentyFourthWeek = ForWeeks(weeksNumbers: "24")
+        let twentyfifthWeek = ForWeeks(weeksNumbers: "25")
+        let twentySixthWeek = ForWeeks(weeksNumbers: "26")
+        let twentySeventhWeek = ForWeeks(weeksNumbers: "27")
+        let twentyEithWeek = ForWeeks(weeksNumbers: "28")
+        let twentyNinthWeek = ForWeeks(weeksNumbers: "29")
+        let thirtiethWeek = ForWeeks(weeksNumbers: "30")
+        let thirtyFirstWeek = ForWeeks(weeksNumbers: "31")
+        let thirtySecondWeek = ForWeeks(weeksNumbers: "32")
+        let thirtyThirdWeek = ForWeeks(weeksNumbers: "33")
+        let thirtyFourthWeek = ForWeeks(weeksNumbers: "34")
+        let thirtyfifthWeek = ForWeeks(weeksNumbers: "35")
+        let thirtySixthWeek = ForWeeks(weeksNumbers: "36")
+        let thirtySeventhWeek = ForWeeks(weeksNumbers: "37")
+        let thirtyEithWeek = ForWeeks(weeksNumbers: "38")
+        let thirtyNinthWeek = ForWeeks(weeksNumbers: "39")
+        let fortiethWeek = ForWeeks(weeksNumbers: "40")
 
-let thirdItem = ForWeeks(weeksNumbers: "3")
-        return [ForWeeks]()
+
+
+
+        return [firstWeek, secondWeek, thirdWeek, fourthWeek, fifthWeek, sixthWeek, seventhWeek, eithWeek, ninthWeek, tenthWeek, eleventhWeek, twelvethWeek,thirtinthWeek,fourtinthWeek,fiftinthWeek,sixtinthWeek,seventinthWeek,eightinthWeek,ninetinthWeek,twentiethWeek,twentyFirstWeek,twentySecondWeek,twentyThirdWeek,twentyFourthWeek,twentyfifthWeek,twentySixthWeek,twentySeventhWeek,twentyEithWeek,twentyNinthWeek,thirtiethWeek,thirtyFirstWeek,thirtySecondWeek,thirtyThirdWeek,thirtyFourthWeek,thirtyfifthWeek,thirtySixthWeek,thirtySeventhWeek,thirtyEithWeek,thirtyNinthWeek,fortiethWeek]
 }
 }

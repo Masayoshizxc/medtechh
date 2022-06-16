@@ -25,11 +25,11 @@ class CollectionViewCell: UICollectionViewCell {
     let numbersOfWeeks : UILabel = {
         let numbers =  UILabel()
         numbers.font = UIFont(name: "System", size: 35)
-        numbers.text = "1"
+//        numbers.text = "1"
         numbers.textColor = .black
         numbers.translatesAutoresizingMaskIntoConstraints = false
         numbers.layer.masksToBounds = true
-        numbers.layer.cornerRadius = 50/2
+//        numbers.layer.cornerRadius = 50/2
         numbers.textAlignment = .center
         return numbers
     }()

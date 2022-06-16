@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
         setUpCollectionView()
         view.addSubview(topic)
         setUpButtons()
+        
     }
 // Colors*******
     func setUpViewsBackgroundColor(){
@@ -69,6 +70,8 @@ class HomeViewController: UIViewController {
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 125).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
 //        collectionView.layer.cornerRadius = 300
+        
+        collectionView.set(cells: ForWeeks.fetchForWeeks())
         
     }
 
