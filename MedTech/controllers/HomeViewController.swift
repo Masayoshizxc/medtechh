@@ -74,7 +74,7 @@ class HomeViewController: UIViewController {
 
 //    Topic View
     let topic : UIView = {
-      let vieww = UIView(frame: CGRect(x: 35, y: 200, width: 344, height: 600))
+      let vieww = UIView(frame: CGRect(x: 35, y: 200, width: 354, height: 600))
         vieww.layer.cornerRadius = 30
         vieww.backgroundColor = .white
         
