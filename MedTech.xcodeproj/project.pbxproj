@@ -20,6 +20,7 @@
 		A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A97996662845FEAF00454CEF /* LaunchScreen.storyboard */; };
 		AE13BF19285B2F3D00EF27F6 /* TopicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE13BF18285B2F3D00EF27F6 /* TopicController.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
+		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
 		AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */; };
 		AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */; };
@@ -42,6 +43,7 @@
 		A97996692845FEAF00454CEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE13BF18285B2F3D00EF27F6 /* TopicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicController.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
 		AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ForWeeks.swift; path = MedTech/Frames/ForWeeks.swift; sourceTree = SOURCE_ROOT; };
@@ -93,6 +95,7 @@
 				A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */,
 				A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */,
 				A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */,
+				AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				A9017882284A6CDB00FFFBA2 /* AppointentViewController.swift in Sources */,
 				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
 				A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */,
+				AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */,
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
 				A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */,
 				AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */,

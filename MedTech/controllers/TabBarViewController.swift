@@ -17,7 +17,7 @@ class TabBarViewController: UITabBarController {
         let vc3 = ChecklistViewController()
         let vc4 = ProfileViewController()
         
-        vc1.title = "Домой"
+        vc1.title = "Главная"
         vc2.title = "Запись"
         vc3.title = "Чек-лист"
         vc4.title = "Профиль"
@@ -27,7 +27,7 @@ class TabBarViewController: UITabBarController {
         let nav3 = UINavigationController(rootViewController: vc3)
         let nav4 = UINavigationController(rootViewController: vc4)
         
-        nav1.tabBarItem = UITabBarItem(title: "Домой", image: UIImage(systemName: "house"), tag: 1)
+        nav1.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house"), tag: 1)
         nav2.tabBarItem = UITabBarItem(title: "Запись", image: UIImage(systemName: "square.and.pencil"), tag: 1)
         nav3.tabBarItem = UITabBarItem(title: "Чек-лист", image: UIImage(systemName: "checklist"), tag: 1)
         nav4.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person"), tag: 1)
