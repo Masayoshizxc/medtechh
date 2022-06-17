@@ -13,6 +13,11 @@
 		A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */; };
 		A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */; };
 		A9017888284A6D2300FFFBA2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */; };
+		A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9486B45285CE66500E54DAC /* ForgotPasswordViewController.swift */; };
+		A9486B48285CE69200E54DAC /* NewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9486B47285CE69200E54DAC /* NewPasswordViewController.swift */; };
+		A9486B4B285CE72600E54DAC /* Mulish-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9486B4A285CE72600E54DAC /* Mulish-Black.ttf */; };
+		A9486B4D285CE73600E54DAC /* Mulish-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9486B4C285CE73600E54DAC /* Mulish-Bold.ttf */; };
+		A9486B4F285CE73F00E54DAC /* Mulish-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9486B4E285CE73F00E54DAC /* Mulish-ExtraBold.ttf */; };
 		A979965C2845FEAE00454CEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979965B2845FEAE00454CEF /* AppDelegate.swift */; };
 		A979965E2845FEAE00454CEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979965D2845FEAE00454CEF /* SceneDelegate.swift */; };
 		A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979965F2845FEAE00454CEF /* HomeViewController.swift */; };
@@ -34,6 +39,11 @@
 		A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
 		A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		A9486B45285CE66500E54DAC /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		A9486B47285CE69200E54DAC /* NewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordViewController.swift; sourceTree = "<group>"; };
+		A9486B4A285CE72600E54DAC /* Mulish-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-Black.ttf"; sourceTree = "<group>"; };
+		A9486B4C285CE73600E54DAC /* Mulish-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-Bold.ttf"; sourceTree = "<group>"; };
+		A9486B4E285CE73F00E54DAC /* Mulish-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mulish-ExtraBold.ttf"; sourceTree = "<group>"; };
 		A97996582845FEAE00454CEF /* MedTech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MedTech.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A979965B2845FEAE00454CEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A979965D2845FEAE00454CEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,8 +99,10 @@
 		A901787E284A6C9F00FFFBA2 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A979965F2845FEAE00454CEF /* HomeViewController.swift */,
 				A901787F284A6CBF00FFFBA2 /* LoginViewController.swift */,
+				A9486B45285CE66500E54DAC /* ForgotPasswordViewController.swift */,
+				A9486B47285CE69200E54DAC /* NewPasswordViewController.swift */,
+				A979965F2845FEAE00454CEF /* HomeViewController.swift */,
 				A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */,
 				A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */,
 				A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */,
@@ -98,6 +110,16 @@
 				AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */,
 			);
 			path = controllers;
+			sourceTree = "<group>";
+		};
+		A9486B49285CE71100E54DAC /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A9486B4A285CE72600E54DAC /* Mulish-Black.ttf */,
+				A9486B4C285CE73600E54DAC /* Mulish-Bold.ttf */,
+				A9486B4E285CE73F00E54DAC /* Mulish-ExtraBold.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		A979964F2845FEAE00454CEF = {
@@ -123,6 +145,7 @@
 			children = (
 				A979965B2845FEAE00454CEF /* AppDelegate.swift */,
 				A979965D2845FEAE00454CEF /* SceneDelegate.swift */,
+				A9486B49285CE71100E54DAC /* fonts */,
 				AE5045F82859F3C00047CA62 /* Frames */,
 				A901787C284A6C8700FFFBA2 /* models */,
 				A901787D284A6C9700FFFBA2 /* view */,
@@ -213,8 +236,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9486B4F285CE73F00E54DAC /* Mulish-ExtraBold.ttf in Resources */,
 				A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */,
+				A9486B4B285CE72600E54DAC /* Mulish-Black.ttf in Resources */,
 				A97996652845FEAF00454CEF /* Assets.xcassets in Resources */,
+				A9486B4D285CE73600E54DAC /* Mulish-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +302,8 @@
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
 				A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */,
 				AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */,
+				A9486B48285CE69200E54DAC /* NewPasswordViewController.swift in Sources */,
+				A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */,
 				AE13BF19285B2F3D00EF27F6 /* TopicController.swift in Sources */,
 				A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */,
 				A979965C2845FEAE00454CEF /* AppDelegate.swift in Sources */,
