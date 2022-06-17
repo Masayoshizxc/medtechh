@@ -20,7 +20,6 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICol
         layout.scrollDirection = .horizontal
         super.init(frame: .zero,collectionViewLayout: layout)
         backgroundColor = UIColor(red: 239/255, green: 197/255, blue: 203/255, alpha: 1)
-//        backgroundColor = .white
         delegate = self
         dataSource = self
         register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseID)

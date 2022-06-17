@@ -28,11 +28,12 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViewsBackgroundColor()
-//        setUpTitle()
         setUpCollectionView()
         view.addSubview(topic)
         setUpButtons()
-        
+        topic.addSubview(weekImage)
+        weekImage.centerXAnchor.constraint(equalTo: topic.centerXAnchor).isActive = true
+        topic.addSubview(textTopic)
     }
 // Colors*******
     func setUpViewsBackgroundColor(){
@@ -44,22 +45,7 @@ class HomeViewController: UIViewController {
         ]
         view.layer.addSublayer(gradientLayer)
     }
-//*********
-//    func setUpTitle(){
-//        var title = UILabel()
-//        view.addSubview(title)
-//
-//        title.text = "Ваша неделя беременности"
-//        title.font = UIFont(name: "System", size: 25)
-//        title.textColor = .black
-//
-//        title.snp.makeConstraints{make in
-//            make.top.equalToSuperview().inset(100)
-//            make.left.equalToSuperview().inset(30)
-//        }
-//
-//    }
-    
+
 //    Adding collectionview to the home page
     private var collectionView = GalleryCollectionView()
     func setUpCollectionView(){
@@ -69,7 +55,7 @@ class HomeViewController: UIViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 125).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        collectionView.layer.cornerRadius = 300
+
         
         collectionView.set(cells: ForWeeks.fetchForWeeks())
         
@@ -81,21 +67,28 @@ class HomeViewController: UIViewController {
         vieww.layer.cornerRadius = 30
         vieww.backgroundColor = .white
         
-        let weekImage : UIImageView = {
-           let image = UIImageView()
-//            image.snp.makeConstraints{make in
-//                make.top.equalTo(vieww).inset(20)
-//                make.leading.equalTo(vieww).inset(20)
-//                make.height.equalTo(60)
-//                make.width.equalTo(30)
-//            }
-            image.self.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 30, height: 60))
-            image.backgroundColor = .systemPurple
-            return image
-        }()
-        vieww.addSubview(weekImage)
+        
+        
         return vieww
     }()
+    
+    let weekImage : UIImageView = {
+       let image = UIImageView()
+        image.frame = CGRect(x: (354/2) - 50 , y: 10, width: 100, height: 100)
+        image.layer.cornerRadius = 40
+        image.image = UIImage(named: "week1")
+        return image
+    }()
+    
+    var textTopic : UILabel = {
+       var text = UILabel()
+        text.text = ("Акушеры считают срок гестации с первого дня последней менструации. Это удобно — ведь большинство женщин ведут календарь и знают эту дату. Однако плода в это период еще нет. Зачатие случается позже — во время овуляции, примерно через две недели. Можно было бы считать срок гестации и с момента зачатия, но эту дату сложно вычислить. К тому же овуляция может наступить не в середине цикла, а значительно раньше или позже — и тогда вычислить ее будет еще сложнее.")
+        text.numberOfLines = 0
+        text.frame = CGRect(x: 30, y: (10+100+20), width: 354 - 60, height: 400)
+        return text
+    }()
+    
+    
     
     
 //  Notifications
