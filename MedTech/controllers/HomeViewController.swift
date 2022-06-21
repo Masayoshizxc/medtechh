@@ -20,7 +20,10 @@ class HomeViewController: UIViewController {
     let notificationButton : UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
-        button.setBackgroundImage(Icons.fuck.image, for: .normal)
+<<<<<<< HEAD
+        button.setBackgroundImage(Icons.image.fuck.image, for: .normal)
+=======
+>>>>>>> c1719f7b63e5edb1c121d4c5674709e2b0ea31d5
         button.tintColor = .white
         return button
     }()
