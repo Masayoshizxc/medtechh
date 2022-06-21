@@ -40,6 +40,13 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICol
         cell.numbersOfWeeks.text = cells[indexPath.row].weeksNumbers
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+        cell.mainImageView.layer.borderWidth = 5
+        cell.mainImageView.layer.borderColor = UIColor.yellow.cgColor
+        cell.mainImageView.backgroundColor = .none
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 50, height: 50)
     }

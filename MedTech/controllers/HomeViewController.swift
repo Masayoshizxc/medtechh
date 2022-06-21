@@ -9,6 +9,22 @@ import UIKit
 import SnapKit
 
 class HomeViewController: UIViewController {
+    
+    let messagesButton : UIButton = {
+       let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "envelope.open"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
+    let notificationButton : UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -34,6 +50,7 @@ class HomeViewController: UIViewController {
         topic.addSubview(weekImage)
         weekImage.centerXAnchor.constraint(equalTo: topic.centerXAnchor).isActive = true
         topic.addSubview(textTopic)
+        setUpConstraints()
     }
 // Colors*******
     func setUpViewsBackgroundColor(){
@@ -51,24 +68,21 @@ class HomeViewController: UIViewController {
     func setUpCollectionView(){
         
         view.addSubview(collectionView)
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 125).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.set(cells: ForWeeks.fetchForWeeks())
         
     }
 
 //    Topic View
     let topic : UIView = {
-      let vieww = UIView(frame: CGRect(x: 35, y: 200, width: 354, height: 600))
+      let vieww = UIView()
         vieww.layer.cornerRadius = 30
         vieww.backgroundColor = .white
-        
-        
-        
+        vieww.translatesAutoresizingMaskIntoConstraints = false
         return vieww
     }()
     
@@ -90,36 +104,31 @@ class HomeViewController: UIViewController {
     
     
     
-    
 //  Notifications
     func setUpButtons(){
-    let notificationButton : UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-        
         view.addSubview(notificationButton)
-        
-        notificationButton.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(50)
-            make.right.equalToSuperview().inset(15)
-            make.width.height.equalTo(40)
-        }
-        let messagesButton : UIButton = {
-           let button = UIButton()
-            button.setBackgroundImage(UIImage(systemName: "envelope.open"), for: .normal)
-            button.tintColor = .white
-            return button
-        }()
-        
         view.addSubview(messagesButton)
+    }
+    
+    func setUpConstraints() {
+        topic.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).inset(-20)
+            make.centerX.equalToSuperview()
+            //make.width.equalTo(354)
+            //make.height.equalTo(600)
+            make.bottom.equalToSuperview().inset(120)
+        }
         
         messagesButton.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(50)
-            make.left.equalToSuperview().inset(15)
-            make.width.height.equalTo(40)
+            make.top.equalToSuperview().inset(65)
+            make.left.equalToSuperview().inset(30)
+            make.width.height.equalTo(30)
+        }
+        
+        notificationButton.snp.makeConstraints{make in
+            make.top.equalToSuperview().inset(65)
+            make.right.equalToSuperview().inset(30)
+            make.width.height.equalTo(30)
         }
     }
 //
