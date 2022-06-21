@@ -91,13 +91,20 @@ class LoginViewController: UIViewController {
         ]
         view.layer.addSublayer(gradientLayer)
         
-        view.addSubview(firstLabel)
-        view.addSubview(secondLabel)
-        view.addSubview(emailField)
-        view.addSubview(passwordField)
-        view.addSubview(loginButton)
-        view.addSubview(forgotPasswordButton)
-                
+//        view.addSubview(firstLabel)
+//        view.addSubview(secondLabel)
+//        view.addSubview(emailField)
+//        view.addSubview(passwordField)
+//        view.addSubview(loginButton)
+//        view.addSubview(forgotPasswordButton)
+        view.addSubviews(
+            firstLabel,
+            secondLabel,
+            emailField,
+            passwordField,
+            loginButton,
+            forgotPasswordButton
+        )
         setUpConstraints()
     }
     
@@ -146,3 +153,31 @@ class LoginViewController: UIViewController {
 
 
 }
+
+extension UIView {
+    func addSubviews(_ views: UIView...) {
+        views.forEach { addSubview($0) }
+    }
+}
+
+extension NSObject {
+    @objc var screenWidth: CGFloat {
+        UIScreen.main.bounds.width
+    }
+    @objc var screenHeight: CGFloat {
+        UIScreen.main.bounds.height
+    }
+    
+    func widthComputed(_ value: CGFloat) -> CGFloat {
+        screenWidth * value / 390
+    }
+    
+    func heightComputed(_ value: CGFloat) -> CGFloat {
+        screenHeight * value / 844
+    }
+    
+    var tabbarHeight: CGFloat {
+        UITabBarController().tabBar.frame.height
+    }
+}
+

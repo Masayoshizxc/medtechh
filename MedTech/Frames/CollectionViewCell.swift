@@ -22,7 +22,9 @@ class CollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let numbersOfWeeks : UILabel = {
+    
+    
+    private let numbersOfWeeks : UILabel = {
         let numbers =  UILabel()
         numbers.font = UIFont(name: "System", size: 35)
 
@@ -54,4 +56,17 @@ class CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func fill(text: String?) {
+        numbersOfWeeks.text = text
+    }
+}
+
+extension UICollectionReusableView {
+    var identifier: String {
+        .init(describing: self)
+    }
+    
+    static var identifier: String {
+        .init(describing: self)
+    }
 }

@@ -1,0 +1,49 @@
+# MARK: - Fonts
+
+fonts:
+  inputs: MedTech/fonts
+  outputs:
+    templateName: swift5
+    params:
+       forceProvidesNamespaces: true
+       enumName: Fonts
+    output: MedTech/GeneratedFonts.swift
+
+
+# MARK: - Colors
+
+xcassets:
+   inputs: MedTech/Colors.xcassets
+   outputs:
+     templateName: swift5
+     params:
+       forceProvidesNamespaces: true
+       enumName: Colors
+     output: MedTech/GeneratedColors.swift
+
+
+# MARK: - Icons
+
+xcassets:
+    inputs: MedTech/Images.xcassets
+    outputs:
+        templateName: swift5
+        params:
+            forceProvidesNamespaces: true
+            enumName: Icons
+        output: MedTech/GeneratedIcons.swift
+#
+#
+## MARK: - Strings
+#
+#strings:
+#   inputs:
+#      - MindSet/Resources/Strings/en.lproj
+#   outputs:
+#     - templateName: MSG-strings-template
+#       output: MindSet/Resources/GeneratedStrings.swift
+#       params:
+#            forceProvidesNamespaces: true
+#            enumName: Localizeds
+       
+# Pods/SwiftGen/bin/swiftgen -- runs the pod

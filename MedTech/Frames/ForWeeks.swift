@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import UIKit
+
+// TODO: ???
 struct ForWeeks{
     let weeksNumbers : String
     static func fetchForWeeks() -> [ForWeeks]{

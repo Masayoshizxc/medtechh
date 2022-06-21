@@ -26,7 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.rootViewController = nav
             window.makeKeyAndVisible()
-            
+            let color = Colors.fuck.color
+            UILabel().font = Fonts.Mulish.bold.font(size: 12)
         }
     }
 

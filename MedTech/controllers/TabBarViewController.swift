@@ -17,7 +17,7 @@ class TabBarViewController: UITabBarController {
         let vc3 = ChecklistViewController()
         let vc4 = ProfileViewController()
         
-        vc1.title = "Главная"
+        
         vc2.title = "Запись"
         vc3.title = "Чек-лист"
         vc4.title = "Профиль"
