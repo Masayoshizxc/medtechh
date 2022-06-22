@@ -14,8 +14,13 @@ class HomeViewController: UIViewController {
         
         AppUtility.lockOrientation(.portrait)
         // Or to rotate and lock
-        // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait) 
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.scrollToItem(at: [0, 20], at: .centeredHorizontally, animated: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -34,7 +39,10 @@ class HomeViewController: UIViewController {
         topic.addSubview(weekImage)
         weekImage.centerXAnchor.constraint(equalTo: topic.centerXAnchor).isActive = true
         topic.addSubview(textTopic)
+        collectionView.showsHorizontalScrollIndicator = false
+        
     }
+    
 // Colors*******
     func setUpViewsBackgroundColor(){
         let gradientLayer = CAGradientLayer()
@@ -51,8 +59,8 @@ class HomeViewController: UIViewController {
     func setUpCollectionView(){
         
         view.addSubview(collectionView)
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 125).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
 

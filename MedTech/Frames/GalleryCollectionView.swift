@@ -10,11 +10,9 @@ import UIKit
 
 class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
     
-    
         
     var cells = [ForWeeks]()
-    
-    
+        
     init(){
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -36,13 +34,30 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseID, for: indexPath) as! CollectionViewCell
+        let cell = dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseID, for: indexPath) as! CollectionViewCell
         cell.numbersOfWeeks.text = cells[indexPath.row].weeksNumbers
+        cell.layer.borderWidth = 0
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 50, height: 50)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+        if cell.isSelected {
+            cell.mainImageView.layer.borderWidth = 5
+            cell.mainImageView.layer.borderColor = UIColor.yellow.cgColor
+        } else {
+            cell.mainImageView.layer.borderWidth = 0
+        }
+        for cell in cells {
+            var currentCell = cell
+            currentCell.isSelected = true
+        }
+        cells[indexPath.row] = ForWeeks(weeksNumbers: String(indexPath.row + 1), isSelected: true)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
