@@ -8,11 +8,14 @@
 import Foundation
 import UIKit
 
-class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
+class GalleryCollectionView: UICollectionView , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
-        
     var cells = [ForWeeks]()
-        
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     init(){
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -20,7 +23,8 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICol
         backgroundColor = UIColor(red: 239/255, green: 197/255, blue: 203/255, alpha: 1)
         delegate = self
         dataSource = self
-        register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseID)
+        
+        register(CollectionViewCell.self)
         
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -34,11 +38,11 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseID, for: indexPath) as! CollectionViewCell
-        cell.numbersOfWeeks.text = cells[indexPath.row].weeksNumbers
-        cell.layer.borderWidth = 0
+        let cell = getReuseCell(CollectionViewCell.self, indexPath: indexPath)
+        cell.fill(text: cells[indexPath.row].weeksNumbers)
         return cell
     }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 50, height: 50)
     }
@@ -57,9 +61,18 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDelegate , UICol
         }
         cells[indexPath.row] = ForWeeks(weeksNumbers: String(indexPath.row + 1), isSelected: true)
     }
+}
+
+extension UICollectionView {
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func register<Cell: UICollectionViewCell>(_ cellType: Cell.Type) {
+        register(cellType, forCellWithReuseIdentifier: cellType.identifier)
     }
     
+    func getReuseCell<Cell: UICollectionViewCell>(
+        _ cellType: Cell.Type,
+        indexPath: IndexPath
+    ) -> Cell {
+        dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as! Cell
+    }
 }
