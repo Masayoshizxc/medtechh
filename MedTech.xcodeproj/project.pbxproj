@@ -33,6 +33,7 @@
 		A97996652845FEAF00454CEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A97996642845FEAF00454CEF /* Assets.xcassets */; };
 		A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A97996662845FEAF00454CEF /* LaunchScreen.storyboard */; };
 		A9B1B3F22863639900D15021 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C491002285DD8360047A02A /* swiftgen.yml */; };
+		A9DECF08286580D200481D1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9DECF07286580D200481D1C /* GoogleService-Info.plist */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
@@ -71,6 +72,7 @@
 		A97996642845FEAF00454CEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A97996672845FEAF00454CEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A97996692845FEAF00454CEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9DECF07286580D200481D1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 		A98EEB9528635E950038C1D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A9DECF07286580D200481D1C /* GoogleService-Info.plist */,
 				A9486B49285CE71100E54DAC /* Fonts */,
 				A97996642845FEAF00454CEF /* Assets.xcassets */,
 				3C491004285DD8B70047A02A /* Colors.xcassets */,
@@ -354,6 +357,7 @@
 			files = (
 				A9486B4F285CE73F00E54DAC /* Mulish-ExtraBold.ttf in Resources */,
 				3C49100C285DE1E90047A02A /* Images.xcassets in Resources */,
+				A9DECF08286580D200481D1C /* GoogleService-Info.plist in Resources */,
 				A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */,
 				A9B1B3F22863639900D15021 /* swiftgen.yml in Resources */,
 				A9486B4B285CE72600E54DAC /* Mulish-Black.ttf in Resources */,

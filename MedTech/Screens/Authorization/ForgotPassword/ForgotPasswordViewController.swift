@@ -30,14 +30,6 @@ class ForgotPasswordViewController: BaseViewController {
         return button
     }()
     
-//    private let gradientLayer: CAGradientLayer = {
-//        let gradient = CAGradientLayer()
-//        gradient.colors = [
-//            UIColor(red: 0.975, green: 0.528, blue: 0.648, alpha: 1.0).cgColor,
-//            UIColor(red: 0.967, green: 0.919, blue: 0.685, alpha: 1.0).cgColor
-//        ]
-//        return gradient
-//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,8 +44,24 @@ class ForgotPasswordViewController: BaseViewController {
     }
     
     @objc func didTapSendButton() {
-        let vc = LoginViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        guard let email = emailField.text, !email.isEmpty else {
+            print("Enter email")
+            return
+        }
+        if validateEmail(enteredEmail: email) {
+            let vc = LoginViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            print("Enter proper email")
+        }
+        
+        
+    }
+    
+    func validateEmail(enteredEmail: String) -> Bool {
+        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: enteredEmail)
     }
     
     func setUpConstraints() {

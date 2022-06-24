@@ -6,7 +6,11 @@ target 'MedTech' do
   use_frameworks!
 
   # Pods for MedTech
-pod 'SnapKit'
-pod 'SwiftGen'
+  pod 'SnapKit'
+  pod 'SwiftGen'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Firestore'
 
 end

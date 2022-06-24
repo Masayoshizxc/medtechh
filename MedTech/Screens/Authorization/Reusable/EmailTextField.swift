@@ -14,6 +14,7 @@ class EmailTextField: UITextField {
         textAlignment = .center
         keyboardType = .emailAddress
         autocorrectionType = .no
+        autocapitalizationType = .none
         font = Fonts.Mulish.extraBold.font(size: 16)
         backgroundColor = UIColor(red: 1, green: 0.982, blue: 0.9, alpha: 0.4)
         translatesAutoresizingMaskIntoConstraints = false

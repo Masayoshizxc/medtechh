@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Firebase
 
 class LoginViewController: BaseViewController {
     
@@ -29,6 +30,7 @@ class LoginViewController: BaseViewController {
     let emailField: EmailTextField = {
         let field = EmailTextField()
         field.attributedPlaceholder = NSAttributedString(string: "Почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.returnKeyType = .continue
         return field
     }()
     
@@ -68,18 +70,52 @@ class LoginViewController: BaseViewController {
             loginButton,
             forgotPasswordButton
         )
+        
+        emailField.delegate = self
+        passwordField.delegate = self
+        
         setUpConstraints()
     }
     
     @objc func didTapLoginButton() {
-        let vc = NewPasswordViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        guard let email = emailField.text,
+              let password = passwordField.text,
+              !email.isEmpty,
+              !password.isEmpty else {
+            print("Enter email or password")
+            return
+        }
+        
+        if validateEmail(enteredEmail: email) {
+            Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+                guard let strongSelf = self else { return }
+                
+                guard let result = authResult, error == nil else {
+                    print("Failed to log in user with email: \(email)")
+                    return
+                }
+                print(result)
+                
+                let vc = NewPasswordViewController()
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+
+            }
+        } else {
+            print("Wrong email")
+        }
+        
     }
     
     @objc func didTapForgotPasswordButton() {
         let vc = ForgotPasswordViewController()
         navigationController?.pushViewController(vc, animated: true)
 
+    }
+    
+    func validateEmail(enteredEmail: String) -> Bool {
+        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: enteredEmail)
     }
     
     func setUpConstraints() {
@@ -114,6 +150,17 @@ class LoginViewController: BaseViewController {
         }
     }
 
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField {
+            passwordField.becomeFirstResponder()
+        } else {
+            didTapLoginButton()
+        }
+        return true
+    }
 }
 
 extension UIView {

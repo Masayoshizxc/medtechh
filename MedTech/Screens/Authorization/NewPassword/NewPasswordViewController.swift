@@ -20,6 +20,7 @@ class NewPasswordViewController: BaseViewController {
     let passwordField: PasswordTextField = {
         let field = PasswordTextField()
         field.attributedPlaceholder = NSAttributedString(string: "Новый Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.returnKeyType = .continue
         return field
     }()
     
@@ -38,14 +39,6 @@ class NewPasswordViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.frame = view.bounds
-//        gradientLayer.colors = [
-//            UIColor(red: 0.975, green: 0.528, blue: 0.648, alpha: 1.0).cgColor,
-//            UIColor(red: 0.967, green: 0.919, blue: 0.685, alpha: 1.0).cgColor
-//        ]
-//        view.layer.addSublayer(gradientLayer)
         
         view.addSubview(label)
         view.addSubview(passwordField)
@@ -59,11 +52,21 @@ class NewPasswordViewController: BaseViewController {
             loginButton
         )
         
+        passwordField.delegate = self
+        confirmPasswordField.delegate = self
+        
         setUpConstraints()
     }
     
     
     @objc func didTapLoginButton() {
+//        guard let password = passwordField.text,
+//              let confirmPassword = confirmPasswordField.text,
+//              !password.isEmpty,
+//              !confirmPassword.isEmpty else {
+//            print("Enter password")
+//            return
+//        }
         let vc = TabBarViewController()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
@@ -93,4 +96,15 @@ class NewPasswordViewController: BaseViewController {
         }
     }
 
+}
+
+extension NewPasswordViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == passwordField {
+            confirmPasswordField.becomeFirstResponder()
+        } else {
+            didTapLoginButton()
+        }
+        return true
+    }
 }
