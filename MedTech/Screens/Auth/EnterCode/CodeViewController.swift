@@ -33,6 +33,7 @@ class CodeViewController: UIViewController {
     @objc func didTapEnter() {
         guard let code = codeField.text, !code.isEmpty else {
             print("code is empty")
+            return
         }
         
         let vc = LoginViewController()
