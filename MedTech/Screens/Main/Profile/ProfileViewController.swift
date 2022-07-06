@@ -6,15 +6,28 @@
 //
 
 import UIKit
-import Firebase
 
 class ProfileViewController: UIViewController {
+    
+    let userDefaults = UserDefaultsService()
+    
+    private let viewModel: ProfileViewModelProtocol
+
+    init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var logOutButton: UIButton = {
         let button = UIButton()
         button.setTitle("LogOut", for: .normal)
         button.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
         button.backgroundColor = .black
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -23,21 +36,31 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        logOutButton.frame = CGRect(x: 120, y: 320, width: 120, height: 60)
-        view.addSubviews(logOutButton)
-        
+        view.addSubviews(
+            logOutButton
+        )
+        setUpConstraints()
     }
     
     @objc func didTapLogOutButton() {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            let vc = LoginViewController()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        } catch let signOutError as NSError {
-          print("Error signing out: %@", signOutError)
+        userDefaults.isSignedIn(signedIn: false)
+        let userId = userDefaults.getUserId()
+        let data: [String : Any] = [
+            "userId" : userId
+        ]
+        let encodedData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+        viewModel.logOut(data: encodedData!) { result in
+            print(result!)
+        }
+        let vc = LoginViewController()
+        tabBarController?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func setUpConstraints() {
+        logOutButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(120)
+            make.height.equalTo(60)
         }
     }
-
 }
