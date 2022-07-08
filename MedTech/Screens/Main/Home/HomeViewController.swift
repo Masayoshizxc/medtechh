@@ -53,7 +53,6 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-
     let topic : UIView = {
       let vieww = UIView()
         vieww.layer.cornerRadius = 30
@@ -61,18 +60,39 @@ class HomeViewController: UIViewController {
         vieww.translatesAutoresizingMaskIntoConstraints = false
         return vieww
     }()
-    
+    let scrollView : UIScrollView = {
+        let scroll = UIScrollView()
+//        scroll.layer.cornerRadius = 30
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        return scroll
+    }()
     let weekImage : UIImageView = {
        let image = UIImageView()
-        image.frame = CGRect(x: (354/2) - 50 , y: 10, width: 100, height: 100)
-        image.layer.cornerRadius = 40
-        image.image = UIImage(named: "week1")
+        image.frame.size = CGSize(width: 230, height: 204)
+        image.layer.cornerRadius = image.frame.size.width/2
+        image.image = UIImage(named: "child")
+        return image
+    }()
+    
+    let constTitle : UILabel = {
+       let title = UILabel()
+        title.text = "Что есть во время беременности?"
+        title.font = .boldSystemFont(ofSize: 24)
+        title.textAlignment = .left
+        title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        return title
+    }()
+    
+    let recImage : UIImageView = {
+       let image = UIImageView()
+        image.frame.size = CGSize(width: 336, height: 220)
+        image.image = UIImage(named: "eat")
         return image
     }()
     
     var textTopic : UILabel = {
        var text = UILabel()
-        text.text = ("Акушеры считают срок гестации с первого дня последней менструации. Это удобно — ведь большинство женщин ведут календарь и знают эту дату. Однако плода в это период еще нет. Зачатие случается позже — во время овуляции, примерно через две недели. Можно было бы считать срок гестации и с момента зачатия, но эту дату сложно вычислить. К тому же овуляция может наступить не в середине цикла, а значительно раньше или позже — и тогда вычислить ее будет еще сложнее.")
+        text.text = ("Во время беременности очень важно правильно питаться: сбалансированный рацион будущей мамы один из источников необходимых компонентов для правильного развития малыша.\nДля беременной женщины «есть за двоих» должно означать не «есть в два раза больше», а «есть в два раза лучше». Правильное питание во время беременности важно не только с точки зрения здоровья будущего ребенка. Это поможет вам лучше себя чувствовать, меньше уставать, не даст набрать лишние килограммы и поможет быстро прийти в форму после родов. Вот несколько полезных рекомендаций1:\nЕшьте часто, небольшими порциями.\nПейте много жидкости.\nПитайтесь разнообразно, ешьте мясо, рыбу, птицу, яйца, молочные продукты, каши, супы, фрукты, овощи, зерновые.\nЕсли вы испытываете тошноту, можно попробовать утолить голод с помощью сухих соленых крекеров и печенья.\nИзбегайте жирную пищу, жареное, острое, копченое и сладкое")
         text.numberOfLines = 0
         text.frame = CGRect(x: 30, y: (10+100+20), width: 354 - 60, height: 400)
         text.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
@@ -104,24 +124,30 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpScrollView()
         setUpViewsBackgroundColor()
         setUpCollectionView()
-//        view.addSubview(topic)
-//        setUpButtons()
-//        topic.addSubview(weekImage)
-//        weekImage.centerXAnchor.constraint(equalTo: topic.centerXAnchor).isActive = true
-//        topic.addSubview(textTopic)
         collectionView.showsHorizontalScrollIndicator = false
-        
         setUpSubViews()
         setUpConstraints()
-
     }
     
+    func setUpScrollView(){
+        scrollView.contentSize = CGSize(width: textTopic.frame.size.width, height: (weekImage.frame.size.height + textTopic.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + 300))
+    }
     
     func setUpSubViews(){
-        view.addSubviews(topic,sosButton,notificationsButton,titleForPage,remindButton)
-        topic.addSubviews(weekImage, textTopic)
+        view.addSubviews(sosButton,
+                         notificationsButton,
+                         titleForPage,
+                         remindButton,
+                         scrollView)
+        scrollView.addSubviews(weekImage,
+                               textTopic,
+                               constTitle,
+                               recImage)
+        
+        
     }
 // Colors*******
     func setUpViewsBackgroundColor(){
@@ -192,15 +218,18 @@ class HomeViewController: UIViewController {
 //  Notifications
    
     func setUpConstraints() {
-        topic.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).inset(-20)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(354)
-            make.height.equalTo(600)
-            make.bottom.equalToSuperview().inset(120)
+        scrollView.snp.makeConstraints{make in
+            make.top.equalTo(collectionView).inset(60)
+            make.left.right.equalToSuperview().inset(0)
+            make.bottom.equalToSuperview().inset(90)
+            
+            
         }
-        
-        
+//        collectionView.snp.makeConstraints{make in
+//            make.top.equalToSuperview().inset(10)
+//            make.height.equalTo(50)
+//            make.leading.trailing.equalTo(3)
+//        }
         
         notificationsButton.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(65)
@@ -219,12 +248,28 @@ class HomeViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         weekImage.snp.makeConstraints{make in
+            make.top.equalToSuperview().inset(15)
             make.centerX.equalToSuperview()
         }
         remindButton.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(titleForPage).inset(50)
+            make.top.equalTo(titleForPage).inset(70)
             
+        }
+        constTitle.snp.makeConstraints{make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(weekImage).inset(278)
+            make.height.equalTo(24)
+            
+        }
+        recImage.snp.makeConstraints{make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(constTitle).inset(34)
+        }
+        textTopic.snp.makeConstraints{make in
+            make.top.equalTo(recImage).inset(240)
+            make.width.equalTo(336)
+            make.centerX.equalToSuperview()
         }
     }
 //
