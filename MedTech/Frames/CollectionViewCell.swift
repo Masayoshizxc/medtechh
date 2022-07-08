@@ -17,6 +17,8 @@ class CollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 50.0/2.0
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = CGColor(red: 197/255, green: 197/255, blue: 197/255, alpha: 1)
 //        imageView.backgroundColor = UIColor(red: 245/255, green: 233/255, blue: 173/255, alpha: 1)
         imageView.backgroundColor = .white
         return imageView
@@ -28,7 +30,7 @@ class CollectionViewCell: UICollectionViewCell {
         let numbers =  UILabel()
         numbers.font = UIFont(name: "System", size: 35)
 
-        numbers.textColor = .black
+        numbers.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         numbers.translatesAutoresizingMaskIntoConstraints = false
         numbers.layer.masksToBounds = true
 
