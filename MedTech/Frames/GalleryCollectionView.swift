@@ -20,7 +20,7 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDataSource , UIC
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         super.init(frame: .zero,collectionViewLayout: layout)
-        backgroundColor = UIColor(red: 239/255, green: 197/255, blue: 203/255, alpha: 1)
+//        backgroundColor = UIColor(red: 239/255, green: 197/255, blue: 203/255, alpha: 1)
         delegate = self
         dataSource = self
         
