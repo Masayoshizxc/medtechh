@@ -44,7 +44,8 @@ class ForgotPasswordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.backItem?.title = ""
+
         view.addSubviews(
             firstLabel,
             emailField,
@@ -62,7 +63,7 @@ class ForgotPasswordViewController: BaseViewController {
         
         if validateEmail(enteredEmail: email) {
             viewModel.forgotPassword(email: email) { result in
-                print("Forgot password: \(result)")
+                print("Forgot password: \(String(describing: result))")
             }
             let vc = CodeViewController()
             navigationController?.pushViewController(vc, animated: true)

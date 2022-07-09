@@ -9,7 +9,7 @@ import Foundation
 
 enum ForgotPasswordRouter: BaseRouter {
     case forgotPassword(email: String)
-    case resetPassword(code: Int, email: String)
+    case resetPassword(code: String)
     
     var path: String {
         switch self {
@@ -24,8 +24,8 @@ enum ForgotPasswordRouter: BaseRouter {
         switch self {
         case let .forgotPassword(email):
             return [URLQueryItem(name: "email", value: email)]
-        case .resetPassword:
-            return nil
+        case let .resetPassword(code):
+            return [URLQueryItem(name: "code", value: code)]
         }
     }
 

@@ -22,6 +22,8 @@ class NewPasswordViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var isForgetPassword = false
+    
     let label: UILabel = {
         let label = UILabel()
         label.text = "Пожалуйста введите новый пароль"
@@ -80,18 +82,25 @@ class NewPasswordViewController: BaseViewController {
             print("Enter password")
             return
         }
-//        guard password == confirmPassword else {
-//            print("passwords are not the save")
-//            return
-//        }
+        guard password == confirmPassword else {
+            print("passwords are not the save")
+            return
+        }
         
         let userId = userDefaults.getUserId()
         
         viewModel.changePassword(id: userId, password: password) { result in
-            print("New password result: \(result)")
+            print("New password result: \(String(describing: result))")
         }
-        let vc = TabBarViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        
+        if isForgetPassword {
+            let vc = LoginViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = TabBarViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     func setUpConstraints() {

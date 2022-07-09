@@ -38,6 +38,7 @@
 		A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A979965F2845FEAE00454CEF /* HomeViewController.swift */; };
 		A97996652845FEAF00454CEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A97996642845FEAF00454CEF /* Assets.xcassets */; };
 		A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A97996662845FEAF00454CEF /* LaunchScreen.storyboard */; };
+		A97FC05F287753FA00B689C1 /* CodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97FC05E287753FA00B689C1 /* CodeTextField.swift */; };
 		A9B1B3F22863639900D15021 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C491002285DD8360047A02A /* swiftgen.yml */; };
 		A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA602874946200FB0257 /* NetworkService.swift */; };
 		A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA612874946200FB0257 /* BaseRouter.swift */; };
@@ -53,6 +54,8 @@
 		A9DDAA7B2874A29700FB0257 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA7A2874A29700FB0257 /* AuthRouter.swift */; };
 		A9DDAA7E2874A2C600FB0257 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA7D2874A2C600FB0257 /* UserRouter.swift */; };
 		A9DECF08286580D200481D1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9DECF07286580D200481D1C /* GoogleService-Info.plist */; };
+		A9E6C54C2878140B004FC946 /* CodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E6C54B2878140B004FC946 /* CodeModel.swift */; };
+		A9E6C5502878192E004FC946 /* MoreChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
@@ -97,6 +100,7 @@
 		A97996642845FEAF00454CEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A97996672845FEAF00454CEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A97996692845FEAF00454CEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A97FC05E287753FA00B689C1 /* CodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextField.swift; sourceTree = "<group>"; };
 		A9DDAA602874946200FB0257 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A9DDAA612874946200FB0257 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
 		A9DDAA632874946200FB0257 /* StatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCode.swift; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 		A9DDAA7A2874A29700FB0257 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		A9DDAA7D2874A2C600FB0257 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
 		A9DECF07286580D200481D1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A9E6C54B2878140B004FC946 /* CodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeModel.swift; sourceTree = "<group>"; };
+		A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreChecklistViewController.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 			children = (
 				A91DF796286374A600C79BDF /* BaseViewController.swift */,
 				A91DF79028636FA800C79BDF /* EmailTextField.swift */,
+				A97FC05E287753FA00B689C1 /* CodeTextField.swift */,
 				A91DF792286371B400C79BDF /* PasswordTextField.swift */,
 				A91DF7942863726200C79BDF /* LoginButton.swift */,
 			);
@@ -268,8 +275,9 @@
 		A95E5C0328756DCE00F7D575 /* EnterCode */ = {
 			isa = PBXGroup;
 			children = (
+				A9E6C54A287813FA004FC946 /* Model */,
 				A95E5C062875747300F7D575 /* ViewModel */,
-				A95E5C0428756E2B00F7D575 /* CodeViewController.swift */,
+				A9E6C54D2878152E004FC946 /* View */,
 			);
 			path = EnterCode;
 			sourceTree = "<group>";
@@ -357,6 +365,7 @@
 				A91DF78A28636EFA00C79BDF /* Home */,
 				A91DF78B28636F0100C79BDF /* Appointment */,
 				A91DF78C28636F0900C79BDF /* Checklist */,
+				A9E6C54E287818FD004FC946 /* MoreChecklist */,
 				A91DF78D28636F1100C79BDF /* Profile */,
 				A91DF78E28636F1700C79BDF /* Notificatioin */,
 			);
@@ -458,6 +467,30 @@
 				A901787F284A6CBF00FFFBA2 /* LoginViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		A9E6C54A287813FA004FC946 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A9E6C54B2878140B004FC946 /* CodeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A9E6C54D2878152E004FC946 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A95E5C0428756E2B00F7D575 /* CodeViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A9E6C54E287818FD004FC946 /* MoreChecklist */ = {
+			isa = PBXGroup;
+			children = (
+				A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */,
+			);
+			path = MoreChecklist;
 			sourceTree = "<group>";
 		};
 		AE5045F82859F3C00047CA62 /* Frames */ = {
@@ -627,11 +660,13 @@
 				A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */,
 				A95E5C0528756E2B00F7D575 /* CodeViewController.swift in Sources */,
 				A9DDAA702874946200FB0257 /* HttpHeader.swift in Sources */,
+				A97FC05F287753FA00B689C1 /* CodeTextField.swift in Sources */,
 				A91DF798286385BF00C79BDF /* GeneratedColors.swift in Sources */,
 				AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */,
 				A9DDAA7E2874A2C600FB0257 /* UserRouter.swift in Sources */,
 				A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */,
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
+				A9E6C54C2878140B004FC946 /* CodeModel.swift in Sources */,
 				3C49100E285DE2B30047A02A /* GeneratedIcons.swift in Sources */,
 				A9DDAA752874953600FB0257 /* SignIn.swift in Sources */,
 				A9DDAA6D2874946200FB0257 /* ProResult.swift in Sources */,
@@ -649,6 +684,7 @@
 				A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */,
 				A93D2EBC28755D5600DEE1BF /* ForgotPassword.swift in Sources */,
 				A9DDAA6F2874946200FB0257 /* HttpMethod.swift in Sources */,
+				A9E6C5502878192E004FC946 /* MoreChecklistViewController.swift in Sources */,
 				A979965C2845FEAE00454CEF /* AppDelegate.swift in Sources */,
 				AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */,
 				A979965E2845FEAE00454CEF /* SceneDelegate.swift in Sources */,

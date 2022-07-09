@@ -1,26 +1,25 @@
 //
-//  EmailTextField.swift
+//  CodeTextField.swift
 //  MedTech
 //
-//  Created by Eldiiar on 22/6/22.
+//  Created by Eldiiar on 7/7/22.
 //
 
 import UIKit
 
-class EmailTextField: UITextField {
+class CodeTextField: UITextField {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         textAlignment = .center
-        keyboardType = .emailAddress
+        keyboardType = .numberPad
         autocorrectionType = .no
         autocapitalizationType = .none
         font = Fonts.Mulish.extraBold.font(size: 16)
-        //backgroundColor = UIColor(red: 1, green: 0.982, blue: 0.9, alpha: 0.4)
         translatesAutoresizingMaskIntoConstraints = false
         layer.borderWidth = 1.5
         layer.borderColor = UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1).cgColor
-        layer.cornerRadius = 15
+        layer.cornerRadius = 18
     }
     
     required init?(coder: NSCoder) {
@@ -28,3 +27,4 @@ class EmailTextField: UITextField {
     }
     
 }
+

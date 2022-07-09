@@ -12,15 +12,15 @@ enum UserRouter: BaseRouter {
 
     var path: String {
         switch self {
-        case let .changePassword(id, password):
-            return "/api/v1/users/\(id)/change-password?password=\(password)"
+        case let .changePassword(id, _):
+            return "/api/v1/users/\(id)/change-password"
         }
     }
 
     var queryParameter: [URLQueryItem]? {
         switch self {
-        case .changePassword:
-            return nil
+        case let .changePassword(_, password):
+            return [URLQueryItem(name: "password", value: password)]
         }
     }
 

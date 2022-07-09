@@ -16,9 +16,9 @@ class PasswordTextField: UITextField {
         isSecureTextEntry = true
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
-        layer.borderWidth = 1
-        layer.borderColor = Colors.yellow.color.cgColor
-        layer.cornerRadius = 25
+        layer.borderWidth = 1.5
+        layer.borderColor = UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1).cgColor
+        layer.cornerRadius = 15
     }
     
     required init?(coder: NSCoder) {

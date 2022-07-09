@@ -12,9 +12,10 @@ class LoginButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = Colors.yellow.color
-        layer.cornerRadius = 25
-        setTitleColor(UIColor.black, for: .normal)
+        //backgroundColor = Colors.yellow.color
+        backgroundColor = UIColor(red: 214/255, green: 122/255, blue: 115/255, alpha: 1)
+        layer.cornerRadius = 15
+        setTitleColor(UIColor.white, for: .normal)
         titleLabel?.font = Fonts.Mulish.extraBold.font(size: 17)
     }
     

@@ -10,6 +10,7 @@ import Foundation
 enum AuthRouter: BaseRouter {
     case signIn(data: Data)
     case logout(data: Data)
+    case refreshToken
     
     var path: String {
         switch self {
@@ -17,6 +18,8 @@ enum AuthRouter: BaseRouter {
             return "/api/auth/signin"
         case .logout:
             return "/api/auth/logout"
+        case .refreshToken:
+            return "/api/auth/refreshtoken"
         }
     }
     
@@ -25,6 +28,8 @@ enum AuthRouter: BaseRouter {
         case .signIn:
             return nil
         case .logout:
+            return nil
+        case .refreshToken:
             return nil
         }
     }
@@ -35,6 +40,8 @@ enum AuthRouter: BaseRouter {
             return .POST
         case .logout:
             return .POST
+        case .refreshToken:
+            return .POST
         }
     }
     
@@ -44,6 +51,8 @@ enum AuthRouter: BaseRouter {
             return data
         case let .logout(data):
             return data
+        case .refreshToken:
+            return nil
         }
     }
     
@@ -52,6 +61,8 @@ enum AuthRouter: BaseRouter {
         case .signIn:
             return nil
         case .logout:
+            return nil
+        case .refreshToken:
             return nil
         }
     }

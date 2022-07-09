@@ -21,8 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             
             let window = UIWindow(windowScene: windowScene)
-            //let viewController = LoginViewController()
-            //let nav = UINavigationController(rootViewController: viewController)
             let userDefaults = UserDefaultsService()
             
             if userDefaults.didSignedIn() == true {
@@ -33,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let navBar = UINavigationController(rootViewController: viewController)
                 window.rootViewController = navBar
             }
-            
+             
             self.window = window
             window.makeKeyAndVisible()
         }

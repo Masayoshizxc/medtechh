@@ -23,32 +23,32 @@ class LoginViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let firstLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Введите ваши данные"
-        label.font = Fonts.Mulish.black.font(size: 22)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let secondLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Пожалуйста введите свои данные"
-        label.font = Fonts.Mulish.bold.font(size: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+//    let firstLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "Введите ваши данные"
+//        label.font = Fonts.Mulish.black.font(size: 22)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+//
+//    let secondLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "Пожалуйста введите свои данные"
+//        label.font = Fonts.Mulish.bold.font(size: 16)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
     
     let emailField: EmailTextField = {
         let field = EmailTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.attributedPlaceholder = NSAttributedString(string: "Почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1)])
         field.returnKeyType = .continue
         return field
     }()
     
     let passwordField: PasswordTextField = {
         let field = PasswordTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.attributedPlaceholder = NSAttributedString(string: "Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1)])
         return field
     }()
     
@@ -65,18 +65,18 @@ class LoginViewController: BaseViewController {
         button.addTarget(self, action: #selector(didTapForgotPasswordButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor(red: 0.078, green: 0.078, blue: 0.078, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "Mulish-Bold", size: 17)
+        button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 14)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        //view.backgroundColor = .white
         navigationItem.hidesBackButton = true
         
         view.addSubviews(
-            firstLabel,
-            secondLabel,
+            //firstLabel,
+            //secondLabel,
             emailField,
             passwordField,
             loginButton,
@@ -144,14 +144,14 @@ class LoginViewController: BaseViewController {
     }
     
     func setUpConstraints() {
-        firstLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(secondLabel.snp.top).offset(-20)
-        }
-        secondLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(emailField.snp.top).offset(-70)
-        }
+//        firstLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.bottom.equalTo(secondLabel.snp.top).offset(-20)
+//        }
+//        secondLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.bottom.equalTo(emailField.snp.top).offset(-70)
+//        }
         emailField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(passwordField.snp.top).offset(-20)
