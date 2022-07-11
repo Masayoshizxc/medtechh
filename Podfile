@@ -8,5 +8,5 @@ target 'MedTech' do
   # Pods for MedTech
   pod 'SnapKit'
   pod 'SwiftGen'
-
+  pod 'FSCalendar'
 end

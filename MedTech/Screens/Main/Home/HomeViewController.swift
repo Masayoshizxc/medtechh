@@ -21,7 +21,6 @@ class HomeViewController: UIViewController {
     let notificationsButton : UIButton = {
        let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
-        
         button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return button
     }()
@@ -32,24 +31,20 @@ class HomeViewController: UIViewController {
         button.tintColor = .black
         button.layer.cornerRadius = 18
         button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
-//        button.setTitleShadowColor(.black, for: .normal)
-        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        button.layer.shadowOpacity = 1.0
-        button.layer.shadowRadius = 16
-        
         return button
     }()
     
     let remindButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
-        button.currentImage?.withTintColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1))
+//        button.currentImage?.withTintColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1))
         button.setTitle("  Следующее посещение 30-июля", for: .normal)
-        button.tintColor = .black
+        button.backgroundColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        button.layer.cornerRadius = 20
+        button.tintColor = .white
         button.titleLabel?.font = button.titleLabel?.font.withSize(15)
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 14)
-        button.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
+        button.setTitleColor(.white , for: .normal)
         return button
     }()
     
@@ -82,7 +77,14 @@ class HomeViewController: UIViewController {
         title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return title
     }()
-    
+    var textTopic1 : UILabel = {
+       var text = UILabel()
+        text.text = ("В 14 недель беременности мозг и нервная система ребенка развиваются семимильными шагами. Малыш становится чувствительнее, считается, что он уже способен ощущать настроение мамы, а на фото плода, сделанного учеными, можно увидеть различные гримасы – от подобия улыбки до выражения недовольства.")
+        text.numberOfLines = 0
+        text.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        text.frame.size.width = 336
+        return text
+    }()
     let recImage : UIImageView = {
        let image = UIImageView()
         image.frame.size = CGSize(width: 336, height: 220)
@@ -90,7 +92,7 @@ class HomeViewController: UIViewController {
         return image
     }()
     
-    var textTopic : UILabel = {
+    var textTopic2 : UILabel = {
        var text = UILabel()
         text.text = ("Во время беременности очень важно правильно питаться: сбалансированный рацион будущей мамы один из источников необходимых компонентов для правильного развития малыша.\nДля беременной женщины «есть за двоих» должно означать не «есть в два раза больше», а «есть в два раза лучше». Правильное питание во время беременности важно не только с точки зрения здоровья будущего ребенка. Это поможет вам лучше себя чувствовать, меньше уставать, не даст набрать лишние килограммы и поможет быстро прийти в форму после родов. Вот несколько полезных рекомендаций1:\nЕшьте часто, небольшими порциями.\nПейте много жидкости.\nПитайтесь разнообразно, ешьте мясо, рыбу, птицу, яйца, молочные продукты, каши, супы, фрукты, овощи, зерновые.\nЕсли вы испытываете тошноту, можно попробовать утолить голод с помощью сухих соленых крекеров и печенья.\nИзбегайте жирную пищу, жареное, острое, копченое и сладкое")
         text.numberOfLines = 0
@@ -111,8 +113,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         collectionView.scrollToItem(at: [0, 20], at: .centeredHorizontally, animated: true)
-        badgeLabel(withCount: 5)
-        showBadge(withCount: 5)
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -130,10 +131,12 @@ class HomeViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         setUpSubViews()
         setUpConstraints()
+        badgeLabel(withCount: 5)
+        showBadge(withCount: 5)
     }
     
     func setUpScrollView(){
-        scrollView.contentSize = CGSize(width: textTopic.frame.size.width, height: (weekImage.frame.size.height + textTopic.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + 300))
+        scrollView.contentSize = CGSize(width: textTopic2.frame.size.width, height: (weekImage.frame.size.height + textTopic2.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + 300))
     }
     
     func setUpSubViews(){
@@ -143,7 +146,8 @@ class HomeViewController: UIViewController {
                          remindButton,
                          scrollView)
         scrollView.addSubviews(weekImage,
-                               textTopic,
+                               textTopic1,
+                               textTopic2,
                                constTitle,
                                recImage)
         
@@ -168,7 +172,7 @@ class HomeViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 175).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 212).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.set(cells: ForWeeks.fetchForWeeks())
@@ -188,7 +192,7 @@ class HomeViewController: UIViewController {
         badgeCount.layer.masksToBounds = true
         badgeCount.textColor = .white
         badgeCount.font = badgeCount.font.withSize(12)
-        badgeCount.backgroundColor = .systemRed
+        badgeCount.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
         badgeCount.text = String(count)
         return badgeCount
     }
@@ -254,19 +258,25 @@ class HomeViewController: UIViewController {
         remindButton.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
             make.top.equalTo(titleForPage).inset(70)
-            
+            make.width.equalTo(336)
+            make.height.equalTo(44)
         }
         constTitle.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(weekImage).inset(278)
+            make.top.equalTo(textTopic1).offset(64)
             make.height.equalTo(24)
+            
+        }
+        textTopic1.snp.makeConstraints{make in
+            make.top.equalTo(weekImage).inset(246)
+            make.centerX.equalToSuperview()
             
         }
         recImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
             make.top.equalTo(constTitle).inset(34)
         }
-        textTopic.snp.makeConstraints{make in
+        textTopic2.snp.makeConstraints{make in
             make.top.equalTo(recImage).inset(240)
             make.width.equalTo(336)
             make.centerX.equalToSuperview()

@@ -58,6 +58,11 @@
 		A9E6C5502878192E004FC946 /* MoreChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
+		AEE1C1D6287AD14000D72075 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1D5287AD14000D72075 /* TableViewCell.swift */; };
+		AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1D8287AD16800D72075 /* TableViewController.swift */; };
+		AEE1C1DB287AD1C200D72075 /* DoctorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */; };
+		AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */; };
+		AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
 		AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */; };
 		AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */; };
@@ -119,6 +124,11 @@
 		A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreChecklistViewController.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
+		AEE1C1D5287AD14000D72075 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		AEE1C1D8287AD16800D72075 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorTableViewController.swift; sourceTree = "<group>"; };
+		AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewController.swift; sourceTree = "<group>"; };
+		AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
 		AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ForWeeks.swift; path = MedTech/Frames/ForWeeks.swift; sourceTree = SOURCE_ROOT; };
@@ -362,6 +372,7 @@
 		A9B1B3F528636BFC00D15021 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				AEE1C1D4287AD02900D72075 /* TableView */,
 				A91DF78A28636EFA00C79BDF /* Home */,
 				A91DF78B28636F0100C79BDF /* Appointment */,
 				A91DF78C28636F0900C79BDF /* Checklist */,
@@ -502,6 +513,18 @@
 				AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */,
 			);
 			path = Frames;
+			sourceTree = "<group>";
+		};
+		AEE1C1D4287AD02900D72075 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				AEE1C1D5287AD14000D72075 /* TableViewCell.swift */,
+				AEE1C1D8287AD16800D72075 /* TableViewController.swift */,
+				AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */,
+				AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */,
+				AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -649,6 +672,7 @@
 				A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */,
 				A95E5C082875748000F7D575 /* CodeViewModel.swift in Sources */,
 				A91DF793286371B400C79BDF /* PasswordTextField.swift in Sources */,
+				AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
 				A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */,
 				A95E5C022875668E00F7D575 /* ForgotPasswordViewModel.swift in Sources */,
@@ -667,6 +691,7 @@
 				A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */,
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
 				A9E6C54C2878140B004FC946 /* CodeModel.swift in Sources */,
+				AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */,
 				3C49100E285DE2B30047A02A /* GeneratedIcons.swift in Sources */,
 				A9DDAA752874953600FB0257 /* SignIn.swift in Sources */,
 				A9DDAA6D2874946200FB0257 /* ProResult.swift in Sources */,
@@ -674,10 +699,13 @@
 				A91DF7952863726200C79BDF /* LoginButton.swift in Sources */,
 				A9DDAA6E2874946200FB0257 /* NetworkErrors.swift in Sources */,
 				A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */,
+				AEE1C1D6287AD14000D72075 /* TableViewCell.swift in Sources */,
 				A9DDAA732874947500FB0257 /* UserDefaultsService.swift in Sources */,
 				AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */,
 				A91DF79128636FA800C79BDF /* EmailTextField.swift in Sources */,
 				A9486B48285CE69200E54DAC /* NewPasswordViewController.swift in Sources */,
+				AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */,
+				AEE1C1DB287AD1C200D72075 /* DoctorTableViewController.swift in Sources */,
 				A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */,
 				A9DDAA712874946200FB0257 /* FailureModel.swift in Sources */,
 				A93D2EB8287541E300DEE1BF /* ProfileViewModel.swift in Sources */,
@@ -838,6 +866,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -868,6 +897,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
