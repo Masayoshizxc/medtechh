@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     
     let tableView = UITableView()
 
-    private let appointTable = AppointmentTableViewController()
+    
     
     init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
         viewModel = vm
@@ -81,39 +81,59 @@ class ProfileViewController: UIViewController {
         
         return imageView
     }()
-    
-    let weekTrimest : UIButton = {
-        let week = UIButton()
-        week.frame.size = CGSize(width: 104, height: 60)
-        week.backgroundColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1)
-        week.setTitle("14-я неделя", for: .normal)
-        week.setTitleColor(.white, for: .normal)
-        week.layer.cornerRadius = 20
-        return week
+    let trimestImage : UIImageView = {
+       let image = UIImageView()
+        image.layer.cornerRadius = 16
+        image.image = UIImage(named: "trimestInfo")
+        image.contentMode = .scaleAspectFill
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
     }()
-    
+//    let weekTrimest : UIButton = {
+//        let week = UIButton()
+//        week.frame.size = CGSize(width: 104, height: 60)
+//        week.backgroundColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1)
+//        week.setTitle("14-я неделя", for: .normal)
+//        week.setTitleColor(.white, for: .normal)
+//        week.layer.cornerRadius = 20
+//        return week
+//    }()
+    let trimestLabel : UILabel = {
+       let label = UILabel()
+        label.numberOfLines = 0
+        label.font = .boldSystemFont(ofSize: 24)
+        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        label.text = "14-ая неделя"
+        
+        return label
+    }()
     let downloadButton : UIButton = {
        let button = UIButton()
-        button.frame.size = CGSize(width: 80, height: 60)
         button.setTitle("Скачать медкарту", for: .normal)
-        button.backgroundColor = UIColor(red: 235/255, green: 98/255, blue: 98/255, alpha: 1)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.red.cgColor
+        button.layer.borderWidth = 2
         button.layer.cornerRadius = 16
-        button.titleLabel?.font = .boldSystemFont(ofSize: 12)
+        button.titleLabel?.contentMode = .left
+        button.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
+//        button.titleLabel?.textColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1)
         return button
     }()
     
     let userName : UILabel = {
        let name = UILabel()
-        name.text = "Айжамал Масыбаева"
+        name.text = "Айжамал Масыбаева Бекболсуновна"
         name.font = .boldSystemFont(ofSize: 25)
         name.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        name.numberOfLines = 0
         return name
     }()
     
     let dataView : UIView = {
        let vieww = UIView()
         vieww.frame.size = CGSize(width: 300, height: 200)
-        vieww.backgroundColor = .systemGray6
+        
         return vieww
         
     }()
@@ -122,38 +142,36 @@ class ProfileViewController: UIViewController {
 
         view.backgroundColor = .white
         
-        view.addSubviews(
-            logOutButton
-        )
-//        dataView.addSubview(appointTable)
-        
+        setUpTableViewController()
         setUpSubviews()
-        setUpDataTableView()
+//        setUpDataTableView()
         setUpConstraints()
         
     }
     func setUpSubviews(){
-        view.addSubviews(notificationsButton,
+        view.addSubviews(logOutButton,
+                         notificationsButton,
                          sosButton,
                          titleForPage,
                          profileImage,
                          logOutButton,
-                         weekTrimest,
+                         trimestImage,
                          downloadButton,
                          userName,
                          dataView)
+        trimestImage.addSubview(trimestLabel)
     }
     
    
-    func setUpDataTableView(){
-        dataView.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.isScrollEnabled = false
-        tableView.allowsSelection = false
-        
-    }
+//    func setUpDataTableView(){
+//        dataView.addSubview(tableView)
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
+//        tableView.isScrollEnabled = false
+////        tableView.allowsSelection = false
+//
+//    }
     @objc func didTapLogOutButton() {
         userDefaults.isSignedIn(signedIn: false)
         let userId = userDefaults.getUserId()
@@ -166,6 +184,12 @@ class ProfileViewController: UIViewController {
         }
         let vc = LoginViewController()
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private let appointTable = AppointmentTableViewController()
+    func setUpTableViewController(){
+        dataView.addSubview(appointTable.tableView)
+        
     }
     
     func setUpConstraints() {
@@ -198,40 +222,37 @@ class ProfileViewController: UIViewController {
             make.left.equalToSuperview().inset(37)
             //            make.width.height.equalTo(75)
         }
-        weekTrimest.snp.makeConstraints{make in
-            make.top.equalTo(profileImage).inset(profileImage.frame.size.height + 27)
-            make.left.equalToSuperview().inset(27)
-            make.width.equalTo(104)
-            make.height.equalTo(60)
+        trimestImage.snp.makeConstraints{make in
+            make.top.equalTo(profileImage).inset(106)
+            make.right.left.equalToSuperview().inset(27)
+            make.width.equalTo(336)
+            make.height.equalTo(120)
         }
         downloadButton.snp.makeConstraints{make in
-            make.centerY.equalTo(weekTrimest)
-            make.left.equalTo(weekTrimest).inset(weekTrimest.frame.size.width + 16)
-            make.width.equalTo(128)
+            make.top.equalTo(trimestImage).inset(150)
+            make.left.right.equalToSuperview().inset(27)
+            make.width.equalTo(336)
             make.height.equalTo(60)
         }
         userName.snp.makeConstraints{make in
             make.centerY.equalTo(profileImage)
             make.left.equalTo(profileImage).inset(profileImage.frame.size.width + 31)
-            
+            make.width.equalTo(230)
         }
         dataView.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(325)
+            make.top.equalTo(downloadButton).inset(90)
             make.width.equalTo(view.frame.size.width - 54)
             make.left.right.equalToSuperview().inset(27)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(240)
             
         }
-        tableView.snp.makeConstraints{make in
+//        tableView.snp.makeConstraints{make in
+//            make.top.bottom.left.right.equalToSuperview()
+//        }
+        appointTable.tableView.snp.makeConstraints{make in
             make.top.bottom.left.right.equalToSuperview()
         }
-//        appointTable.snp.makeConstraints{make in
-//            make.top.equalToSuperview().inset(20)
-//            make.left.equalToSuperview().inset(10)
-//            make.width.equalTo(280)
-//            make.height.equalTo(100)
-//        }
     }
 }
 
@@ -259,6 +280,11 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
             cell.textLabel?.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
             cell.textLabel?.text = " Хафизова  Валентина    Владимировна"
             cell.textLabel?.numberOfLines = 0
+            return cell
+        }
+        if(indexPath.row == 0 || indexPath.row == 1){
+            cell.layer.borderWidth = 10
+            cell.layer.borderColor = UIColor.yellow.cgColor
             return cell
         }
         return cell

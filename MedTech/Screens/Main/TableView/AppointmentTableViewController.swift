@@ -8,7 +8,7 @@
 import UIKit
 
 class AppointmentTableViewController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,22 +18,26 @@ class AppointmentTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
+    let cellView : UIView = {
+        let view = UIView()
+        
+        return view
+    }()
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 5
+        return 6
     }
+    
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "\(indexPath)"
-        // Configure the cell...
-        cell.backgroundColor = .systemPink
+        
+        
         return cell
     }
     

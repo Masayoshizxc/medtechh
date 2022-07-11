@@ -40,7 +40,11 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDataSource , UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = getReuseCell(CollectionViewCell.self, indexPath: indexPath)
         cell.fill(text: cells[indexPath.row].weeksNumbers)
+        cell.mainImageView.layer.borderWidth = 1
+        cell.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+        cell.mainImageView.backgroundColor = .white
         return cell
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -50,16 +54,17 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDataSource , UIC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
         if cell.isSelected {
-            cell.mainImageView.layer.borderWidth = 5
+            cell.mainImageView.layer.borderWidth = 2
             cell.mainImageView.layer.borderColor = UIColor.yellow.cgColor
         } else {
-            cell.mainImageView.layer.borderWidth = 0
+            cell.mainImageView.layer.borderWidth = 1
         }
-        for cell in cells {
-            var currentCell = cell
-            currentCell.isSelected = true
-        }
-        cells[indexPath.row] = ForWeeks(weeksNumbers: String(indexPath.row + 1), isSelected: true)
+//        for cell in cells {
+//            var currentCell = cell
+//            currentCell.isSelected = true
+//        }
+        cells[indexPath.row] = ForWeeks(weeksNumbers: String(indexPath.row + 1), isSelected: false)
+        
     }
 }
 

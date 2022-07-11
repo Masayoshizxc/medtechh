@@ -82,7 +82,6 @@ class HomeViewController: UIViewController {
         text.text = ("В 14 недель беременности мозг и нервная система ребенка развиваются семимильными шагами. Малыш становится чувствительнее, считается, что он уже способен ощущать настроение мамы, а на фото плода, сделанного учеными, можно увидеть различные гримасы – от подобия улыбки до выражения недовольства.")
         text.numberOfLines = 0
         text.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-        text.frame.size.width = 336
         return text
     }()
     let recImage : UIImageView = {
@@ -135,8 +134,11 @@ class HomeViewController: UIViewController {
         showBadge(withCount: 5)
     }
     
+    
+    
     func setUpScrollView(){
-        scrollView.contentSize = CGSize(width: textTopic2.frame.size.width, height: (weekImage.frame.size.height + textTopic2.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + 300))
+        var scrollSize = weekImage.frame.size.height + textTopic2.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + textTopic1.frame.size.height
+        scrollView.contentSize = CGSize(width: textTopic2.frame.size.width, height: scrollSize + 500)
     }
     
     func setUpSubViews(){
@@ -261,23 +263,24 @@ class HomeViewController: UIViewController {
             make.width.equalTo(336)
             make.height.equalTo(44)
         }
-        constTitle.snp.makeConstraints{make in
+        textTopic1.snp.makeConstraints{make in
+            make.top.equalTo(weekImage.snp.bottom).inset(-32)
             make.centerX.equalToSuperview()
-            make.top.equalTo(textTopic1).offset(64)
-            make.height.equalTo(24)
+            make.width.equalTo(336)
             
         }
-        textTopic1.snp.makeConstraints{make in
-            make.top.equalTo(weekImage).inset(246)
+        constTitle.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
+            make.top.equalTo(textTopic1.snp.bottom).inset(-64)
+            make.height.equalTo(24)
             
         }
         recImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(constTitle).inset(34)
+            make.top.equalTo(constTitle.snp.bottom).inset(-10)
         }
         textTopic2.snp.makeConstraints{make in
-            make.top.equalTo(recImage).inset(240)
+            make.top.equalTo(recImage.snp.bottom).inset(-20)
             make.width.equalTo(336)
             make.centerX.equalToSuperview()
         }
