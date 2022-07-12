@@ -130,6 +130,8 @@ class HomeViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         setUpSubViews()
         setUpConstraints()
+        
+        collectionView.backgroundColor = .white
     }
     
     func setUpScrollView(){
@@ -221,9 +223,7 @@ class HomeViewController: UIViewController {
         scrollView.snp.makeConstraints{make in
             make.top.equalTo(collectionView).inset(60)
             make.left.right.equalToSuperview().inset(0)
-            make.bottom.equalToSuperview().inset(90)
-            
-            
+            make.bottom.equalToSuperview().inset(80)
         }
 //        collectionView.snp.makeConstraints{make in
 //            make.top.equalToSuperview().inset(10)

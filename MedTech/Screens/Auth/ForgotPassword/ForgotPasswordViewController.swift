@@ -22,21 +22,33 @@ class ForgotPasswordViewController: BaseViewController {
     
     let firstLabel: UILabel = {
         let label = UILabel()
-        label.text = "Пожалуйста, введите ваш e-mail"
-        label.font = UIFont(name: "Mulish-Black", size: 22)
+        label.text = "Введите электронную почту"
+        label.font = Fonts.SFProText.semibold.font(size: 24)
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let secondLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Код подтверждения будет выслан на вашу электронную почту"
+        label.font = Fonts.SFProText.medium.font(size: 16)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let emailField: EmailTextField = {
         let field = EmailTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.attributedPlaceholder = NSAttributedString(string: "Электронная почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)])
         return field
     }()
     
     private lazy var sendButton: LoginButton = {
         let button = LoginButton()
-        button.setTitle("Получить письмо", for: .normal)
+        button.setTitle("Подтвердить", for: .normal)
         button.addTarget(self, action: #selector(didTapSendButton), for: .touchUpInside)
         return button
     }()
@@ -48,6 +60,7 @@ class ForgotPasswordViewController: BaseViewController {
 
         view.addSubviews(
             firstLabel,
+            secondLabel,
             emailField,
             sendButton
         )
@@ -62,11 +75,15 @@ class ForgotPasswordViewController: BaseViewController {
         }
         
         if validateEmail(enteredEmail: email) {
-            viewModel.forgotPassword(email: email) { result in
+            viewModel.forgotPassword(email: email) { [weak self] result in
                 print("Forgot password: \(String(describing: result))")
+                if result?.errors == nil {
+                    let vc = CodeViewController()
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    print("There was a problem with sending code")
+                }
             }
-            let vc = CodeViewController()
-            navigationController?.pushViewController(vc, animated: true)
         } else {
             print("Enter proper email")
         }
@@ -83,7 +100,12 @@ class ForgotPasswordViewController: BaseViewController {
     func setUpConstraints() {
         firstLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(emailField.snp.top).offset(-80)
+            make.bottom.equalTo(secondLabel.snp.top).offset(-80)
+        }
+        secondLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(emailField.snp.top).offset(-60)
+            make.width.equalTo(292)
         }
         emailField.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -92,7 +114,7 @@ class ForgotPasswordViewController: BaseViewController {
         }
         sendButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(emailField.snp.bottom).offset(30)
+            make.top.equalTo(emailField.snp.bottom).offset(60)
             make.width.equalTo(320)
             make.height.equalTo(50)
         }

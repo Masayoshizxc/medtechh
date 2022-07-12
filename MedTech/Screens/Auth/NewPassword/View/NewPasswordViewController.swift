@@ -23,48 +23,59 @@ class NewPasswordViewController: BaseViewController {
     }
     
     var isForgetPassword = false
+    var isHidden = true
     
     let label: UILabel = {
         let label = UILabel()
-        label.text = "Пожалуйста введите новый пароль"
-        label.font = Fonts.Mulish.black.font(size: 20)
+        label.text = "Создание нового пароля"
+        label.font = Fonts.SFProText.semibold.font(size: 24)
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let passwordField: PasswordTextField = {
         let field = PasswordTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Новый Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.attributedPlaceholder = NSAttributedString(string: "Новый Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1)])
         field.returnKeyType = .continue
         return field
     }()
     
     let confirmPasswordField: PasswordTextField = {
         let field = PasswordTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Повторите Новый Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black])
+        field.attributedPlaceholder = NSAttributedString(string: "Повторите Новый Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1)])
         return field
     }()
     
     private lazy var loginButton: LoginButton = {
         let button = LoginButton()
-        button.setTitle("Войти", for: .normal)
+        button.setTitle("Сохранить пароль", for: .normal)
         button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var hideButton1: HideButton = {
+        let button = HideButton()
+        button.addTarget(self, action: #selector(didTapHideButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var hideButton2: HideButton = {
+        let button = HideButton()
+        button.addTarget(self, action: #selector(didTapHideButton), for: .touchUpInside)
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(label)
-        view.addSubview(passwordField)
-        view.addSubview(confirmPasswordField)
-        view.addSubview(loginButton)
-        
         view.addSubviews(
             label,
             passwordField,
             confirmPasswordField,
-            loginButton
+            loginButton,
+            hideButton1,
+            hideButton2
         )
         
         passwordField.delegate = self
@@ -103,10 +114,31 @@ class NewPasswordViewController: BaseViewController {
         
     }
     
+    @objc func didTapHideButton(_ sender: UIButton) {
+        if sender == hideButton1 {
+            if isHidden {
+                hideButton1.setImage(Icons.unhide.image, for: .normal)
+                passwordField.isSecureTextEntry = false
+            } else {
+                hideButton1.setImage(Icons.hide.image, for: .normal)
+                passwordField.isSecureTextEntry = true
+            }
+        } else {
+            if isHidden {
+                hideButton2.setImage(Icons.unhide.image, for: .normal)
+                confirmPasswordField.isSecureTextEntry = false
+            } else {
+                hideButton2.setImage(Icons.hide.image, for: .normal)
+                confirmPasswordField.isSecureTextEntry = true
+            }
+        }
+        isHidden = !isHidden
+    }
+    
     func setUpConstraints() {
         label.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(passwordField.snp.top).offset(-70)
+            make.bottom.equalTo(passwordField.snp.top).offset(-90)
         }
         passwordField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -121,9 +153,17 @@ class NewPasswordViewController: BaseViewController {
         }
         loginButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(confirmPasswordField.snp.bottom).offset(30)
+            make.top.equalTo(confirmPasswordField.snp.bottom).offset(40)
             make.width.equalTo(320)
             make.height.equalTo(50)
+        }
+        hideButton1.snp.makeConstraints { make in
+            make.right.equalTo(passwordField.snp.right).offset(-15)
+            make.centerY.equalTo(passwordField.snp.centerY)
+        }
+        hideButton2.snp.makeConstraints { make in
+            make.right.equalTo(confirmPasswordField.snp.right).offset(-15)
+            make.centerY.equalTo(confirmPasswordField.snp.centerY)
         }
     }
 

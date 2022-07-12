@@ -20,7 +20,8 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Icons {
   internal static let image = ImageAsset(name: "Image")
-  internal static let pink = ImageAsset(name: "pink")
+  internal static let hide = ImageAsset(name: "hide")
+  internal static let unhide = ImageAsset(name: "unhide")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 

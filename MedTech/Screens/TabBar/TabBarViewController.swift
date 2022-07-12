@@ -51,6 +51,8 @@ fileprivate enum TabbarItems: CaseIterable {
             viewController = .init(rootViewController: AppointentViewController())
         case .third:
             viewController = .init(rootViewController: ChecklistViewController())
+            viewController.navigationBar.backgroundColor = .white
+            viewController.navigationBar.barTintColor = .white
         case .fourth:
             viewController = .init(rootViewController: ProfileViewController())
         }
@@ -67,6 +69,7 @@ class TabBarViewController: UITabBarController {
         UITabBar.appearance().tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         UITabBar.appearance().unselectedItemTintColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
         navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {

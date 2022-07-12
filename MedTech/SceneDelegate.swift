@@ -31,7 +31,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let navBar = UINavigationController(rootViewController: viewController)
                 window.rootViewController = navBar
             }
-             
+            
+//            let viewController = CodeViewController()
+//            let navBar = UINavigationController(rootViewController: viewController)
+//            window.rootViewController = navBar
+            
             self.window = window
             window.makeKeyAndVisible()
         }

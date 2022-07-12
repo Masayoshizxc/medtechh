@@ -8,5 +8,6 @@ target 'MedTech' do
   # Pods for MedTech
   pod 'SnapKit'
   pod 'SwiftGen'
+  pod 'IQKeyboardManagerSwift'
 
 end

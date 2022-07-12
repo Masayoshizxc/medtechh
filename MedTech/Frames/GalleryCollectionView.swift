@@ -49,11 +49,13 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDataSource , UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+        cell.backgroundColor = .white
         if cell.isSelected {
-            cell.mainImageView.layer.borderWidth = 5
-            cell.mainImageView.layer.borderColor = UIColor.yellow.cgColor
+            cell.mainImageView.layer.borderWidth = 2
+            cell.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.627, blue: 0.69, alpha: 1).cgColor
         } else {
             cell.mainImageView.layer.borderWidth = 0
+            cell.mainImageView.layer.borderColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
         }
         for cell in cells {
             var currentCell = cell

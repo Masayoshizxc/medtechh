@@ -10,6 +10,8 @@ import SnapKit
 
 class LoginViewController: BaseViewController {
     
+    var isHidden = true
+    
     let userDefaults = UserDefaultsService()
     
     private let viewModel: SignInViewModelProtocol
@@ -31,24 +33,25 @@ class LoginViewController: BaseViewController {
 //        return label
 //    }()
 //
-//    let secondLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "Пожалуйста введите свои данные"
-//        label.font = Fonts.Mulish.bold.font(size: 16)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
+    let secondLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Вход"
+        label.font = Fonts.SFProText.semibold.font(size: 24)
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     let emailField: EmailTextField = {
         let field = EmailTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1)])
+        field.attributedPlaceholder = NSAttributedString(string: "Электронная почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)])
         field.returnKeyType = .continue
         return field
     }()
     
     let passwordField: PasswordTextField = {
         let field = PasswordTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1)])
+        field.attributedPlaceholder = NSAttributedString(string: "Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)])
         return field
     }()
     
@@ -64,8 +67,14 @@ class LoginViewController: BaseViewController {
         button.setTitle("Забыли пароль ?", for: .normal)
         button.addTarget(self, action: #selector(didTapForgotPasswordButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(UIColor(red: 0.078, green: 0.078, blue: 0.078, alpha: 1), for: .normal)
+        button.setTitleColor(UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 14)
+        return button
+    }()
+    
+    private lazy var hideButton: HideButton = {
+        let button = HideButton()
+        button.addTarget(self, action: #selector(didTapHideButton), for: .touchUpInside)
         return button
     }()
     
@@ -76,11 +85,12 @@ class LoginViewController: BaseViewController {
         
         view.addSubviews(
             //firstLabel,
-            //secondLabel,
+            secondLabel,
             emailField,
             passwordField,
             loginButton,
-            forgotPasswordButton
+            forgotPasswordButton,
+            hideButton
         )
         
         emailField.delegate = self
@@ -134,7 +144,17 @@ class LoginViewController: BaseViewController {
     @objc func didTapForgotPasswordButton() {
         let vc = ForgotPasswordViewController()
         navigationController?.pushViewController(vc, animated: true)
-
+    }
+    
+    @objc func didTapHideButton(_ sender: UIButton) {
+        if isHidden {
+            hideButton.setImage(Icons.unhide.image, for: .normal)
+            passwordField.isSecureTextEntry = false
+        } else {
+            hideButton.setImage(Icons.hide.image, for: .normal)
+            passwordField.isSecureTextEntry = true
+        }
+        isHidden = !isHidden
     }
     
     func validateEmail(enteredEmail: String) -> Bool {
@@ -148,13 +168,13 @@ class LoginViewController: BaseViewController {
 //            make.centerX.equalToSuperview()
 //            make.bottom.equalTo(secondLabel.snp.top).offset(-20)
 //        }
-//        secondLabel.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalTo(emailField.snp.top).offset(-70)
-//        }
+        secondLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(emailField.snp.top).offset(-70)
+        }
         emailField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(passwordField.snp.top).offset(-20)
+            make.bottom.equalTo(passwordField.snp.top).offset(-25)
             make.width.equalTo(320)
             make.height.equalTo(50)
         }
@@ -172,6 +192,11 @@ class LoginViewController: BaseViewController {
         forgotPasswordButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(loginButton.snp.bottom).offset(30)
+        }
+        
+        hideButton.snp.makeConstraints { make in
+            make.right.equalTo(passwordField.snp.right).offset(-15)
+            make.centerY.equalTo(passwordField.snp.centerY)
         }
     }
 

@@ -15,10 +15,11 @@ class CodeTextField: UITextField {
         keyboardType = .numberPad
         autocorrectionType = .no
         autocapitalizationType = .none
-        font = Fonts.Mulish.extraBold.font(size: 16)
+        font = Fonts.SFProText.semibold.font(size: 16)
+        textColor = .black
         translatesAutoresizingMaskIntoConstraints = false
         layer.borderWidth = 1.5
-        layer.borderColor = UIColor(red: 0.624, green: 0.624, blue: 0.624, alpha: 1).cgColor
+        layer.borderColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1).cgColor
         layer.cornerRadius = 18
     }
     

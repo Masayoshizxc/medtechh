@@ -22,6 +22,26 @@ class CodeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    let firstLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Введите код"
+        label.font = Fonts.SFProText.semibold.font(size: 24)
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let secondLabel: UILabel = {
+        let label = UILabel()
+        label.text = "6-значный код был отправлен на вашу электронную почту example@gmail.com"
+        label.font = Fonts.SFProText.medium.font(size: 16)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let codeField1: CodeTextField = {
         let field = CodeTextField()
         return field
@@ -53,7 +73,7 @@ class CodeViewController: UIViewController {
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 10.0
+        stack.spacing = 8.0
         stack.alignment = .fill
         stack.distribution = .fillEqually
         [codeField1,
@@ -67,10 +87,21 @@ class CodeViewController: UIViewController {
     
     private lazy var enterButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Enter", for: .normal)
+        button.setTitle("Подтвердить", for: .normal)
         button.addTarget(self, action: #selector(didTapEnter), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
+        button.backgroundColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        button.layer.cornerRadius = 18
+        return button
+    }()
+    
+    private lazy var resendButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Отправить повторно", for: .normal)
+        button.titleLabel?.font = Fonts.SFProText.medium.font(size: 16)
+        button.setTitleColor(UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1), for: .normal)
+        button.addTarget(self, action: #selector(didTapResend), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -87,7 +118,7 @@ class CodeViewController: UIViewController {
         
         
         
-        view.addSubviews(stackView, enterButton)
+        view.addSubviews(firstLabel, secondLabel, stackView, enterButton, resendButton)
         setUpConstraints()
     }
     
@@ -104,7 +135,7 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
 //        }
         print(code)
         viewModel.enterCode(code: code) { [weak self] result in
-            print("Code is: \(result)")
+            print("Code is: \(String(describing: result))")
             if result?.id != nil {
                 self?.userDefaults.saveUserId(id: result!.id!)
                 let vc = NewPasswordViewController()
@@ -117,48 +148,38 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
         }
     }
     
+    @objc func didTapResend() {
+        print("Resend Tapped!")
+    }
+    
     func setUpConstraints() {
+        firstLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(secondLabel.snp.top).offset(-40)
+            make.centerX.equalToSuperview()
+        }
+        
+        secondLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(stackView.snp.top).offset(-40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(301)
+        }
         stackView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalTo(220)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().dividedBy(1.2)
+            make.width.equalToSuperview().dividedBy(1.2)
             make.height.equalTo(50)
         }
         
         enterButton.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).offset(30)
+            make.top.equalTo(stackView.snp.bottom).offset(100)
             make.centerX.equalToSuperview()
-            make.width.equalTo(320)
+            make.width.equalTo(336)
             make.height.equalTo(60)
         }
         
-        codeField1.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
-        
-        codeField2.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
-        
-        codeField3.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
-        
-        codeField4.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
-        
-        codeField5.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-        }
-        
-        codeField6.snp.makeConstraints { make in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
+        resendButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(enterButton.snp.bottom).offset(30)
         }
     }
 

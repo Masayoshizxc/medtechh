@@ -18,13 +18,13 @@ internal typealias Font = FontConvertible.Font
 
 // swiftlint:disable identifier_name line_length type_body_length
 internal enum Fonts {
-  internal enum Mulish {
-    internal static let black = FontConvertible(name: "Mulish-Black", family: "Mulish", path: "Mulish-Black.ttf")
-    internal static let bold = FontConvertible(name: "Mulish-Bold", family: "Mulish", path: "Mulish-Bold.ttf")
-    internal static let extraBold = FontConvertible(name: "Mulish-ExtraBold", family: "Mulish", path: "Mulish-ExtraBold.ttf")
-    internal static let all: [FontConvertible] = [black, bold, extraBold]
+  internal enum SFProText {
+    internal static let medium = FontConvertible(name: "SFProText-Medium", family: "SF Pro Text", path: "SF-Pro-Text-Medium.otf")
+    internal static let regular = FontConvertible(name: "SFProText-Regular", family: "SF Pro Text", path: "SF-Pro-Text-Regular.otf")
+    internal static let semibold = FontConvertible(name: "SFProText-Semibold", family: "SF Pro Text", path: "SF-Pro-Text-Semibold.otf")
+    internal static let all: [FontConvertible] = [medium, regular, semibold]
   }
-  internal static let allCustomFonts: [FontConvertible] = [Mulish.all].flatMap { $0 }
+  internal static let allCustomFonts: [FontConvertible] = [SFProText.all].flatMap { $0 }
   internal static func registerAllCustomFonts() {
     allCustomFonts.forEach { $0.register() }
   }
