@@ -49,49 +49,56 @@ class AppointentViewController: UIViewController {
     private let monday: UILabel = {
         let label = UILabel()
         label.text = "Пн"
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         return label
     }()
     
     private let tuesday: UILabel = {
         let label = UILabel()
         label.text = "Вт"
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         return label
     }()
     
     private let wendnesday: UILabel = {
         let label = UILabel()
         label.text = "Ср"
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         return label
     }()
     
     private let thursday: UILabel = {
         let label = UILabel()
         label.text = "Чт"
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         return label
     }()
     
     private let friday: UILabel = {
         let label = UILabel()
         label.text = "Пт"
+        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         return label
     }()
     
     private let saturday: UILabel = {
         let label = UILabel()
         label.text = "Сб"
+        label.textColor = .red
         return label
     }()
     
     private let sunday: UILabel = {
         let label = UILabel()
         label.text = "Вс"
+        label.textColor = .red
         return label
     }()
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 30.0
+        stack.spacing = 37.0
         stack.alignment = .fill
         stack.distribution = .fillProportionally
         [monday,
@@ -138,6 +145,7 @@ class AppointentViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         
+        collectionView.backgroundColor = .white
         collectionView.isScrollEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -160,8 +168,8 @@ class AppointentViewController: UIViewController {
     }
     
     func setCellsView() {
-        let width = (collectionView.frame.size.width - 2) / 8
-        let height = (collectionView.frame.size.width - 2) / 8
+        let width = (collectionView.frame.size.width - 2) / 7
+        let height = (collectionView.frame.size.width - 2) / 7
         
         let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         flowLayout.scrollDirection = .vertical
@@ -177,21 +185,22 @@ class AppointentViewController: UIViewController {
         var count: Int = 1
         
         while(count <= 42) {
-            if(count <= startingSpaces || count - startingSpaces > daysInMonth)
-            {
+            if(count <= startingSpaces || count - startingSpaces > daysInMonth) {
                 totalSquares.append("")
             }
-            else
-            {
+            else {
                 totalSquares.append(String(count - startingSpaces))
             }
             count += 1
+        }
+        if totalSquares[0] == "2" {
+            print("Hell yea")
         }
         
         monthLabel.text = CalendarHelper().monthString(date: selectedDate).capitalized
             + " " + CalendarHelper().yearString(date: selectedDate)
         collectionView.reloadData()
-        print(totalSquares)
+        //print(totalSquares)
     }
     
     @objc func didTapLeftArrow() {
@@ -237,7 +246,7 @@ class AppointentViewController: UIViewController {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(380)
-            make.width.equalTo(380)
+            //make.width.equalTo(380)
         }
         timeLabel.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(-20)

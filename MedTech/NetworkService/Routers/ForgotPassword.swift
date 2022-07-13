@@ -23,7 +23,7 @@ enum ForgotPasswordRouter: BaseRouter {
     var queryParameter: [URLQueryItem]? {
         switch self {
         case let .forgotPassword(email):
-            return [URLQueryItem(name: "email", value: email)]
+            return [URLQueryItem(name: "emailOrPhoneNumber", value: email)]
         case let .resetPassword(code):
             return [URLQueryItem(name: "code", value: code)]
         }

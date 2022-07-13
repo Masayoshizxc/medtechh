@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.rootViewController = navBar
             }
             
-//            let viewController = CodeViewController()
+//            let viewController = TabBarViewController()
 //            let navBar = UINavigationController(rootViewController: viewController)
 //            window.rootViewController = navBar
             

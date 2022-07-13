@@ -9,6 +9,18 @@ import UIKit
 import SnapKit
 
 class HomeViewController: UIViewController {
+    
+    private let viewModel: HomeViewModelProtocol
+
+    init(vm: HomeViewModelProtocol = HomeViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     let titleForPage : UILabel = {
         var title = UILabel()
         title.text = "Главная"
@@ -21,35 +33,31 @@ class HomeViewController: UIViewController {
     let notificationsButton : UIButton = {
        let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
-        
         button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return button
     }()
     
-    let sosButton : UIButton = {
+    lazy var sosButton : UIButton = {
         let button = UIButton()
         button.setTitle("SOS", for: .normal)
         button.tintColor = .black
         button.layer.cornerRadius = 18
+        button.addTarget(self, action: #selector(didTapSosButton), for: .touchUpInside)
         button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
-//        button.setTitleShadowColor(.black, for: .normal)
-        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        button.layer.shadowOpacity = 1.0
-        button.layer.shadowRadius = 16
-        
         return button
     }()
     
     let remindButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
-        button.currentImage?.withTintColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1))
+//        button.currentImage?.withTintColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1))
         button.setTitle("  Следующее посещение 30-июля", for: .normal)
-        button.tintColor = .black
+        button.backgroundColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        button.layer.cornerRadius = 20
+        button.tintColor = .white
         button.titleLabel?.font = button.titleLabel?.font.withSize(15)
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 14)
-        button.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
+        button.setTitleColor(.white , for: .normal)
         return button
     }()
     
@@ -66,33 +74,39 @@ class HomeViewController: UIViewController {
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
-    let weekImage : UIImageView = {
+    var weekImage : UIImageView = {
        let image = UIImageView()
         image.frame.size = CGSize(width: 230, height: 204)
         image.layer.cornerRadius = image.frame.size.width/2
-        image.image = UIImage(named: "child")
+        //image.image = UIImage(named: "child")
         return image
     }()
     
     let constTitle : UILabel = {
        let title = UILabel()
-        title.text = "Что есть во время беременности?"
+        //title.text = "Что есть во время беременности?"
         title.font = .boldSystemFont(ofSize: 24)
         title.textAlignment = .left
         title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return title
     }()
-    
+    var textTopic1 : UILabel = {
+       var text = UILabel()
+        //text.text = ("В 14 недель беременности мозг и нервная система ребенка развиваются семимильными шагами. Малыш становится чувствительнее, считается, что он уже способен ощущать настроение мамы, а на фото плода, сделанного учеными, можно увидеть различные гримасы – от подобия улыбки до выражения недовольства.")
+        text.numberOfLines = 0
+        text.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        return text
+    }()
     let recImage : UIImageView = {
        let image = UIImageView()
         image.frame.size = CGSize(width: 336, height: 220)
-        image.image = UIImage(named: "eat")
+        //image.image = UIImage(named: "eat")
         return image
     }()
     
-    var textTopic : UILabel = {
+    var textTopic2 : UILabel = {
        var text = UILabel()
-        text.text = ("Во время беременности очень важно правильно питаться: сбалансированный рацион будущей мамы один из источников необходимых компонентов для правильного развития малыша.\nДля беременной женщины «есть за двоих» должно означать не «есть в два раза больше», а «есть в два раза лучше». Правильное питание во время беременности важно не только с точки зрения здоровья будущего ребенка. Это поможет вам лучше себя чувствовать, меньше уставать, не даст набрать лишние килограммы и поможет быстро прийти в форму после родов. Вот несколько полезных рекомендаций1:\nЕшьте часто, небольшими порциями.\nПейте много жидкости.\nПитайтесь разнообразно, ешьте мясо, рыбу, птицу, яйца, молочные продукты, каши, супы, фрукты, овощи, зерновые.\nЕсли вы испытываете тошноту, можно попробовать утолить голод с помощью сухих соленых крекеров и печенья.\nИзбегайте жирную пищу, жареное, острое, копченое и сладкое")
+        //text.text = ("Во время беременности очень важно правильно питаться: сбалансированный рацион будущей мамы один из источников необходимых компонентов для правильного развития малыша.\nДля беременной женщины «есть за двоих» должно означать не «есть в два раза больше», а «есть в два раза лучше». Правильное питание во время беременности важно не только с точки зрения здоровья будущего ребенка. Это поможет вам лучше себя чувствовать, меньше уставать, не даст набрать лишние килограммы и поможет быстро прийти в форму после родов. Вот несколько полезных рекомендаций1:\nЕшьте часто, небольшими порциями.\nПейте много жидкости.\nПитайтесь разнообразно, ешьте мясо, рыбу, птицу, яйца, молочные продукты, каши, супы, фрукты, овощи, зерновые.\nЕсли вы испытываете тошноту, можно попробовать утолить голод с помощью сухих соленых крекеров и печенья.\nИзбегайте жирную пищу, жареное, острое, копченое и сладкое")
         text.numberOfLines = 0
         text.frame = CGRect(x: 30, y: (10+100+20), width: 354 - 60, height: 400)
         text.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
@@ -111,8 +125,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         collectionView.scrollToItem(at: [0, 20], at: .centeredHorizontally, animated: true)
-        badgeLabel(withCount: 5)
-        showBadge(withCount: 5)
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,11 +144,40 @@ class HomeViewController: UIViewController {
         setUpSubViews()
         setUpConstraints()
         
+        viewModel.getWeek(week: "1") { result in
+            print(result)
+            self.constTitle.text = result![1].header
+            self.textTopic1.text = result![0].description
+            self.textTopic2.text = result![1].description
+            DispatchQueue.main.async { [weak self] in
+                if let imageData = try? Data(contentsOf: URL(string: result![0].imageUrl!)!) {
+                    if let loadedImage = UIImage(data: imageData) {
+                        self?.weekImage.image = loadedImage
+                    }
+                }
+                if let imageData = try? Data(contentsOf: URL(string: result![1].imageUrl!)!) {
+                    if let loadedImage = UIImage(data: imageData) {
+                        self?.recImage.image = loadedImage
+                    }
+                }
+            }
+
+        }
+        
         collectionView.backgroundColor = .white
+        //badgeLabel(withCount: 5)
+        showBadge(withCount: 5)
     }
     
+    @objc func didTapSosButton() {
+        print("Tapped")
+    }
+    
+    
+    
     func setUpScrollView(){
-        scrollView.contentSize = CGSize(width: textTopic.frame.size.width, height: (weekImage.frame.size.height + textTopic.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + 300))
+        let scrollSize = weekImage.frame.size.height + textTopic2.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + textTopic1.frame.size.height
+        scrollView.contentSize = CGSize(width: textTopic2.frame.size.width, height: scrollSize + 500)
     }
     
     func setUpSubViews(){
@@ -145,7 +187,8 @@ class HomeViewController: UIViewController {
                          remindButton,
                          scrollView)
         scrollView.addSubviews(weekImage,
-                               textTopic,
+                               textTopic1,
+                               textTopic2,
                                constTitle,
                                recImage)
         
@@ -170,7 +213,7 @@ class HomeViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 175).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 212).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.set(cells: ForWeeks.fetchForWeeks())
@@ -190,7 +233,7 @@ class HomeViewController: UIViewController {
         badgeCount.layer.masksToBounds = true
         badgeCount.textColor = .white
         badgeCount.font = badgeCount.font.withSize(12)
-        badgeCount.backgroundColor = .systemRed
+        badgeCount.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
         badgeCount.text = String(count)
         return badgeCount
     }
@@ -250,24 +293,35 @@ class HomeViewController: UIViewController {
         weekImage.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(15)
             make.centerX.equalToSuperview()
+            make.height.equalTo(150)
+            make.width.equalTo(150)
         }
         remindButton.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
             make.top.equalTo(titleForPage).inset(70)
+            make.width.equalTo(336)
+            make.height.equalTo(44)
+        }
+        textTopic1.snp.makeConstraints{make in
+            make.top.equalTo(weekImage.snp.bottom).inset(-32)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(336)
             
         }
         constTitle.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(weekImage).inset(278)
+            make.top.equalTo(textTopic1.snp.bottom).inset(-64)
             make.height.equalTo(24)
             
         }
         recImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(constTitle).inset(34)
+            make.top.equalTo(constTitle.snp.bottom).inset(-10)
+            make.height.equalTo(150)
+            make.width.equalTo(150)
         }
-        textTopic.snp.makeConstraints{make in
-            make.top.equalTo(recImage).inset(240)
+        textTopic2.snp.makeConstraints{make in
+            make.top.equalTo(recImage.snp.bottom).inset(-20)
             make.width.equalTo(336)
             make.centerX.equalToSuperview()
         }

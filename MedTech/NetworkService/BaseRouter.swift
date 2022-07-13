@@ -43,7 +43,9 @@ extension BaseRouter {
         }
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
- 
+        
+        print(url)
+        
         let userDefaultsService = UserDefaultsService()
        
         urlRequest.setValue("Bearer \(userDefaultsService.getByKey(key: .access))", forHTTPHeaderField: "Authorization" )
