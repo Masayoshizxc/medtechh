@@ -12,6 +12,9 @@ class HomeViewController: UIViewController {
     
     private let viewModel: HomeViewModelProtocol
 
+    var cells = [ForWeeks]()
+    var selectedItem : IndexPath? = nil
+    
     init(vm: HomeViewModelProtocol = HomeViewModel()) {
         viewModel = vm
         super.init(nibName: nil, bundle: nil)
@@ -20,6 +23,14 @@ class HomeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    let collectionView : UICollectionView = {
+       let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        return cv
+    }()
     
     let titleForPage : UILabel = {
         var title = UILabel()
@@ -137,6 +148,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        cells = ForWeeks.fetchForWeeks()
         setUpScrollView()
         setUpViewsBackgroundColor()
         setUpCollectionView()
@@ -161,12 +173,13 @@ class HomeViewController: UIViewController {
                     }
                 }
             }
-
+        
         }
         
         collectionView.backgroundColor = .white
         //badgeLabel(withCount: 5)
         showBadge(withCount: 5)
+        print(cells)
     }
     
     @objc func didTapSosButton() {
@@ -207,17 +220,17 @@ class HomeViewController: UIViewController {
     }
 
 //    Adding collectionview to the home page
-    private var collectionView = GalleryCollectionView()
     func setUpCollectionView(){
-        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.collectionView.register(CollectionViewCell.self)
         view.addSubview(collectionView)
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 212).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.set(cells: ForWeeks.fetchForWeeks())
-        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
@@ -330,3 +343,55 @@ class HomeViewController: UIViewController {
     
 }
 
+extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cells.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.getReuseCell(CollectionViewCell.self, indexPath: indexPath)
+        cell.fill(text: cells[indexPath.row].weeksNumbers)
+//        cell.mainImageView.layer.borderWidth = 1
+        cell.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+//        cell.mainImageView.backgroundColor = .white
+//        if (cell.isSelected && indexPath < )
+        return cell
+        
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 50, height: 50)
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+//        if cell.isSelected {
+//            cell.mainImageView.layer.borderWidth = 2
+//            cell.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.627, blue: 0.69, alpha: 1).cgColor
+//        } else {
+//            cell.mainImageView.layer.borderWidth = 0
+//            cell.mainImageView.layer.borderColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
+//        }
+//    }
+    
+}
+
+extension UICollectionView {
+
+    func register<Cell: UICollectionViewCell>(_ cellType: Cell.Type) {
+        register(cellType, forCellWithReuseIdentifier: cellType.identifier)
+    }
+
+    func getReuseCell<Cell: UICollectionViewCell>(
+        _ cellType: Cell.Type,
+        indexPath: IndexPath
+    ) -> Cell {
+        dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as! Cell
+    }
+    
+    
+}
