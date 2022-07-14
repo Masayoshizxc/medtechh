@@ -32,6 +32,14 @@ class CalendarCollectionViewCell: UICollectionViewCell {
         label.text = string
     }
     
+    func changeColor() {
+        label.textColor = .white
+    }
+    
+    func changeColorToDefault() {
+        label.textColor = .black
+    }
+    
     func setUpConstraints() {
         label.snp.makeConstraints { make in
             make.center.equalToSuperview()

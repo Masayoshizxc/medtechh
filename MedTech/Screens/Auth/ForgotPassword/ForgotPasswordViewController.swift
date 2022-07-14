@@ -65,6 +65,8 @@ class ForgotPasswordViewController: BaseViewController {
             sendButton
         )
         
+        emailField.delegate = self
+        
         setUpConstraints()
     }
     
@@ -120,4 +122,12 @@ class ForgotPasswordViewController: BaseViewController {
         }
     }
     
+}
+
+extension ForgotPasswordViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if emailField.text!.count >= 1 {
+            sendButton.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        }
+    }
 }

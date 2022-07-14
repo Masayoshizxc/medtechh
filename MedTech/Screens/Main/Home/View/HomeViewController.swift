@@ -124,7 +124,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        collectionView.scrollToItem(at: [0, 20], at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: [0, 0], at: .centeredHorizontally, animated: true)
         
     }
 
@@ -146,21 +146,36 @@ class HomeViewController: UIViewController {
         
         viewModel.getWeek(week: "1") { result in
             print(result)
-            self.constTitle.text = result![1].header
-            self.textTopic1.text = result![0].description
-            self.textTopic2.text = result![1].description
-            DispatchQueue.main.async { [weak self] in
-                if let imageData = try? Data(contentsOf: URL(string: result![0].imageUrl!)!) {
-                    if let loadedImage = UIImage(data: imageData) {
-                        self?.weekImage.image = loadedImage
+            if result!.count >= 2 {
+                self.constTitle.text = result?[1].header ?? ""
+                self.textTopic1.text = result?[0].description ?? ""
+                self.textTopic2.text = result?[1].description ?? ""
+                DispatchQueue.main.async { [weak self] in
+                    guard result![0].imageUrl != nil, result![1].imageUrl != nil else {
+                        print("There was an error")
+                        return
+                    }
+                    guard let image1 = URL(string: (result?[0].imageUrl)!),
+                            let image2 = URL(string: (result?[1].imageUrl)!) else {
+                        print("There was an error with downloading an images")
+                        return
+                    }
+                    
+                    if let imageData = try? Data(contentsOf: image1) {
+                        if let loadedImage = UIImage(data: imageData) {
+                            self?.weekImage.image = loadedImage
+                        }
+                    }
+                    if let imageData = try? Data(contentsOf: image2) {
+                        if let loadedImage = UIImage(data: imageData) {
+                            self?.recImage.image = loadedImage
+                        }
                     }
                 }
-                if let imageData = try? Data(contentsOf: URL(string: result![1].imageUrl!)!) {
-                    if let loadedImage = UIImage(data: imageData) {
-                        self?.recImage.image = loadedImage
-                    }
-                }
+            } else {
+                print("There was an error with downloading")
             }
+            
 
         }
         

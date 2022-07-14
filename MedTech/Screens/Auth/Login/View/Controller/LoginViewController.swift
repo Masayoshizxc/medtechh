@@ -25,14 +25,22 @@ class LoginViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    let firstLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "Введите ваши данные"
-//        label.font = Fonts.Mulish.black.font(size: 22)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
-//
+    let alertIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icons.error.image
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    let alertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Неверный email или пароль"
+        label.font = Fonts.SFProText.medium.font(size: 16)
+        label.textColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     let secondLabel: UILabel = {
         let label = UILabel()
         label.text = "Вход"
@@ -80,11 +88,11 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.backgroundColor = .white
         navigationItem.hidesBackButton = true
         
         view.addSubviews(
-            //firstLabel,
+            alertIcon,
+            alertLabel,
             secondLabel,
             emailField,
             passwordField,
@@ -92,6 +100,9 @@ class LoginViewController: BaseViewController {
             forgotPasswordButton,
             hideButton
         )
+        
+        alertIcon.isHidden = true
+        alertLabel.isHidden = true
         
         emailField.delegate = self
         passwordField.delegate = self
@@ -104,7 +115,9 @@ class LoginViewController: BaseViewController {
               let password = passwordField.text,
               !email.isEmpty,
               !password.isEmpty else {
-            print("Enter email or password")
+            alertIcon.isHidden = false
+            alertLabel.isHidden = false
+            alertLabel.text = "Enter email or password"
             return
         }
 
@@ -115,29 +128,43 @@ class LoginViewController: BaseViewController {
             ]
             let data = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
             viewModel.signIn(data: data!) { [weak self] result in
-                let isPatient = result?.roles.contains("ROLE_PATIENT")
-                if isPatient! {
-                    print("True")
-                    print(result!)
-                    let userData = result!
-                    self?.userDefaults.saveUserId(id: userData.id)
-                    self?.userDefaults.saveRefreshToken(name: result?.refreshToken)
-                    self?.userDefaults.saveAccessToken(name: result?.token)
-                    self?.userDefaults.isSignedIn(signedIn: true)
-                    if result?.pwdChangeRequired ?? false {
-                        let vc = NewPasswordViewController()
-                        self?.navigationController?.pushViewController(vc, animated: true)
+                if result != nil {
+                    let isPatient = result?.roles.contains("ROLE_PATIENT")
+                    if isPatient! {
+                        print("True")
+                        print(result!)
+                        let userData = result!
+                        self?.userDefaults.saveUserId(id: userData.id)
+                        self?.userDefaults.saveRefreshToken(name: result?.refreshToken)
+                        self?.userDefaults.saveAccessToken(name: result?.token)
+                        self?.userDefaults.isSignedIn(signedIn: true)
+                        if result?.pwdChangeRequired ?? false {
+                            let vc = NewPasswordViewController()
+                            self?.navigationController?.pushViewController(vc, animated: true)
+                        } else {
+                            let vc = TabBarViewController()
+                            self?.navigationController?.pushViewController(vc, animated: true)
+                        }
                     } else {
-                        let vc = TabBarViewController()
-                        self?.navigationController?.pushViewController(vc, animated: true)
+                        print("False. The users roles is not Patient")
+                        self?.alertIcon.isHidden = false
+                        self?.alertLabel.isHidden = false
+                        self?.alertLabel.text = "Неверный email или пароль"
                     }
                 } else {
-                    print("False. The users roles is not Patient")
+                    DispatchQueue.main.async {
+                        self?.alertIcon.isHidden = false
+                        self?.alertLabel.isHidden = false
+                        self?.alertLabel.text = "Неверный email или пароль"
+                    }
                 }
+                
             }
             
         } else {
-            print("Wrong email")
+            alertIcon.isHidden = false
+            alertLabel.isHidden = false
+            alertLabel.text = "Wrong email"
         }
     }
     
@@ -164,14 +191,21 @@ class LoginViewController: BaseViewController {
     }
     
     func setUpConstraints() {
-//        firstLabel.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalTo(secondLabel.snp.top).offset(-20)
-//        }
+        alertIcon.snp.makeConstraints { make in
+            make.right.equalTo(alertLabel.snp.left).offset(-10)
+            make.centerY.equalTo(alertLabel.snp.centerY)
+        }
+        
+        alertLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(emailField.snp.top).offset(-10)
+            make.centerX.equalToSuperview()
+        }
+        
         secondLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(emailField.snp.top).offset(-70)
         }
+        
         emailField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(passwordField.snp.top).offset(-25)
@@ -210,6 +244,11 @@ extension LoginViewController: UITextFieldDelegate {
             didTapLoginButton()
         }
         return true
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if emailField.text!.count >= 1 {
+            loginButton.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 
 enum NetworkErrors: Error {
     case badRequest
-    //case unauthorized
+    case unauthorized
     case forbidden
     case notFound
     //case methodNotAllowed

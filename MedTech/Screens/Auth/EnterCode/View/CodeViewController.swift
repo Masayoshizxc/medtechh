@@ -142,6 +142,21 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
                 vc.isForgetPassword = true
                 self?.navigationController?.pushViewController(vc, animated: true)
             } else {
+                DispatchQueue.main.async {
+                    self?.codeField1.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                    self?.codeField2.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                    self?.codeField3.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                    self?.codeField4.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                    self?.codeField5.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                    self?.codeField6.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                    self?.codeField1.text = ""
+                    self?.codeField2.text = ""
+                    self?.codeField3.text = ""
+                    self?.codeField4.text = ""
+                    self?.codeField5.text = ""
+                    self?.codeField6.text = ""
+                    self?.codeField1.becomeFirstResponder()
+                }
                 print("error")
             }
 
@@ -188,6 +203,7 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
 extension CodeViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if codeField1.text?.count == 1 {
+            enterButton.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
             codeField2.becomeFirstResponder()
         }
         if codeField2.text?.count == 1 {
@@ -203,5 +219,6 @@ extension CodeViewController: UITextFieldDelegate {
             codeField6.becomeFirstResponder()
         }
     }
+    
 }
 

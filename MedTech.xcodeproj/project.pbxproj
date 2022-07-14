@@ -39,7 +39,12 @@
 		A97996652845FEAF00454CEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A97996642845FEAF00454CEF /* Assets.xcassets */; };
 		A97996682845FEAF00454CEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A97996662845FEAF00454CEF /* LaunchScreen.storyboard */; };
 		A97FC05F287753FA00B689C1 /* CodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97FC05E287753FA00B689C1 /* CodeTextField.swift */; };
+		A9A35525287EFF8200116E7E /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A35524287EFF8200116E7E /* Day.swift */; };
+		A9A35527287F040B00116E7E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A35526287F040B00116E7E /* Time.swift */; };
+		A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3552F287FED5200116E7E /* AppointmentView.swift */; };
+		A9A3553328801F0200116E7E /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3553228801F0200116E7E /* CallViewController.swift */; };
 		A9B1B3F22863639900D15021 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C491002285DD8360047A02A /* swiftgen.yml */; };
+		A9C77FC9287E9DED00AB6768 /* TimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */; };
 		A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA602874946200FB0257 /* NetworkService.swift */; };
 		A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA612874946200FB0257 /* BaseRouter.swift */; };
 		A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA632874946200FB0257 /* StatusCode.swift */; };
@@ -112,6 +117,11 @@
 		A97996672845FEAF00454CEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A97996692845FEAF00454CEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A97FC05E287753FA00B689C1 /* CodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextField.swift; sourceTree = "<group>"; };
+		A9A35524287EFF8200116E7E /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		A9A35526287F040B00116E7E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		A9A3552F287FED5200116E7E /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
+		A9A3553228801F0200116E7E /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
+		A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9DDAA602874946200FB0257 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A9DDAA612874946200FB0257 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
 		A9DDAA632874946200FB0257 /* StatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCode.swift; sourceTree = "<group>"; };
@@ -222,9 +232,8 @@
 		A91DF78B28636F0100C79BDF /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
-				A9F2BEA8287B20FF00AA83A4 /* CalendarHelper.swift */,
-				A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */,
-				A9F2BEAA287B232800AA83A4 /* CalendarCollectionViewCell.swift */,
+				A9A3552A287F069600116E7E /* Model */,
+				A9A3552B287F06A300116E7E /* View */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -264,6 +273,7 @@
 				A91DF792286371B400C79BDF /* PasswordTextField.swift */,
 				A91DF7942863726200C79BDF /* LoginButton.swift */,
 				A9EF50A8287AD7EE005DF870 /* HideButton.swift */,
+				A9A3552F287FED5200116E7E /* AppointmentView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -298,8 +308,8 @@
 			isa = PBXGroup;
 			children = (
 				A9E6C54A287813FA004FC946 /* Model */,
-				A95E5C062875747300F7D575 /* ViewModel */,
 				A9E6C54D2878152E004FC946 /* View */,
+				A95E5C062875747300F7D575 /* ViewModel */,
 			);
 			path = EnterCode;
 			sourceTree = "<group>";
@@ -361,9 +371,8 @@
 				A979965B2845FEAE00454CEF /* AppDelegate.swift */,
 				A979965D2845FEAE00454CEF /* SceneDelegate.swift */,
 				A98EEB9528635E950038C1D2 /* Resources */,
-				A9DDAA722874947500FB0257 /* UserDefaultsService.swift */,
+				A9A3552E287F107E00116E7E /* Services */,
 				AE5045F82859F3C00047CA62 /* Frames */,
-				A9DDAA5F2874946200FB0257 /* NetworkService */,
 				A901787E284A6C9F00FFFBA2 /* Screens */,
 				A97996662845FEAF00454CEF /* LaunchScreen.storyboard */,
 				A97996692845FEAF00454CEF /* Info.plist */,
@@ -383,6 +392,59 @@
 				3C491009285DDA5D0047A02A /* GeneratedColors.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		A9A3552A287F069600116E7E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A9A35524287EFF8200116E7E /* Day.swift */,
+				A9A35526287F040B00116E7E /* Time.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A9A3552B287F06A300116E7E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A9A3552D287F06D000116E7E /* Cells */,
+				A9A3552C287F06AB00116E7E /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A9A3552C287F06AB00116E7E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		A9A3552D287F06D000116E7E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */,
+				A9F2BEAA287B232800AA83A4 /* CalendarCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		A9A3552E287F107E00116E7E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A9F2BEA8287B20FF00AA83A4 /* CalendarHelper.swift */,
+				A9DDAA722874947500FB0257 /* UserDefaultsService.swift */,
+				A9DDAA5F2874946200FB0257 /* NetworkService */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A9A3553128801ED400116E7E /* CallAppointment */ = {
+			isa = PBXGroup;
+			children = (
+				A9A3553228801F0200116E7E /* CallViewController.swift */,
+			);
+			path = CallAppointment;
 			sourceTree = "<group>";
 		};
 		A9B1B3F328636BBE00D15021 /* Auth */ = {
@@ -410,6 +472,7 @@
 				AEE1C1D4287AD02900D72075 /* TableView */,
 				A91DF78A28636EFA00C79BDF /* Home */,
 				A91DF78B28636F0100C79BDF /* Appointment */,
+				A9A3553128801ED400116E7E /* CallAppointment */,
 				A91DF78C28636F0900C79BDF /* Checklist */,
 				A9E6C54E287818FD004FC946 /* MoreChecklist */,
 				A91DF78D28636F1100C79BDF /* Profile */,
@@ -741,11 +804,14 @@
 				A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */,
 				A95E5C082875748000F7D575 /* CodeViewModel.swift in Sources */,
 				A91DF793286371B400C79BDF /* PasswordTextField.swift in Sources */,
+				A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */,
 				AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
 				A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */,
+				A9A35525287EFF8200116E7E /* Day.swift in Sources */,
 				A95E5C022875668E00F7D575 /* ForgotPasswordViewModel.swift in Sources */,
 				A9017882284A6CDB00FFFBA2 /* AppointentViewController.swift in Sources */,
+				A9A35527287F040B00116E7E /* Time.swift in Sources */,
 				A9DDAA7B2874A29700FB0257 /* AuthRouter.swift in Sources */,
 				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
 				A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */,
@@ -768,6 +834,7 @@
 				A9F2BEA9287B20FF00AA83A4 /* CalendarHelper.swift in Sources */,
 				A9DDAA6D2874946200FB0257 /* ProResult.swift in Sources */,
 				A971FB84287D6A1600CC5E30 /* WeekModel.swift in Sources */,
+				A9A3553328801F0200116E7E /* CallViewController.swift in Sources */,
 				A9EF509E287AAF0B005DF870 /* Checklist.swift in Sources */,
 				3C491008285DDA180047A02A /* GeneratedFonts.swift in Sources */,
 				A91DF7952863726200C79BDF /* LoginButton.swift in Sources */,
@@ -780,6 +847,7 @@
 				A9486B48285CE69200E54DAC /* NewPasswordViewController.swift in Sources */,
 				AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */,
 				AEE1C1DB287AD1C200D72075 /* DoctorTableViewController.swift in Sources */,
+				A9C77FC9287E9DED00AB6768 /* TimeCollectionViewCell.swift in Sources */,
 				A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */,
 				A9DDAA712874946200FB0257 /* FailureModel.swift in Sources */,
 				A93D2EB8287541E300DEE1BF /* ProfileViewModel.swift in Sources */,

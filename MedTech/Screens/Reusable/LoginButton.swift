@@ -13,7 +13,7 @@ class LoginButton: UIButton {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         //backgroundColor = Colors.yellow.color
-        backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        backgroundColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
         layer.cornerRadius = 15
         setTitleColor(UIColor.white, for: .normal)
         titleLabel?.font = Fonts.SFProText.semibold.font(size: 18)

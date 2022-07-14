@@ -20,10 +20,15 @@ class NetworkService {
                 return
             }
             let queue = DispatchQueue.main
+//            let decodedData = self.transformFromJSON(data: data, objectType: FailureModel.self)
+//            print(decodedData)
             if let error = self.validateResponse(data: data, response: response, error: error) {
                 if case NetworkErrors.badRequest = error,
                     let model = self.transformFromJSON(data: data, objectType: FailureModel.self) {
                     completion(.badRequest(model))
+                } else if case NetworkErrors.notFound = error,
+                    let model = self.transformFromJSON(data: data, objectType: FailureModel.self) {
+                    completion(.notFound(model))
                 } else {
                     completion(.failure("Упс, что-то пошло не так)  \(error)"))
                 }
@@ -42,15 +47,24 @@ class NetworkService {
         guard let httpResponse = response as? HTTPURLResponse else {
             return URLError(.badServerResponse)
         }
+        print(httpResponse.statusCode)
         switch httpResponse.statusCode {
         case 200...210:
             return nil
+        case 401:
+            return NetworkErrors.unauthorized
         case 405:
             return NetworkErrors.forbidden
         case StatusCode.badRequest.code:
             return NetworkErrors.badRequest
         case StatusCode.forbidden.code:
             return NetworkErrors.forbidden
+        case StatusCode.badRequest.code:
+            return NetworkErrors.badRequest
+        case StatusCode.forbidden.code:
+            return NetworkErrors.forbidden
+        case StatusCode.notFound.code:
+            return NetworkErrors.notFound
         default:
             return nil
         }

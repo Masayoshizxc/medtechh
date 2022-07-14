@@ -61,12 +61,8 @@ class GalleryCollectionView: UICollectionView , UICollectionViewDataSource , UIC
             cell.mainImageView.layer.borderWidth = 0
             cell.mainImageView.layer.borderColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
         }
-//        for cell in cells {
-//            var currentCell = cell
-//            currentCell.isSelected = true
-//        }
         print(indexPath.row + 1)
-        cells[indexPath.row] = ForWeeks(weeksNumbers: String(indexPath.row + 1), isSelected: false)
+        //cells[indexPath.row] = ForWeeks(weeksNumbers: String(indexPath.row + 1), isSelected: false)
         
     }
 }

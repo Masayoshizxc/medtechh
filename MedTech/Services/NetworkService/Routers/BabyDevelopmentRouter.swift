@@ -19,8 +19,8 @@ enum BabyDevelopmentRouter: BaseRouter {
 
     var queryParameter: [URLQueryItem]? {
         switch self {
-        case let .getWeek(week):
-            return nil //[URLQueryItem(name: "week", value: week)]
+        case.getWeek:
+            return nil
         }
     }
 

@@ -19,7 +19,6 @@ class SignInViewModel: SignInViewModelProtocol {
                                    successModel: SignIn.self) { result in
             switch result {
             case .success(let model):
-                
                 //print(model)
                 completion(model)
             case .badRequest(let error):
