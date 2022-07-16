@@ -13,7 +13,6 @@ class HomeViewController: UIViewController {
     private let viewModel: HomeViewModelProtocol
 
     var cells = [ForWeeks]()
-    var selectedItem : IndexPath? = nil
     
     init(vm: HomeViewModelProtocol = HomeViewModel()) {
         viewModel = vm
@@ -156,25 +155,25 @@ class HomeViewController: UIViewController {
         setUpSubViews()
         setUpConstraints()
         
-        viewModel.getWeek(week: "1") { result in
-            print(result)
-            self.constTitle.text = result![1].header
-            self.textTopic1.text = result![0].description
-            self.textTopic2.text = result![1].description
-            DispatchQueue.main.async { [weak self] in
-                if let imageData = try? Data(contentsOf: URL(string: result![0].imageUrl!)!) {
-                    if let loadedImage = UIImage(data: imageData) {
-                        self?.weekImage.image = loadedImage
-                    }
-                }
-                if let imageData = try? Data(contentsOf: URL(string: result![1].imageUrl!)!) {
-                    if let loadedImage = UIImage(data: imageData) {
-                        self?.recImage.image = loadedImage
-                    }
-                }
-            }
-        
-        }
+//        viewModel.getWeek(week: "1") { result in
+//            print(result)
+//            self.constTitle.text = result![1].header
+//            self.textTopic1.text = result![0].description
+//            self.textTopic2.text = result![1].description
+//            DispatchQueue.main.async { [weak self] in
+//                if let imageData = try? Data(contentsOf: URL(string: result![0].imageUrl!)!) {
+//                    if let loadedImage = UIImage(data: imageData) {
+//                        self?.weekImage.image = loadedImage
+//                    }
+//                }
+//                if let imageData = try? Data(contentsOf: URL(string: result![1].imageUrl!)!) {
+//                    if let loadedImage = UIImage(data: imageData) {
+//                        self?.recImage.image = loadedImage
+//                    }
+//                }
+//            }
+//
+//        }
         
         collectionView.backgroundColor = .white
         //badgeLabel(withCount: 5)
@@ -204,7 +203,6 @@ class HomeViewController: UIViewController {
                                textTopic2,
                                constTitle,
                                recImage)
-        
         
     }
 // Colors*******
@@ -355,9 +353,9 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
         let cell = collectionView.getReuseCell(CollectionViewCell.self, indexPath: indexPath)
         cell.fill(text: cells[indexPath.row].weeksNumbers)
 //        cell.mainImageView.layer.borderWidth = 1
-        cell.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+//        cell.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
 //        cell.mainImageView.backgroundColor = .white
-//        if (cell.isSelected && indexPath < )
+//        if (cell.isSelected && indexPath < CollectionViewCell.)
         return cell
         
         

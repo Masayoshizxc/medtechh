@@ -64,6 +64,7 @@
 		A9F2BEA9287B20FF00AA83A4 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F2BEA8287B20FF00AA83A4 /* CalendarHelper.swift */; };
 		A9F2BEAB287B232800AA83A4 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F2BEAA287B232800AA83A4 /* CalendarCollectionViewCell.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
+		AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
 		AEE1C1D6287AD14000D72075 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1D5287AD14000D72075 /* TableViewCell.swift */; };
 		AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1D8287AD16800D72075 /* TableViewController.swift */; };
@@ -135,6 +136,7 @@
 		A9F2BEA8287B20FF00AA83A4 /* CalendarHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		A9F2BEAA287B232800AA83A4 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		AEE1C1D5287AD14000D72075 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		AEE1C1D8287AD16800D72075 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			children = (
 				A93D2EB6287541D200DEE1BF /* ViewModel */,
 				A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */,
+				AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -758,6 +761,7 @@
 				A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */,
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
 				A9E6C54C2878140B004FC946 /* CodeModel.swift in Sources */,
+				AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */,
 				AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */,
 				3C49100E285DE2B30047A02A /* GeneratedIcons.swift in Sources */,
 				A971FB7F287D690800CC5E30 /* BabyDevelopmentRouter.swift in Sources */,
