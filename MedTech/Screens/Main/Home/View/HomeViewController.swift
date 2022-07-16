@@ -10,8 +10,14 @@ import SnapKit
 
 class HomeViewController: UIViewController {
     
+    let userDefaults = UserDefaultsService()
     private let viewModel: HomeViewModelProtocol
 
+    var cells = [ForWeeks]()
+    var selectedItem : IndexPath? = nil
+    var selectedCell = 0
+    var selected = false
+    
     init(vm: HomeViewModelProtocol = HomeViewModel()) {
         viewModel = vm
         super.init(nibName: nil, bundle: nil)
@@ -20,6 +26,13 @@ class HomeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    let collectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return cv
+    }()
     
     let titleForPage : UILabel = {
         var title = UILabel()
@@ -51,7 +64,7 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
 //        button.currentImage?.withTintColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1))
-        button.setTitle("  Следующее посещение 30-июля", for: .normal)
+        button.setTitle("Следующее посещение 30-июля", for: .normal)
         button.backgroundColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         button.layer.cornerRadius = 20
         button.tintColor = .white
@@ -78,7 +91,7 @@ class HomeViewController: UIViewController {
        let image = UIImageView()
         image.frame.size = CGSize(width: 230, height: 204)
         image.layer.cornerRadius = image.frame.size.width/2
-        //image.image = UIImage(named: "child")
+        image.contentMode = .scaleAspectFit
         return image
     }()
     
@@ -100,7 +113,6 @@ class HomeViewController: UIViewController {
     let recImage : UIImageView = {
        let image = UIImageView()
         image.frame.size = CGSize(width: 336, height: 220)
-        //image.image = UIImage(named: "eat")
         return image
     }()
     
@@ -124,8 +136,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        collectionView.scrollToItem(at: [0, 0], at: .centeredHorizontally, animated: true)
-        
+        collectionView.scrollToItem(at: [0, selectedCell], at: .centeredHorizontally, animated: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -137,58 +148,43 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        cells = ForWeeks.fetchForWeeks()
         setUpScrollView()
-        setUpViewsBackgroundColor()
         setUpCollectionView()
         collectionView.showsHorizontalScrollIndicator = false
         setUpSubViews()
         setUpConstraints()
-        
-        viewModel.getWeek(week: "1") { result in
-            print(result)
-            if result!.count >= 2 {
-                self.constTitle.text = result?[1].header ?? ""
-                self.textTopic1.text = result?[0].description ?? ""
-                self.textTopic2.text = result?[1].description ?? ""
-                DispatchQueue.main.async { [weak self] in
-                    guard result![0].imageUrl != nil, result![1].imageUrl != nil else {
-                        print("There was an error")
-                        return
-                    }
-                    guard let image1 = URL(string: (result?[0].imageUrl)!),
-                            let image2 = URL(string: (result?[1].imageUrl)!) else {
-                        print("There was an error with downloading an images")
-                        return
-                    }
-                    
-                    if let imageData = try? Data(contentsOf: image1) {
-                        if let loadedImage = UIImage(data: imageData) {
-                            self?.weekImage.image = loadedImage
-                        }
-                    }
-                    if let imageData = try? Data(contentsOf: image2) {
-                        if let loadedImage = UIImage(data: imageData) {
-                            self?.recImage.image = loadedImage
-                        }
-                    }
-                }
-            } else {
-                print("There was an error with downloading")
-            }
-            
-
-        }
-        
+        setUpData(week: "1")
         collectionView.backgroundColor = .white
         //badgeLabel(withCount: 5)
         showBadge(withCount: 5)
+        
+        viewModel.getClinic { result in
+            guard let result = result else {
+                return
+            }
+
+            self.userDefaults.saveEmergency(phone: (result.emergencyPhoneNumber)!)
+            self.userDefaults.saveReception(phone: (result.receptionPhoneNumber)!)
+        }
     }
     
     @objc func didTapSosButton() {
         print("Tapped")
+        let number = userDefaults.getEmergency()
+        print(number)
+        callNumber(phoneNumber: number)
     }
     
-    
+    private func callNumber(phoneNumber:String) {
+      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+        let application:UIApplication = UIApplication.shared
+        if (application.canOpenURL(phoneCallURL)) {
+            application.open(phoneCallURL, options: [:], completionHandler: nil)
+        }
+      }
+    }
     
     func setUpScrollView(){
         let scrollSize = weekImage.frame.size.height + textTopic2.frame.size.height + constTitle.frame.size.height + recImage.frame.size.height + textTopic1.frame.size.height
@@ -201,6 +197,7 @@ class HomeViewController: UIViewController {
                          titleForPage,
                          remindButton,
                          scrollView)
+        
         scrollView.addSubviews(weekImage,
                                textTopic1,
                                textTopic2,
@@ -209,30 +206,19 @@ class HomeViewController: UIViewController {
         
         
     }
-// Colors*******
-    func setUpViewsBackgroundColor(){
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.frame = view.bounds
-//        gradientLayer.colors = [
-//            UIColor(red: 245/255, green: 185/255, blue: 200/255, alpha: 1).cgColor,
-//            UIColor(red: 254/255, green: 247/255, blue: 217/255, alpha: 1).cgColor
-//        ]
-//        view.layer.addSublayer(gradientLayer)
-        view.backgroundColor = .white
-    }
 
 //    Adding collectionview to the home page
-    private var collectionView = GalleryCollectionView()
     func setUpCollectionView(){
-        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.collectionView.register(CollectionViewCell.self)
         view.addSubview(collectionView)
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
         collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 212).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.set(cells: ForWeeks.fetchForWeeks())
-        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
@@ -265,6 +251,48 @@ class HomeViewController: UIViewController {
         ])
     }
 
+    func setUpData(week: String) {
+        viewModel.getWeek(week: week) { result in
+            print(result)
+            if result != nil {
+                if result!.count >= 2 {
+                    self.constTitle.text = result?[1].header ?? ""
+                    self.textTopic1.text = result?[0].description ?? ""
+                    self.textTopic2.text = result?[1].description ?? ""
+                    DispatchQueue.main.async { [weak self] in
+                        guard result![0].imageUrl != nil, result![1].imageUrl != nil else {
+                            self?.weekImage.image = UIImage(named: "child")
+                            self?.recImage.image = UIImage(named: "eat")
+                            print("There was an error")
+                            return
+                        }
+                        guard let image1 = URL(string: (result?[0].imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com"))!),
+                              let image2 = URL(string: (result?[1].imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com"))!) else {
+                            print("There was an error with downloading an images")
+                            self?.weekImage.image = UIImage(named: "child")
+                            self?.recImage.image = UIImage(named: "eat")
+                            return
+                        }
+                        
+                        if let imageData = try? Data(contentsOf: image1) {
+                            if let loadedImage = UIImage(data: imageData) {
+                                self?.weekImage.image = loadedImage
+                            }
+                        }
+                        if let imageData = try? Data(contentsOf: image2) {
+                            if let loadedImage = UIImage(data: imageData) {
+                                self?.recImage.image = loadedImage
+                            }
+                        }
+                    }
+                } else {
+                    print("There was an error with downloading")
+                }
+            }
+            
+                    
+        }
+    }
 
     
     
@@ -308,8 +336,8 @@ class HomeViewController: UIViewController {
         weekImage.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(15)
             make.centerX.equalToSuperview()
-            make.height.equalTo(150)
-            make.width.equalTo(150)
+            make.height.equalTo(214)
+            make.width.equalTo(230)
         }
         remindButton.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
@@ -332,8 +360,8 @@ class HomeViewController: UIViewController {
         recImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
             make.top.equalTo(constTitle.snp.bottom).inset(-10)
-            make.height.equalTo(150)
-            make.width.equalTo(150)
+            make.height.equalTo(220)
+            make.width.equalTo(336)
         }
         textTopic2.snp.makeConstraints{make in
             make.top.equalTo(recImage.snp.bottom).inset(-20)
@@ -345,3 +373,52 @@ class HomeViewController: UIViewController {
     
 }
 
+extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cells.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.getReuseCell(CollectionViewCell.self, indexPath: indexPath)
+        if indexPath.row == selectedCell && selected == false {
+            cell.selection(bool: true)
+            selected = true
+        } else {
+            cell.selection(bool: false)
+        }
+        cell.fill(text: cells[indexPath.row].weeksNumbers)
+//        cell.mainImageView.layer.borderWidth = 1
+        cell.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+//        cell.mainImageView.backgroundColor = .white
+//        if (cell.isSelected && indexPath < )
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 50, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let week = String(indexPath.row + 1)
+        collectionView.scrollToItem(at: [0, indexPath.row], at: .centeredHorizontally, animated: true)
+        setUpData(week: week)
+    }
+    
+}
+
+extension UICollectionView {
+
+    func register<Cell: UICollectionViewCell>(_ cellType: Cell.Type) {
+        register(cellType, forCellWithReuseIdentifier: cellType.identifier)
+    }
+
+    func getReuseCell<Cell: UICollectionViewCell>(
+        _ cellType: Cell.Type,
+        indexPath: IndexPath
+    ) -> Cell {
+        dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as! Cell
+    }
+    
+    
+}

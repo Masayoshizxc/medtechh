@@ -9,5 +9,5 @@ target 'MedTech' do
   pod 'SnapKit'
   pod 'SwiftGen'
   pod 'IQKeyboardManagerSwift'
-
+  pod 'Toast-Swift', '~> 5.0.1'
 end

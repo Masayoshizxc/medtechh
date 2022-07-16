@@ -8,15 +8,13 @@
 import UIKit
 import SnapKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     let userDefaults = UserDefaultsService()
     
     private let viewModel: ProfileViewModelProtocol
     
     let tableView = UITableView()
-
-    
     
     init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
         viewModel = vm
@@ -27,6 +25,22 @@ class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
+    
+    private let view1: ProfileView = {
+        let view = ProfileView()
+        return view
+    }()
+    
+    private let tblView: UIView = {
+       let view = UIView()
+        view.backgroundColor = .gray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private lazy var logOutButton: UIButton = {
         let button = UIButton()
@@ -61,12 +75,13 @@ class ProfileViewController: UIViewController {
 //        return button
 //    }()
     
-    let sosButton : UIButton = {
+    lazy var sosButton : UIButton = {
         let button = UIButton()
         button.setTitle("SOS", for: .normal)
         button.tintColor = .black
         button.layer.cornerRadius = 18
         button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
+        button.addTarget(self, action: #selector(didTapSosButton), for: .touchUpInside)
         return button
     }()
     
@@ -78,9 +93,10 @@ class ProfileViewController: UIViewController {
         imageView.layer.cornerRadius = 37.5
         imageView.layer.borderColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1).cgColor
         imageView.layer.borderWidth = 1.5
-        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
     let trimestImage : UIImageView = {
        let image = UIImageView()
         image.layer.cornerRadius = 16
@@ -89,6 +105,7 @@ class ProfileViewController: UIViewController {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
+    
 //    let weekTrimest : UIButton = {
 //        let week = UIButton()
 //        week.frame.size = CGSize(width: 104, height: 60)
@@ -104,7 +121,7 @@ class ProfileViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         label.text = "14-ая неделя"
-        
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     let downloadButton : UIButton = {
@@ -118,15 +135,17 @@ class ProfileViewController: UIViewController {
         button.titleLabel?.contentMode = .left
         button.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
 //        button.titleLabel?.textColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     let userName : UILabel = {
        let name = UILabel()
         name.text = "Айжамал Масыбаева Бекболсуновна"
-        name.font = .boldSystemFont(ofSize: 25)
+        name.font = Fonts.SFProText.medium.font(size: 20)
         name.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         name.numberOfLines = 0
+        name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
     
@@ -139,39 +158,15 @@ class ProfileViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = "Запись"
+        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         view.backgroundColor = .white
-        
-        setUpTableViewController()
-        setUpSubviews()
-//        setUpDataTableView()
-        setUpConstraints()
-        
     }
-    func setUpSubviews(){
-        view.addSubviews(logOutButton,
-                         //notificationsButton,
-                         sosButton,
-                         titleForPage,
-                         profileImage,
-                         logOutButton,
-                         trimestImage,
-                         downloadButton,
-                         userName,
-                         dataView)
-        trimestImage.addSubview(trimestLabel)
-    }
+
     
    
-//    func setUpDataTableView(){
-//        dataView.addSubview(tableView)
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
-//        tableView.isScrollEnabled = false
-////        tableView.allowsSelection = false
-//
-//    }
+
     @objc func didTapLogOutButton() {
         userDefaults.isSignedIn(signedIn: false)
         let userId = userDefaults.getUserId()
@@ -186,6 +181,21 @@ class ProfileViewController: UIViewController {
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func didTapSosButton() {
+        print("SOS button tapped")
+        let number = userDefaults.getEmergency()
+        callNumber(phoneNumber: number)
+    }
+    
+    private func callNumber(phoneNumber:String) {
+      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+        let application:UIApplication = UIApplication.shared
+        if (application.canOpenURL(phoneCallURL)) {
+            application.open(phoneCallURL, options: [:], completionHandler: nil)
+        }
+      }
+    }
+    
     private let appointTable = AppointmentTableViewController()
     func setUpTableViewController(){
         dataView.addSubview(appointTable.tableView)
@@ -196,7 +206,7 @@ class ProfileViewController: UIViewController {
         logOutButton.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(235)
             make.right.equalToSuperview().inset(27)
-            make.top.equalToSuperview().inset(714)
+            make.top.equalTo(downloadButton.snp.bottom).offset(20)
             make.width.equalTo(128)
             make.height.equalTo(44)
         }

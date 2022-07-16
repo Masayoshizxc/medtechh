@@ -36,6 +36,20 @@ class UserDefaultsService {
         case bonuses
     }
     
+    enum CreateDoctor: String {
+        case doctor_id
+    }
+
+    enum CreateAppointment: String {
+        case appointment_date
+        case appointment_time
+    }
+    
+    enum Clinic: String {
+        case emergency
+        case receptionNumber
+    }
+    
     private enum Authentification: String {
         case email
         case password
@@ -132,5 +146,45 @@ class UserDefaultsService {
     
     func getUserId() -> Int {
         return storage.value(forKey: CreateUser.id.rawValue) as! Int
+    }
+    
+    func saveDoctorId(id: Int) {
+        storage.setValue(id, forKey: CreateDoctor.doctor_id.rawValue)
+    }
+    
+    func getDoctorId() -> Int {
+        return storage.value(forKey: CreateDoctor.doctor_id.rawValue) as! Int
+    }
+    
+    func saveDate(date: String) {
+        storage.setValue(date, forKey: CreateAppointment.appointment_date.rawValue)
+    }
+    
+    func getDate() -> String {
+        return storage.value(forKey: CreateAppointment.appointment_date.rawValue) as! String
+    }
+    
+    func saveTime(time: String) {
+        storage.setValue(time, forKey: CreateAppointment.appointment_time.rawValue)
+    }
+    
+    func getTime() -> String {
+        return storage.value(forKey: CreateAppointment.appointment_time.rawValue) as! String
+    }
+    
+    func saveEmergency(phone: String) {
+        storage.setValue(phone, forKey: Clinic.emergency.rawValue)
+    }
+
+    func getEmergency() -> String {
+        return storage.value(forKey: Clinic.emergency.rawValue) as! String
+    }
+
+    func saveReception(phone: String) {
+        storage.setValue(phone, forKey: Clinic.receptionNumber.rawValue)
+    }
+
+    func getReception() -> String {
+        return storage.value(forKey: Clinic.receptionNumber.rawValue) as! String
     }
 }

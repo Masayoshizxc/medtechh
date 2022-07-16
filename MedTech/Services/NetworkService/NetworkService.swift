@@ -47,7 +47,6 @@ class NetworkService {
         guard let httpResponse = response as? HTTPURLResponse else {
             return URLError(.badServerResponse)
         }
-        print(httpResponse.statusCode)
         switch httpResponse.statusCode {
         case 200...210:
             return nil

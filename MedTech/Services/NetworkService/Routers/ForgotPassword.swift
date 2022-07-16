@@ -34,7 +34,7 @@ enum ForgotPasswordRouter: BaseRouter {
         case .forgotPassword:
             return .POST
         case .resetPassword:
-            return .PUT
+            return .POST
         }
     }
 

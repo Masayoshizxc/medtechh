@@ -6,9 +6,22 @@
 //
 
 import UIKit
+import Toast_Swift
 
 class AppointentViewController: UIViewController {
     
+    private let viewModel: AppointmentViewModelProtocol
+    
+    init(vm: AppointmentViewModelProtocol = AppointmentViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let userDefaults = UserDefaultsService()
     var selectedDate = Date()
     var days = [Day]()
     var freeTimes = [Time]()
@@ -189,6 +202,12 @@ class AppointentViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: callButton)
         
+        let userId = userDefaults.getUserId()
+        viewModel.getDoctorId(id: userId) { rslt in
+            let id = rslt?.userDTO.id
+            self.userDefaults.saveDoctorId(id: id!)
+        }
+        
         collectionViewA.backgroundColor = .white
         collectionViewA.isScrollEnabled = false
         collectionViewA.delegate = self
@@ -205,15 +224,6 @@ class AppointentViewController: UIViewController {
         appointmentView.isHidden = true
         
         setMonthView()
-        freeTimes.append(Time(time: "10:00"))
-        freeTimes.append(Time(time: "11:00"))
-        freeTimes.append(Time(time: "12:00"))
-        freeTimes.append(Time(time: "14:00"))
-        freeTimes.append(Time(time: "15:00"))
-        freeTimes.append(Time(time: "16:00"))
-        freeTimes.append(Time(time: "17:00"))
-        freeTimes.append(Time(time: "18:00"))
-        
                                  
         view.addSubviews(
             monthView,
@@ -232,14 +242,22 @@ class AppointentViewController: UIViewController {
     
     
     @objc func didTapSosButton() {
-        print("SOS button tapped")
+        let number = userDefaults.getEmergency()
+        callNumber(phoneNumber: number)
     }
     
     @objc func didTapCallButton() {
-        print("Call button tapped")
-        let vc = CallViewController()
-        vc.title = title
-        navigationController?.pushViewController(vc, animated: true)
+        let number = userDefaults.getReception()
+        callNumber(phoneNumber: number)
+    }
+    
+    private func callNumber(phoneNumber:String) {
+      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+        let application:UIApplication = UIApplication.shared
+        if (application.canOpenURL(phoneCallURL)) {
+            application.open(phoneCallURL, options: [:], completionHandler: nil)
+        }
+      }
     }
     
     func setMonthView() {
@@ -288,11 +306,39 @@ class AppointentViewController: UIViewController {
     
     @objc func didTapAppointButton() {
         print("Appoint button tapped!!!")
-        timeLabel.isHidden = true
-        collectionViewB.isHidden = true
-        appointButton.isHidden = true
-        appointmentView.isHidden = false
+        let date = self.userDefaults.getDate()
+        let time = self.userDefaults.getTime()
+        let sheet = UIAlertController(title: "Записаться", message: "Вы уверены что вы хотите записаться?", preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "Отменить", style: .destructive, handler: { _ in
+            self.dismiss(animated: true)
+        }))
+        sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { [weak self] _ in
+            let doctorId = self?.userDefaults.getDoctorId()
+            let userId = self?.userDefaults.getUserId()
+            self?.viewModel.postAppointments(date: date, doctorId: doctorId!, patientId: userId!, visitTime: time) { result in
+                print(result)
+                if result != nil {
+                    DispatchQueue.main.async {
+                        self?.view.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .bottom)
+                        self?.appointmentView.getData(model: result!)
+                        self?.timeLabel.isHidden = true
+                        self?.collectionViewB.isHidden = true
+                        self?.appointButton.isHidden = true
+                        self?.appointmentView.isHidden = false
+                        self?.dismiss(animated: true)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.view.makeToast("Вы не можете записаться на пройденный день!", duration: 1.5, position: .bottom)
+                        self?.dismiss(animated: true)
+                    }
+                }
+            }
+        }))
+        present(sheet, animated: true)
     }
+    
+    
     
     func setUpConstraints() {
         monthView.snp.makeConstraints { make in
@@ -353,7 +399,7 @@ class AppointentViewController: UIViewController {
         }
         
         appointmentView.snp.makeConstraints { make in
-            make.top.equalTo(collectionViewA.snp.bottom).offset(10)
+            make.top.equalTo(collectionViewA.snp.bottom).inset(20)
             make.centerX.equalToSuperview()
             make.height.equalTo(254)
             make.width.equalTo(336)
@@ -375,16 +421,36 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
         if collectionView == collectionViewA {
             let cell = collectionView.getReuseCell(CalendarCollectionViewCell.self, indexPath: indexPath)
             cell.getData(string: days[indexPath.row].date)
-
-            if days[indexPath.row].isSelected == true {
-                cell.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
-                cell.changeColor()
-                days[indexPath.row].isSelected = false
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM"
+            let monthYear = dateFormatter.string(from: selectedDate)
+            let day = days[indexPath.row].date
+            if day != "" {
+                let dayString = day.count < 2 ? "0\(day)" : day
+                let date = "\(monthYear)-\(dayString)"
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let datedate = dateFormatter.date(from: date)
+                dateFormatter.dateFormat = "e"
+                let langStr = Locale.current.languageCode
+                let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
+                if days[indexPath.row].isSelected == true {
+                    cell.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+                    cell.changeColor()
+                    days[indexPath.row].isSelected = false
+                } else {
+                    if dateStr == 6 || dateStr == 7 {
+                        cell.backgroundColor = .white
+                        cell.changeColorToRed()
+                    } else {
+                        cell.backgroundColor = .white
+                        cell.changeColorToDefault()
+                    }
+                }
+                
             } else {
                 cell.backgroundColor = .white
-                cell.changeColorToDefault()
             }
-            cell.layer.cornerRadius = cell.frame.height / 2
+            cell.layer.cornerRadius = cell.frame.width / 2
             return cell
         } else {
             let cell = collectionView.getReuseCell(TimeCollectionViewCell.self, indexPath: indexPath)
@@ -407,23 +473,84 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             let monthYear = dateFormatter.string(from: selectedDate)
+            //dateFormatter.dateFormat = "MM"
+            //let month = dateFormatter.string(from: selectedDate)
+            //let currentMonth = dateFormatter.string(from: Date())
+            //dateFormatter.dateFormat = "dd"
+            //let currentDay = dateFormatter.string(from: selectedDate)
             let day = days[indexPath.row].date
             let cell = collectionView.cellForItem(at: indexPath) as! CalendarCollectionViewCell
-            if day != "" {
-                appointmentView.isHidden = true
-                timeLabel.isHidden = false
-                collectionViewB.isHidden = false
-                //appointButton.isHidden = false
+            if day != ""  {
                 let dayString = day.count < 2 ? "0\(day)" : day
                 let date = "\(monthYear)-\(dayString)"
-                print(date)
+                let userId = userDefaults.getUserId()
+                self.userDefaults.saveDate(date: date)
+                freeTimes.removeAll()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let datedate = dateFormatter.date(from: date)
+                dateFormatter.dateFormat = "ee"
+                let langStr = Locale.current.languageCode
+                let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
+                viewModel.getVisit(id: userId, date: date) { result in
+                    if (result?.doctorDTO.id) != nil {
+                        self.appointmentView.isHidden = false
+                        self.timeLabel.isHidden = true
+                        self.collectionViewB.isHidden = true
+                        self.appointmentView.getData(model: result!)
+                    } else {
+                        let doctorId = self.userDefaults.getDoctorId()
+                        print(dateStr)
+                        self.viewModel.getFreeTimes(doctorId: doctorId, weekday: String(dateStr)) { success in
+                            if !success!.isEmpty {
+                                self.viewModel.getNonFreeTimes(date: date) { res in
+                                    for i in 0...success!.count - 1 {
+                                        let time = success![i].scheduleStartTime
+                                        if !res!.isEmpty {
+                                            for j in 0...res!.count - 1 {
+                                                let nonFreeTime = res![j].visitStartTime
+                                                if time != nonFreeTime {
+                                                    let timee = time?.dropLast(3)
+                                                    print(timee)
+                                                    self.freeTimes.append(Time(time: String(timee!)))
+                                                }
+                                            }
+                                        } else {
+                                            let timee = time?.dropLast(3)
+                                            self.freeTimes.append(Time(time: String(timee!)))
+                                        }
+                                        
+                                    }
+                                    self.appointmentView.isHidden = true
+                                    self.timeLabel.isHidden = false
+                                    self.collectionViewB.isHidden = false
+                                    self.collectionViewB.reloadData()
+                                }
+                            } else {
+                                self.appointmentView.isHidden = true
+                                self.timeLabel.isHidden = true
+                                self.collectionViewB.isHidden = true
+                            }
+                            
+                        }
+                        
+//                        DispatchQueue.main.async {
+//                            self.timeLabel.isHidden = true
+//                            self.collectionViewB.isHidden = true
+//                            self.appointButton.isHidden = true
+//                            self.collectionViewB.reloadData()
+//                        }
+    
+                    }
+                    
+                }
                 cell.backgroundColor = .white
                 days[indexPath.row].isSelected = true
                 collectionViewA.reloadData()
             }
         } else {
             appointButton.isHidden = false
-            print(freeTimes[indexPath.row].time)
+            let time = freeTimes[indexPath.row].time
+            self.userDefaults.saveTime(time: time)
             freeTimes[indexPath.row].isSelected = true
             collectionViewB.reloadData()
         }
@@ -434,11 +561,11 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
         if collectionView == collectionViewA {
             let width = (collectionViewA.frame.size.width - 20) / 8
             let height = (collectionViewA.frame.size.height + 80) / 8
-            return CGSize(width: width, height: height)
-            //return CGSize(width: 40, height: 44)
+            print(width, height)
+            return CGSize(width: width, height: width)
         } else {
             return CGSize(width: 65, height: 44)
         }
     }
-    
+        
 }

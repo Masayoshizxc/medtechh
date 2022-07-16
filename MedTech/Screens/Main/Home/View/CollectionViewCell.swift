@@ -50,12 +50,40 @@ class CollectionViewCell: UICollectionViewCell {
         numbersOfWeeks.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         numbersOfWeeks.layer.cornerRadius = 30
     }
+    
+    override var isSelected: Bool{
+        willSet{
+            super.isSelected = newValue
+            if newValue
+            {
+                self.mainImageView.layer.borderWidth = 3
+                self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.627, blue: 0.69, alpha: 1).cgColor
+            }
+            else
+            {
+                self.mainImageView.layer.borderWidth = 1
+                self.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+//                self.mainImageView.backgroundColor = .white
+            }
+        }
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         mainImageView.frame = contentView.bounds
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func selection(bool: Bool) {
+        if bool {
+            self.mainImageView.layer.borderWidth = 3
+            self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.627, blue: 0.69, alpha: 1).cgColor
+        } else {
+            self.mainImageView.layer.borderWidth = 1
+            self.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+        }
     }
     
     func fill(text: String?) {

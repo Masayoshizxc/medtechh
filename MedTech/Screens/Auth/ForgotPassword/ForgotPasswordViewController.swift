@@ -56,7 +56,10 @@ class ForgotPasswordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.backItem?.title = ""
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        backButton.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
 
         view.addSubviews(
             firstLabel,

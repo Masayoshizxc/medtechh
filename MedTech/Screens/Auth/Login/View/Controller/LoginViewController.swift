@@ -127,12 +127,12 @@ class LoginViewController: BaseViewController {
                 "password" : password
             ]
             let data = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            self.view.makeToastActivity(.center)
             viewModel.signIn(data: data!) { [weak self] result in
                 if result != nil {
                     let isPatient = result?.roles.contains("ROLE_PATIENT")
                     if isPatient! {
-                        print("True")
-                        print(result!)
+                        
                         let userData = result!
                         self?.userDefaults.saveUserId(id: userData.id)
                         self?.userDefaults.saveRefreshToken(name: result?.refreshToken)

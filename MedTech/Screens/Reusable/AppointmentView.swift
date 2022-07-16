@@ -13,6 +13,8 @@ class AppointmentView: UIView {
         let imageView = UIImageView()
         imageView.image = Icons.doctor.image
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 25
         return imageView
     }()
 
@@ -49,7 +51,7 @@ class AppointmentView: UIView {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Первичный осмотр"
+        label.text = "Плановый осмотр"
         label.textColor = .white
         label.font = Fonts.SFProText.medium.font(size: 18)
         return label
@@ -121,6 +123,27 @@ class AppointmentView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getData(model: DoctorVisit) {
+        let urlString = model.doctorDTO.imageUrl?.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
+        print(urlString)
+        guard let image = URL(string: (urlString)!) else {
+            print("There was an error with downloading an images")
+            self.doctorImageView.image = Icons.doctor.image
+            return
+        }
+        
+        if let imageData = try? Data(contentsOf: image) {
+            if let loadedImage = UIImage(data: imageData) {
+                self.doctorImageView.image = loadedImage
+            }
+        }
+        nameLabel.text = "\(model.doctorDTO.userDTO.firstName) \(model.doctorDTO.userDTO.lastName) \(model.doctorDTO.userDTO.middleName)"
+        jobLabel.text = model.doctorDTO.profession?.capitalized
+        dateLabel.text = model.dateVisit
+        timeImgLabel.text = "\(model.visitStartTime.dropLast(3)) - \(model.visitEndTime.dropLast(3))"
+        locationLabel.text = model.visitAddress
     }
     
     func setUpConstraints() {

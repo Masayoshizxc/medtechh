@@ -9,6 +9,7 @@ import UIKit
 
 class ChecklistViewController: BaseViewController {
     
+    let userDefaults = UserDefaultsService()
     var model = [Checklist]()
     
     let tableView: UITableView = {
@@ -69,6 +70,17 @@ class ChecklistViewController: BaseViewController {
     
     @objc func didTapSosButton() {
         print("SOS button tapped")
+        let number = userDefaults.getEmergency()
+        callNumber(phoneNumber: number)
+    }
+    
+    private func callNumber(phoneNumber:String) {
+      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+        let application:UIApplication = UIApplication.shared
+        if (application.canOpenURL(phoneCallURL)) {
+            application.open(phoneCallURL, options: [:], completionHandler: nil)
+        }
+      }
     }
 
 }

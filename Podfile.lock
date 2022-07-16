@@ -2,23 +2,27 @@ PODS:
   - IQKeyboardManagerSwift (6.5.10)
   - SnapKit (5.6.0)
   - SwiftGen (6.5.1)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - IQKeyboardManagerSwift
   - SnapKit
   - SwiftGen
+  - Toast-Swift (~> 5.0.1)
 
 SPEC REPOS:
   trunk:
     - IQKeyboardManagerSwift
     - SnapKit
     - SwiftGen
+    - Toast-Swift
 
 SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: 09127b3a2f27e73cc061aa129517bdee6f3c6657
+PODFILE CHECKSUM: f9d308a389f38dfe6b608a18cdb45af7bdd503e4
 
 COCOAPODS: 1.11.3

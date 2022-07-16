@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0218790E7C5A530E9468158A /* Pods_MedTech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC93D493F74AC0C4D114573 /* Pods_MedTech.framework */; };
+		3462623A29213F969545CC16 /* Pods_MedTech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E31A1E59CBAD484A0CAD671 /* Pods_MedTech.framework */; };
 		3C491005285DD8B70047A02A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C491004285DD8B70047A02A /* Colors.xcassets */; };
 		3C491008285DDA180047A02A /* GeneratedFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C491007285DDA180047A02A /* GeneratedFonts.swift */; };
 		3C49100C285DE1E90047A02A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C49100B285DE1E90047A02A /* Images.xcassets */; };
@@ -17,6 +17,13 @@
 		A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */; };
 		A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */; };
 		A9017888284A6D2300FFFBA2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */; };
+		A906FE6628806A7900FF3E92 /* AppointmentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A906FE6528806A7900FF3E92 /* AppointmentsRouter.swift */; };
+		A906FE6928806B5A00FF3E92 /* AppoitmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A906FE6828806B5A00FF3E92 /* AppoitmentViewModel.swift */; };
+		A906FE6B28806BA300FF3E92 /* DoctorVisit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A906FE6A28806BA200FF3E92 /* DoctorVisit.swift */; };
+		A906FE6D28806D7900FF3E92 /* TimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A906FE6C28806D7900FF3E92 /* TimeModel.swift */; };
+		A9192F9828825FDB00EC5F19 /* Clinic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9192F9728825FDB00EC5F19 /* Clinic.swift */; };
+		A9192F9A2882600B00EC5F19 /* ClinicRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9192F992882600B00EC5F19 /* ClinicRouter.swift */; };
+		A9192F9C28826EAB00EC5F19 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9192F9B28826EAB00EC5F19 /* ProfileView.swift */; };
 		A91DF79128636FA800C79BDF /* EmailTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91DF79028636FA800C79BDF /* EmailTextField.swift */; };
 		A91DF793286371B400C79BDF /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91DF792286371B400C79BDF /* PasswordTextField.swift */; };
 		A91DF7952863726200C79BDF /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91DF7942863726200C79BDF /* LoginButton.swift */; };
@@ -42,7 +49,6 @@
 		A9A35525287EFF8200116E7E /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A35524287EFF8200116E7E /* Day.swift */; };
 		A9A35527287F040B00116E7E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A35526287F040B00116E7E /* Time.swift */; };
 		A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3552F287FED5200116E7E /* AppointmentView.swift */; };
-		A9A3553328801F0200116E7E /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3553228801F0200116E7E /* CallViewController.swift */; };
 		A9B1B3F22863639900D15021 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C491002285DD8360047A02A /* swiftgen.yml */; };
 		A9C77FC9287E9DED00AB6768 /* TimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */; };
 		A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA602874946200FB0257 /* NetworkService.swift */; };
@@ -76,24 +82,30 @@
 		AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */; };
 		AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
-		AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */; };
 		AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1BC93D493F74AC0C4D114573 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C491002285DD8360047A02A /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		3C491004285DD8B70047A02A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		3C491007285DDA180047A02A /* GeneratedFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedFonts.swift; sourceTree = "<group>"; };
 		3C491009285DDA5D0047A02A /* GeneratedColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedColors.swift; sourceTree = "<group>"; };
 		3C49100B285DE1E90047A02A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3C49100D285DE2B30047A02A /* GeneratedIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedIcons.swift; sourceTree = "<group>"; };
-		592AC717B1CBE4B273396270 /* Pods-MedTech.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.release.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.release.xcconfig"; sourceTree = "<group>"; };
+		4E31A1E59CBAD484A0CAD671 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92FE2E667328E6DFEC194CBD /* Pods-MedTech.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.release.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.release.xcconfig"; sourceTree = "<group>"; };
 		A901787F284A6CBF00FFFBA2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointentViewController.swift; sourceTree = "<group>"; };
 		A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
 		A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		A906FE6528806A7900FF3E92 /* AppointmentsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentsRouter.swift; sourceTree = "<group>"; };
+		A906FE6828806B5A00FF3E92 /* AppoitmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppoitmentViewModel.swift; sourceTree = "<group>"; };
+		A906FE6A28806BA200FF3E92 /* DoctorVisit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorVisit.swift; sourceTree = "<group>"; };
+		A906FE6C28806D7900FF3E92 /* TimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeModel.swift; sourceTree = "<group>"; };
+		A9192F9728825FDB00EC5F19 /* Clinic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clinic.swift; sourceTree = "<group>"; };
+		A9192F992882600B00EC5F19 /* ClinicRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClinicRouter.swift; sourceTree = "<group>"; };
+		A9192F9B28826EAB00EC5F19 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A91DF79028636FA800C79BDF /* EmailTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTextField.swift; sourceTree = "<group>"; };
 		A91DF792286371B400C79BDF /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		A91DF7942863726200C79BDF /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
@@ -120,7 +132,6 @@
 		A9A35524287EFF8200116E7E /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		A9A35526287F040B00116E7E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		A9A3552F287FED5200116E7E /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
-		A9A3553228801F0200116E7E /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
 		A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9DDAA602874946200FB0257 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A9DDAA612874946200FB0257 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
@@ -153,9 +164,8 @@
 		AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewController.swift; sourceTree = "<group>"; };
 		AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionView.swift; sourceTree = "<group>"; };
 		AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ForWeeks.swift; path = MedTech/Frames/ForWeeks.swift; sourceTree = SOURCE_ROOT; };
-		F9291793C4D382D57AF5A84C /* Pods-MedTech.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.debug.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.debug.xcconfig"; sourceTree = "<group>"; };
+		C3EA1D763C72A979A4335489 /* Pods-MedTech.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.debug.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,18 +173,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0218790E7C5A530E9468158A /* Pods_MedTech.framework in Frameworks */,
+				3462623A29213F969545CC16 /* Pods_MedTech.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E1F9A88C14075D21AF3ED8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E31A1E59CBAD484A0CAD671 /* Pods_MedTech.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5B26D6509DEFA9A57C68D6E9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F9291793C4D382D57AF5A84C /* Pods-MedTech.debug.xcconfig */,
-				592AC717B1CBE4B273396270 /* Pods-MedTech.release.xcconfig */,
+				C3EA1D763C72A979A4335489 /* Pods-MedTech.debug.xcconfig */,
+				92FE2E667328E6DFEC194CBD /* Pods-MedTech.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -188,6 +206,14 @@
 				A9B1B3F428636BD300D15021 /* TabBar */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		A906FE6728806B3B00FF3E92 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A906FE6828806B5A00FF3E92 /* AppoitmentViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		A91DF78728636ECB00C79BDF /* Login */ = {
@@ -233,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				A9A3552A287F069600116E7E /* Model */,
+				A906FE6728806B3B00FF3E92 /* ViewModel */,
 				A9A3552B287F06A300116E7E /* View */,
 			);
 			path = Appointment;
@@ -274,6 +301,7 @@
 				A91DF7942863726200C79BDF /* LoginButton.swift */,
 				A9EF50A8287AD7EE005DF870 /* HideButton.swift */,
 				A9A3552F287FED5200116E7E /* AppointmentView.swift */,
+				A9192F9B28826EAB00EC5F19 /* ProfileView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -325,6 +353,7 @@
 		A971FB80287D69C000CC5E30 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */,
 				A979965F2845FEAE00454CEF /* HomeViewController.swift */,
 			);
 			path = View;
@@ -334,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				A971FB83287D6A1600CC5E30 /* WeekModel.swift */,
+				A9192F9728825FDB00EC5F19 /* Clinic.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -353,7 +383,7 @@
 				A979965A2845FEAE00454CEF /* MedTech */,
 				A97996592845FEAE00454CEF /* Products */,
 				5B26D6509DEFA9A57C68D6E9 /* Pods */,
-				D9CA50117F743FBC17FF6761 /* Frameworks */,
+				3E1F9A88C14075D21AF3ED8D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -399,6 +429,8 @@
 			children = (
 				A9A35524287EFF8200116E7E /* Day.swift */,
 				A9A35526287F040B00116E7E /* Time.swift */,
+				A906FE6A28806BA200FF3E92 /* DoctorVisit.swift */,
+				A906FE6C28806D7900FF3E92 /* TimeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -439,14 +471,6 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		A9A3553128801ED400116E7E /* CallAppointment */ = {
-			isa = PBXGroup;
-			children = (
-				A9A3553228801F0200116E7E /* CallViewController.swift */,
-			);
-			path = CallAppointment;
-			sourceTree = "<group>";
-		};
 		A9B1B3F328636BBE00D15021 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,7 +496,6 @@
 				AEE1C1D4287AD02900D72075 /* TableView */,
 				A91DF78A28636EFA00C79BDF /* Home */,
 				A91DF78B28636F0100C79BDF /* Appointment */,
-				A9A3553128801ED400116E7E /* CallAppointment */,
 				A91DF78C28636F0900C79BDF /* Checklist */,
 				A9E6C54E287818FD004FC946 /* MoreChecklist */,
 				A91DF78D28636F1100C79BDF /* Profile */,
@@ -528,6 +551,8 @@
 				A9DDAA7D2874A2C600FB0257 /* UserRouter.swift */,
 				A93D2EBB28755D5600DEE1BF /* ForgotPassword.swift */,
 				A971FB7E287D690800CC5E30 /* BabyDevelopmentRouter.swift */,
+				A906FE6528806A7900FF3E92 /* AppointmentsRouter.swift */,
+				A9192F992882600B00EC5F19 /* ClinicRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -632,8 +657,6 @@
 			isa = PBXGroup;
 			children = (
 				AE5045F92859F3D40047CA62 /* AppUtility.swift */,
-				AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */,
-				AEFD2AFC2859F6D6001A6E25 /* GalleryCollectionView.swift */,
 				AEFD2AFE2859FF81001A6E25 /* ForWeeks.swift */,
 			);
 			path = Frames;
@@ -651,14 +674,6 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
-		D9CA50117F743FBC17FF6761 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1BC93D493F74AC0C4D114573 /* Pods_MedTech.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -666,12 +681,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A979966C2845FEAF00454CEF /* Build configuration list for PBXNativeTarget "MedTech" */;
 			buildPhases = (
-				08028000AD2F8AE0CB2E0EF0 /* [CP] Check Pods Manifest.lock */,
+				99ADBA7484B66E1530A419B4 /* [CP] Check Pods Manifest.lock */,
 				A97996542845FEAE00454CEF /* Sources */,
 				A97996552845FEAE00454CEF /* Frameworks */,
 				A97996562845FEAE00454CEF /* Resources */,
 				3C491006285DD98C0047A02A /* Run Script */,
-				1E642B80769E3806EF6B5AE2 /* [CP] Embed Pods Frameworks */,
+				2C08335497F7646438D937A3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -734,29 +749,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08028000AD2F8AE0CB2E0EF0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MedTech-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1E642B80769E3806EF6B5AE2 /* [CP] Embed Pods Frameworks */ = {
+		2C08335497F7646438D937A3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -791,6 +784,28 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" \nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
 		};
+		99ADBA7484B66E1530A419B4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MedTech-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -806,7 +821,9 @@
 				A91DF793286371B400C79BDF /* PasswordTextField.swift in Sources */,
 				A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */,
 				AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */,
+				A906FE6628806A7900FF3E92 /* AppointmentsRouter.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
+				A9192F9C28826EAB00EC5F19 /* ProfileView.swift in Sources */,
 				A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */,
 				A9A35525287EFF8200116E7E /* Day.swift in Sources */,
 				A95E5C022875668E00F7D575 /* ForgotPasswordViewModel.swift in Sources */,
@@ -834,12 +851,14 @@
 				A9F2BEA9287B20FF00AA83A4 /* CalendarHelper.swift in Sources */,
 				A9DDAA6D2874946200FB0257 /* ProResult.swift in Sources */,
 				A971FB84287D6A1600CC5E30 /* WeekModel.swift in Sources */,
-				A9A3553328801F0200116E7E /* CallViewController.swift in Sources */,
+				A906FE6B28806BA300FF3E92 /* DoctorVisit.swift in Sources */,
 				A9EF509E287AAF0B005DF870 /* Checklist.swift in Sources */,
 				3C491008285DDA180047A02A /* GeneratedFonts.swift in Sources */,
+				A9192F9828825FDB00EC5F19 /* Clinic.swift in Sources */,
 				A91DF7952863726200C79BDF /* LoginButton.swift in Sources */,
 				A9DDAA6E2874946200FB0257 /* NetworkErrors.swift in Sources */,
 				A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */,
+				A906FE6D28806D7900FF3E92 /* TimeModel.swift in Sources */,
 				AEE1C1D6287AD14000D72075 /* TableViewCell.swift in Sources */,
 				A9DDAA732874947500FB0257 /* UserDefaultsService.swift in Sources */,
 				AEFD2AFF2859FF82001A6E25 /* ForWeeks.swift in Sources */,
@@ -851,14 +870,15 @@
 				A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */,
 				A9DDAA712874946200FB0257 /* FailureModel.swift in Sources */,
 				A93D2EB8287541E300DEE1BF /* ProfileViewModel.swift in Sources */,
+				A906FE6928806B5A00FF3E92 /* AppoitmentViewModel.swift in Sources */,
 				A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */,
 				A93D2EBC28755D5600DEE1BF /* ForgotPassword.swift in Sources */,
 				A9DDAA6F2874946200FB0257 /* HttpMethod.swift in Sources */,
 				A9E6C5502878192E004FC946 /* MoreChecklistViewController.swift in Sources */,
 				A979965C2845FEAE00454CEF /* AppDelegate.swift in Sources */,
-				AEFD2AFD2859F6D6001A6E25 /* GalleryCollectionView.swift in Sources */,
 				A9EF509B287AAD85005DF870 /* ChecklistTableViewCell.swift in Sources */,
 				A979965E2845FEAE00454CEF /* SceneDelegate.swift in Sources */,
+				A9192F9A2882600B00EC5F19 /* ClinicRouter.swift in Sources */,
 				A9EF50A9287AD7EE005DF870 /* HideButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -995,7 +1015,7 @@
 		};
 		A979966D2845FEAF00454CEF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F9291793C4D382D57AF5A84C /* Pods-MedTech.debug.xcconfig */;
+			baseConfigurationReference = C3EA1D763C72A979A4335489 /* Pods-MedTech.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1026,7 +1046,7 @@
 		};
 		A979966E2845FEAF00454CEF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 592AC717B1CBE4B273396270 /* Pods-MedTech.release.xcconfig */;
+			baseConfigurationReference = 92FE2E667328E6DFEC194CBD /* Pods-MedTech.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
