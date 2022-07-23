@@ -9,7 +9,7 @@ import Foundation
 
 struct DoctorVisit : Codable {
     let id : Int?
-    let doctorDTO : DoctorDTO
+    let doctorDTO : DoctorDTO?
     let dateVisit : String?
     let visitStartTime : String
     let visitEndTime : String
@@ -30,7 +30,7 @@ struct DoctorVisit : Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decodeIfPresent(Int.self, forKey: .id)
-        doctorDTO = try values.decode(DoctorDTO.self, forKey: .doctorDTO)
+        doctorDTO = try values.decodeIfPresent(DoctorDTO.self, forKey: .doctorDTO)
         dateVisit = try values.decodeIfPresent(String.self, forKey: .dateVisit)
         visitStartTime = try values.decode(String.self, forKey: .visitStartTime)
         visitEndTime = try values.decode(String.self, forKey: .visitEndTime)

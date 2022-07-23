@@ -1,11 +1,15 @@
 PODS:
   - IQKeyboardManagerSwift (6.5.10)
+  - SDWebImage (5.13.0):
+    - SDWebImage/Core (= 5.13.0)
+  - SDWebImage/Core (5.13.0)
   - SnapKit (5.6.0)
   - SwiftGen (6.5.1)
   - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
   - IQKeyboardManagerSwift
+  - SDWebImage (~> 5.0)
   - SnapKit
   - SwiftGen
   - Toast-Swift (~> 5.0.1)
@@ -13,16 +17,18 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - IQKeyboardManagerSwift
+    - SDWebImage
     - SnapKit
     - SwiftGen
     - Toast-Swift
 
 SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  SDWebImage: 0327043dbb9533e75f2eff8445b3df0f2ceca6ac
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: f9d308a389f38dfe6b608a18cdb45af7bdd503e4
+PODFILE CHECKSUM: 5e64ddeed0bb287ea048905d9a9e80f6b1fc568b
 
 COCOAPODS: 1.11.3

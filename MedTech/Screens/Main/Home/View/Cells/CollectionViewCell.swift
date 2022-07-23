@@ -29,7 +29,6 @@ class CollectionViewCell: UICollectionViewCell {
     private let numbersOfWeeks : UILabel = {
         let numbers =  UILabel()
         numbers.font = UIFont(name: "System", size: 35)
-
         numbers.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         numbers.translatesAutoresizingMaskIntoConstraints = false
         numbers.layer.masksToBounds = true
@@ -62,7 +61,7 @@ class CollectionViewCell: UICollectionViewCell {
             else
             {
                 self.mainImageView.layer.borderWidth = 1
-                self.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
+                self.mainImageView.layer.borderColor = CGColor(red: 197/255, green: 197/255, blue: 197/255, alpha: 1)
 //                self.mainImageView.backgroundColor = .white
             }
         }
@@ -78,16 +77,29 @@ class CollectionViewCell: UICollectionViewCell {
     
     func selection(bool: Bool) {
         if bool {
-            self.mainImageView.layer.borderWidth = 3
-            self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.627, blue: 0.69, alpha: 1).cgColor
+            self.mainImageView.layer.borderWidth = 2
+            self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.713, blue: 0.709, alpha: 1).cgColor
         } else {
             self.mainImageView.layer.borderWidth = 1
             self.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
         }
     }
     
-    func fill(text: String?) {
-        numbersOfWeeks.text = text
+    func changeSelected() {
+        self.mainImageView.layer.borderWidth = 2
+        self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.713, blue: 0.709, alpha: 1).cgColor
+    }
+    
+    func setBeforeDate(text: Int) {
+        self.mainImageView.layer.borderWidth = 0
+        self.mainImageView.layer.borderColor = UIColor.clear.cgColor
+        self.mainImageView.backgroundColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1)
+        self.numbersOfWeeks.textColor = .white
+        numbersOfWeeks.text = String(text)
+    }
+    
+    func fill(text: Int) {
+        numbersOfWeeks.text = String(text)
     }
 }
 

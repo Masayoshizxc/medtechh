@@ -126,22 +126,19 @@ class AppointmentView: UIView {
     }
     
     func getData(model: DoctorVisit) {
-        let urlString = model.doctorDTO.imageUrl?.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
-        print(urlString)
-        guard let image = URL(string: (urlString)!) else {
-            print("There was an error with downloading an images")
-            self.doctorImageView.image = Icons.doctor.image
-            return
-        }
+        let urlString = model.doctorDTO?.imageUrl?.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
         
-        if let imageData = try? Data(contentsOf: image) {
-            if let loadedImage = UIImage(data: imageData) {
-                self.doctorImageView.image = loadedImage
-            }
-        }
-        nameLabel.text = "\(model.doctorDTO.userDTO.firstName) \(model.doctorDTO.userDTO.lastName) \(model.doctorDTO.userDTO.middleName)"
-        jobLabel.text = model.doctorDTO.profession?.capitalized
-        dateLabel.text = model.dateVisit
+        let image = URL(string: urlString ?? "")
+        doctorImageView.sd_setImage(with: image)
+        nameLabel.text = "\(model.doctorDTO!.userDTO.firstName) \(model.doctorDTO!.userDTO.lastName) \(model.doctorDTO!.userDTO.middleName)"
+        jobLabel.text = model.doctorDTO?.profession?.capitalized
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateDate = dateFormatter.date(from: model.dateVisit!)
+        dateFormatter.locale = Locale(identifier: "ru")
+        dateFormatter.dateFormat = "LLLL, dd"
+        let dateString = dateFormatter.string(from: dateDate!)
+        dateLabel.text = dateString.capitalized
         timeImgLabel.text = "\(model.visitStartTime.dropLast(3)) - \(model.visitEndTime.dropLast(3))"
         locationLabel.text = model.visitAddress
     }

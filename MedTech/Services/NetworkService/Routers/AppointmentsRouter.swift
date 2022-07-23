@@ -13,6 +13,8 @@ enum AppointmentsRouter: BaseRouter {
     case getNonFreeTimes(date: String)
     case getDoctorId(id: Int)
     case postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String)
+    case getReservedDates(doctorId: Int, startDate: String)
+    case getLatestVisit(id: Int)
     
     var path: String {
         switch self {
@@ -26,6 +28,10 @@ enum AppointmentsRouter: BaseRouter {
             return "/api/v1/patients/\(id)/doctor"
         case .postAppointments:
             return "/api/v1/patient_visits"
+        case let .getReservedDates(doctorId, _):
+            return "/api/v1/patient_visits/reserved-dates/\(doctorId)"
+        case let .getLatestVisit(id):
+            return "/api/v1/patient_visits/last-patient-visit/\(id)"
         }
         
     }
@@ -47,6 +53,10 @@ enum AppointmentsRouter: BaseRouter {
                 URLQueryItem(name: "patientId", value: String(patientId)),
                 URLQueryItem(name: "visitStartTime", value: visitTime),
             ]
+        case let .getReservedDates(_, startDate):
+            return [URLQueryItem(name: "startDate", value: startDate)]
+        case .getLatestVisit:
+            return nil
         }
     }
 
@@ -62,6 +72,10 @@ enum AppointmentsRouter: BaseRouter {
             return .GET
         case .postAppointments:
             return .POST
+        case .getReservedDates:
+            return .GET
+        case .getLatestVisit:
+            return .GET
         }
     }
 
@@ -77,6 +91,10 @@ enum AppointmentsRouter: BaseRouter {
             return nil
         case .postAppointments:
             return nil
+        case .getReservedDates:
+            return nil
+        case .getLatestVisit:
+            return nil
         }
     }
 
@@ -91,6 +109,10 @@ enum AppointmentsRouter: BaseRouter {
         case .getDoctorId:
             return nil
         case .postAppointments:
+            return nil
+        case .getReservedDates:
+            return nil
+        case .getLatestVisit:
             return nil
         }
     }

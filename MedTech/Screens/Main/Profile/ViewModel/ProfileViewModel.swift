@@ -9,6 +9,7 @@ import Foundation
 
 protocol ProfileViewModelProtocol {
     func logOut(data: Data, completion: @escaping ((FailureModel?) -> Void))
+    func getPatient(id: Int, completion: @escaping ((Patient?) -> Void))
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
@@ -20,6 +21,32 @@ class ProfileViewModel: ProfileViewModelProtocol {
             switch result {
             case .success(let model):
                 
+                //print(model)
+                completion(model)
+            case .badRequest(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .failure(let error):
+                completion(nil)
+                debugPrint(#function, error)
+//            case .forbidden(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+            case .unauthorized(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .notFound(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            }
+        }
+    }
+    
+    func getPatient(id: Int, completion: @escaping ((Patient?) -> Void)) {
+        networkService.sendRequest(urlRequest: ProfileRouter.getPatient(id: id).createURLRequest(),
+                                   successModel: Patient.self) { result in
+            switch result {
+            case .success(let model):
                 //print(model)
                 completion(model)
             case .badRequest(let error):

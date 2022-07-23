@@ -33,7 +33,7 @@ class ChecklistViewController: BaseViewController {
         
         return button
     }()
-    //Fonts.SFProText.semibold.font(size: 20)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Чеклист"

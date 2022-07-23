@@ -44,6 +44,10 @@ class CalendarCollectionViewCell: UICollectionViewCell {
         label.textColor = .red
     }
     
+    func changeColorToGrey() {
+        label.textColor = .gray
+    }
+    
     func setUpConstraints() {
         label.snp.makeConstraints { make in
             make.center.equalToSuperview()

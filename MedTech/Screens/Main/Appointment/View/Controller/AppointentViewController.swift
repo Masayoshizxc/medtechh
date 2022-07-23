@@ -26,6 +26,24 @@ class AppointentViewController: UIViewController {
     var days = [Day]()
     var freeTimes = [Time]()
     
+    lazy var contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 100)
+    
+    lazy var scrollView: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.backgroundColor = .white
+        view.frame = self.view.bounds
+        view.contentSize = contentSize
+        view.showsVerticalScrollIndicator = false
+        return view
+    }()
+    
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.frame.size = contentSize
+        return view
+    }()
+    
     let collectionViewA: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -42,6 +60,8 @@ class AppointentViewController: UIViewController {
         cv.register(TimeCollectionViewCell.self)
         return cv
     }()
+    
+    
     
     private let monthView: UIView = {
         let view = UIView()
@@ -204,10 +224,12 @@ class AppointentViewController: UIViewController {
         
         let userId = userDefaults.getUserId()
         viewModel.getDoctorId(id: userId) { rslt in
-            let id = rslt?.userDTO.id
-            self.userDefaults.saveDoctorId(id: id!)
+            if rslt != nil {
+                let id = rslt?.userDTO.id
+                self.userDefaults.saveDoctorId(id: id!)
+            }
         }
-        
+                
         collectionViewA.backgroundColor = .white
         collectionViewA.isScrollEnabled = false
         collectionViewA.delegate = self
@@ -222,10 +244,14 @@ class AppointentViewController: UIViewController {
         collectionViewB.isHidden = true
         appointButton.isHidden = true
         appointmentView.isHidden = true
+        scrollView.isScrollEnabled = false
         
         setMonthView()
-                                 
-        view.addSubviews(
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(containerView)
+        
+        containerView.addSubviews(
             monthView,
             monthLabel,
             leftArrow,
@@ -293,6 +319,7 @@ class AppointentViewController: UIViewController {
         timeLabel.isHidden = true
         collectionViewB.isHidden = true
         appointButton.isHidden = true
+        scrollView.isScrollEnabled = false
     }
     
     @objc func didTapRightArrow() {
@@ -302,6 +329,7 @@ class AppointentViewController: UIViewController {
         timeLabel.isHidden = true
         collectionViewB.isHidden = true
         appointButton.isHidden = true
+        scrollView.isScrollEnabled = false
     }
     
     @objc func didTapAppointButton() {
@@ -339,28 +367,26 @@ class AppointentViewController: UIViewController {
     }
     
     
-    
     func setUpConstraints() {
         monthView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(30)
             make.centerX.equalToSuperview()
             make.width.equalTo(336)
             make.height.equalTo(44)
         }
         monthLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(110)
-            make.centerX.equalToSuperview()
+            make.center.equalTo(monthView.snp.center)
         }
         
         leftArrow.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(110)
+            make.centerY.equalTo(monthView.snp.centerY)
             make.right.equalTo(monthView.snp.left).offset(40)
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
         
         rightArrow.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(110)
+            make.centerY.equalTo(monthView.snp.centerY)
             make.left.equalTo(monthView.snp.right).offset(-40)
             make.height.equalTo(25)
             make.width.equalTo(25)
@@ -399,7 +425,7 @@ class AppointentViewController: UIViewController {
         }
         
         appointmentView.snp.makeConstraints { make in
-            make.top.equalTo(collectionViewA.snp.bottom).inset(20)
+            make.top.equalTo(collectionViewA.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
             make.height.equalTo(254)
             make.width.equalTo(336)
@@ -432,6 +458,15 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                 let datedate = dateFormatter.date(from: date)
                 dateFormatter.dateFormat = "e"
                 let langStr = Locale.current.languageCode
+                
+                viewModel.getReservedDates(doctorId: 1, date: "2022-07-01") { result in
+                    for res in result!.reservedDates! {
+                        if date == res {
+                            cell.changeColorToGrey()
+                        }
+                    }
+                }
+                
                 let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
                 if days[indexPath.row].isSelected == true {
                     cell.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
@@ -446,7 +481,6 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                         cell.changeColorToDefault()
                     }
                 }
-                
             } else {
                 cell.backgroundColor = .white
             }
@@ -481,6 +515,7 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
             let day = days[indexPath.row].date
             let cell = collectionView.cellForItem(at: indexPath) as! CalendarCollectionViewCell
             if day != ""  {
+                scrollView.isScrollEnabled = true
                 let dayString = day.count < 2 ? "0\(day)" : day
                 let date = "\(monthYear)-\(dayString)"
                 let userId = userDefaults.getUserId()
@@ -492,7 +527,7 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                 let langStr = Locale.current.languageCode
                 let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
                 viewModel.getVisit(id: userId, date: date) { result in
-                    if (result?.doctorDTO.id) != nil {
+                    if (result?.doctorDTO?.id) != nil {
                         self.appointmentView.isHidden = false
                         self.timeLabel.isHidden = true
                         self.collectionViewB.isHidden = true
@@ -530,18 +565,8 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                                 self.timeLabel.isHidden = true
                                 self.collectionViewB.isHidden = true
                             }
-                            
                         }
-                        
-//                        DispatchQueue.main.async {
-//                            self.timeLabel.isHidden = true
-//                            self.collectionViewB.isHidden = true
-//                            self.appointButton.isHidden = true
-//                            self.collectionViewB.reloadData()
-//                        }
-    
                     }
-                    
                 }
                 cell.backgroundColor = .white
                 days[indexPath.row].isSelected = true
@@ -560,8 +585,7 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == collectionViewA {
             let width = (collectionViewA.frame.size.width - 20) / 8
-            let height = (collectionViewA.frame.size.height + 80) / 8
-            print(width, height)
+            //let height = (collectionViewA.frame.size.height + 80) / 8
             return CGSize(width: width, height: width)
         } else {
             return CGSize(width: 65, height: 44)

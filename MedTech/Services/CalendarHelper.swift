@@ -19,6 +19,7 @@ class CalendarHelper
 	{
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "LLLL"
+        dateFormatter.locale = Locale(identifier: "ru")
 		return dateFormatter.string(from: date)
 	}
 	

@@ -147,12 +147,14 @@ class LoginViewController: BaseViewController {
                         }
                     } else {
                         print("False. The users roles is not Patient")
+                        self?.view.hideToastActivity()
                         self?.alertIcon.isHidden = false
                         self?.alertLabel.isHidden = false
                         self?.alertLabel.text = "Неверный email или пароль"
                     }
                 } else {
                     DispatchQueue.main.async {
+                        self?.view.hideToastActivity()
                         self?.alertIcon.isHidden = false
                         self?.alertLabel.isHidden = false
                         self?.alertLabel.text = "Неверный email или пароль"

@@ -8,16 +8,42 @@
 import Foundation
 
 protocol HomeViewModelProtocol {
-    func getWeek(week: String, completion: @escaping (([WeekModel]?) -> Void))
+    //func getWeek(week: String, completion: @escaping (([WeekModel]?) -> Void))
     func getClinic(completion: @escaping ((Clinic?) -> Void))
+    func getAllWeeks(completion: @escaping (([WeekModel]?) -> Void))
 }
 
 class HomeViewModel: HomeViewModelProtocol {
     let networkService: NetworkService = NetworkService()
     
-    func getWeek(week: String, completion: @escaping (([WeekModel]?) -> Void)) {
-        networkService.sendRequest(urlRequest: BabyDevelopmentRouter.getWeek(week: week).createURLRequest(),
-                                   successModel: [WeekModel].self) { result in
+//    func getWeek(week: String, completion: @escaping (([WeekModel]?) -> Void)) {
+//        networkService.sendRequest(urlRequest: BabyDevelopmentRouter.getWeek(week: week).createURLRequest(),
+//                                   successModel: [WeekModel].self) { result in
+//            switch result {
+//            case .success(let model):
+//                completion(model)
+//            case .badRequest(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+//            case .failure(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+////            case .forbidden(let error):
+////                completion(nil)
+////                debugPrint(#function, error)
+//            case .unauthorized(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+//            case .notFound(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+//            }
+//        }
+//    }
+    
+    func getClinic(completion: @escaping ((Clinic?) -> Void)) {
+        networkService.sendRequest(urlRequest: ClinicRouter.getClinic.createURLRequest(),
+                                   successModel: Clinic.self) { result in
             switch result {
             case .success(let model):
                 completion(model)
@@ -40,9 +66,9 @@ class HomeViewModel: HomeViewModelProtocol {
         }
     }
     
-    func getClinic(completion: @escaping ((Clinic?) -> Void)) {
-        networkService.sendRequest(urlRequest: ClinicRouter.getClinic.createURLRequest(),
-                                   successModel: Clinic.self) { result in
+    func getAllWeeks(completion: @escaping (([WeekModel]?) -> Void)) {
+        networkService.sendRequest(urlRequest: BabyDevelopmentRouter.getAllWeeks.createURLRequest(),
+                                   successModel: [WeekModel].self) { result in
             switch result {
             case .success(let model):
                 completion(model)

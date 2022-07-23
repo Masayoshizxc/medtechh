@@ -13,6 +13,8 @@ protocol AppointmentViewModelProtocol {
     func getNonFreeTimes(date: String, completion: @escaping (([DoctorVisit]?) -> Void))
     func getDoctorId(id: Int, completion: @escaping ((DoctorDTO?) -> Void))
     func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((DoctorVisit?) -> Void))
+    func getReservedDates(doctorId: Int, date: String, completion: @escaping ((ReservedDates?) -> Void))
+    func getLastVisit(id: Int, completion: @escaping ((DoctorVisit?) -> Void))
 }
 
 class AppointmentViewModel: AppointmentViewModelProtocol {
@@ -132,6 +134,56 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
                 debugPrint(#function, error)
             case .failure(let error):
                 
+                completion(nil)
+                debugPrint(#function, error)
+//            case .forbidden(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+            case .unauthorized(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .notFound(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            }
+        }
+    }
+    
+    func getReservedDates(doctorId: Int, date: String, completion: @escaping ((ReservedDates?) -> Void)) {
+        networkService.sendRequest(urlRequest: AppointmentsRouter.getReservedDates(doctorId: doctorId, startDate: date).createURLRequest(),
+                                   successModel: ReservedDates.self) { result in
+            switch result {
+            case .success(let model):
+                completion(model)
+            case .badRequest(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .failure(let error):
+                completion(nil)
+                debugPrint(#function, error)
+//            case .forbidden(let error):
+//                completion(nil)
+//                debugPrint(#function, error)
+            case .unauthorized(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .notFound(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            }
+        }
+    }
+    
+    func getLastVisit(id: Int, completion: @escaping ((DoctorVisit?) -> Void)) {
+        networkService.sendRequest(urlRequest: AppointmentsRouter.getLatestVisit(id: id).createURLRequest(),
+                                   successModel: DoctorVisit.self) { result in
+            switch result {
+            case .success(let model):
+                completion(model)
+            case .badRequest(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .failure(let error):
                 completion(nil)
                 debugPrint(#function, error)
 //            case .forbidden(let error):

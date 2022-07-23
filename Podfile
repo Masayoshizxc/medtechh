@@ -10,4 +10,5 @@ target 'MedTech' do
   pod 'SwiftGen'
   pod 'IQKeyboardManagerSwift'
   pod 'Toast-Swift', '~> 5.0.1'
+  pod 'SDWebImage', '~> 5.0'
 end
