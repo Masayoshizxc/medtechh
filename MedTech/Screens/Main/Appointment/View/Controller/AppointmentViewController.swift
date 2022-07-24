@@ -8,7 +8,7 @@
 import UIKit
 import Toast_Swift
 
-class AppointentViewController: UIViewController {
+class AppointmentViewController: UIViewController {
     
     private let viewModel: AppointmentViewModelProtocol
     
@@ -434,7 +434,7 @@ class AppointentViewController: UIViewController {
     }
 }
 
-extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewA {
             return days.count

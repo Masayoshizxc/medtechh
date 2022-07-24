@@ -14,7 +14,9 @@ class HomeViewController: UIViewController {
     private let viewModel: HomeViewModelProtocol
     
     private let appointmentsViewModel: AppointmentViewModelProtocol
-
+    
+    let notificationsView = NotificationsViewController()
+    
     var model = [WeekModel]()
     
     var selectedWeek = 1
@@ -61,11 +63,12 @@ class HomeViewController: UIViewController {
         return tableView
     }()
 
-    let notificationsButton : UIButton = {
+    lazy var notificationsButton : UIButton = {
        let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
         button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         button.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
+        button.addTarget(self, action: #selector(didTapNotificationsButton), for: .touchUpInside)
         return button
     }()
     
@@ -214,6 +217,12 @@ class HomeViewController: UIViewController {
         )
     }
     
+    @objc func didTapNotificationsButton(){
+            let loadVC = NotificationsViewController()
+            loadVC.modalPresentationStyle = .fullScreen
+            self.present(loadVC, animated: true, completion: nil)
+    }
+    
     
     let badgeSize: CGFloat = 20
     let badgeTag = 9830384
@@ -249,6 +258,9 @@ class HomeViewController: UIViewController {
     }
     
     func setUpConstraints() {
+        notificationsButton.snp.makeConstraints{make in
+            make.width.height.equalTo(40)
+        }
         remindButton.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(20)

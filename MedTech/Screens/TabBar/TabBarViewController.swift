@@ -48,7 +48,7 @@ fileprivate enum TabbarItems: CaseIterable {
         case .first:
             viewController = .init(rootViewController: HomeViewController())
         case .second:
-            viewController = .init(rootViewController: AppointentViewController())
+            viewController = .init(rootViewController: AppointmentViewController())
             viewController.navigationBar.backgroundColor = .white
             viewController.navigationBar.barTintColor = .white
         case .third:
