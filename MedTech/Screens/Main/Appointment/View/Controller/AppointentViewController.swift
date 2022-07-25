@@ -54,7 +54,6 @@ class AppointentViewController: UIViewController {
     
     let collectionViewB: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        //layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(TimeCollectionViewCell.self)
@@ -75,14 +74,14 @@ class AppointentViewController: UIViewController {
         let label = UILabel()
         label.text = "Feb 2022"
         label.font = Fonts.SFProText.medium.font(size: 18)
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
     private lazy var leftArrow: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        button.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        button.tintColor = UIColor(named: "Violet")
         button.addTarget(self, action: #selector(didTapLeftArrow), for: .touchUpInside)
         return button
     }()
@@ -90,7 +89,7 @@ class AppointentViewController: UIViewController {
     private lazy var rightArrow: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        button.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        button.tintColor = UIColor(named: "Violet")
         button.addTarget(self, action: #selector(didTapRightArrow), for: .touchUpInside)
         return button
     }()
@@ -98,35 +97,35 @@ class AppointentViewController: UIViewController {
     private let monday: UILabel = {
         let label = UILabel()
         label.text = "Пн"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
     private let tuesday: UILabel = {
         let label = UILabel()
         label.text = "Вт"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
     private let wendnesday: UILabel = {
         let label = UILabel()
         label.text = "Ср"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
     private let thursday: UILabel = {
         let label = UILabel()
         label.text = "Чт"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
     private let friday: UILabel = {
         let label = UILabel()
         label.text = "Пт"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
@@ -147,7 +146,6 @@ class AppointentViewController: UIViewController {
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        //stack.spacing = 37.0
         stack.alignment = .fill
         stack.distribution = .fillProportionally
         [monday,
@@ -165,13 +163,8 @@ class AppointentViewController: UIViewController {
         button.setTitle("SOS", for: .normal)
         button.tintColor = .black
         button.layer.cornerRadius = 18
-        button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
-//        button.setTitleShadowColor(.black, for: .normal)
+        button.backgroundColor = UIColor(named: "Peach")
         button.frame = CGRect(x: 0, y: 0, width: 65, height: 44)
-        //button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        //button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        //button.layer.shadowOpacity = 1.0
-        //button.layer.shadowRadius = 16
         button.addTarget(self, action: #selector(didTapSosButton), for: .touchUpInside)
         
         return button
@@ -189,7 +182,7 @@ class AppointentViewController: UIViewController {
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.text = "Выбрать время"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         label.font = Fonts.SFProText.medium.font(size: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -199,14 +192,14 @@ class AppointentViewController: UIViewController {
         let button = LoginButton()
         button.setTitle("Записаться", for: .normal)
         button.addTarget(self, action: #selector(didTapAppointButton), for: .touchUpInside)
-        button.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        button.backgroundColor = UIColor(named: "Violet")
         button.layer.cornerRadius = 20
         return button
     }()
     
     private let appointmentView: AppointmentView = {
         let view = AppointmentView()
-        view.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        view.backgroundColor = UIColor(named: "Violet")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 20
         return view
@@ -217,7 +210,7 @@ class AppointentViewController: UIViewController {
         view.backgroundColor = .white
         
         title = "Запись"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)]
+        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")!] as [NSAttributedString.Key : Any]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: callButton)
@@ -244,7 +237,6 @@ class AppointentViewController: UIViewController {
         collectionViewB.isHidden = true
         appointButton.isHidden = true
         appointmentView.isHidden = true
-        scrollView.isScrollEnabled = false
         
         setMonthView()
         
@@ -303,8 +295,15 @@ class AppointentViewController: UIViewController {
             }
             count += 1
         }
+        
         if days[0].date == "2" {
-            print("Hell yea")
+            days.insert(Day(date: "1"), at: 0)
+            days.insert(Day(date: ""), at: 0)
+            days.insert(Day(date: ""), at: 0)
+            days.insert(Day(date: ""), at: 0)
+            days.insert(Day(date: ""), at: 0)
+            days.insert(Day(date: ""), at: 0)
+            days.insert(Day(date: ""), at: 0)
         }
         
         monthLabel.text = CalendarHelper().monthString(date: selectedDate).capitalized
@@ -314,22 +313,22 @@ class AppointentViewController: UIViewController {
     
     @objc func didTapLeftArrow() {
         selectedDate = CalendarHelper().minusMonth(date: selectedDate)
+        collectionViewA.reloadData()
         setMonthView()
         appointmentView.isHidden = true
         timeLabel.isHidden = true
         collectionViewB.isHidden = true
         appointButton.isHidden = true
-        scrollView.isScrollEnabled = false
     }
     
     @objc func didTapRightArrow() {
         selectedDate = CalendarHelper().plusMonth(date: selectedDate)
+        collectionViewA.reloadData()
         setMonthView()
         appointmentView.isHidden = true
         timeLabel.isHidden = true
         collectionViewB.isHidden = true
         appointButton.isHidden = true
-        scrollView.isScrollEnabled = false
     }
     
     @objc func didTapAppointButton() {
@@ -344,7 +343,6 @@ class AppointentViewController: UIViewController {
             let doctorId = self?.userDefaults.getDoctorId()
             let userId = self?.userDefaults.getUserId()
             self?.viewModel.postAppointments(date: date, doctorId: doctorId!, patientId: userId!, visitTime: time) { result in
-                print(result)
                 if result != nil {
                     DispatchQueue.main.async {
                         self?.view.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .bottom)
@@ -459,17 +457,22 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                 dateFormatter.dateFormat = "e"
                 let langStr = Locale.current.languageCode
                 
-                viewModel.getReservedDates(doctorId: 1, date: "2022-07-01") { result in
-                    for res in result!.reservedDates! {
-                        if date == res {
-                            cell.changeColorToGrey()
+                
+                let doctorId = userDefaults.getDoctorId()
+                if doctorId != nil {
+                    viewModel.getReservedDates(doctorId: doctorId!, date: "\(monthYear)-01") { result in
+                        for res in result!.reservedDates! {
+                            if date == res {
+                                cell.changeColorToGrey()
+                            }
                         }
                     }
                 }
                 
+                
                 let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
                 if days[indexPath.row].isSelected == true {
-                    cell.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+                    cell.backgroundColor = UIColor(named: "Violet")
                     cell.changeColor()
                     days[indexPath.row].isSelected = false
                 } else {
@@ -490,7 +493,7 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
             let cell = collectionView.getReuseCell(TimeCollectionViewCell.self, indexPath: indexPath)
             cell.getData(string: freeTimes[indexPath.row].time)
             if freeTimes[indexPath.row].isSelected == true {
-                cell.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+                cell.backgroundColor = UIColor(named: "Violet")
                 cell.changeColor()
                 freeTimes[indexPath.row].isSelected = false
             } else {
@@ -534,8 +537,7 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                         self.appointmentView.getData(model: result!)
                     } else {
                         let doctorId = self.userDefaults.getDoctorId()
-                        print(dateStr)
-                        self.viewModel.getFreeTimes(doctorId: doctorId, weekday: String(dateStr)) { success in
+                        self.viewModel.getFreeTimes(doctorId: doctorId!, weekday: String(dateStr)) { success in
                             if !success!.isEmpty {
                                 self.viewModel.getNonFreeTimes(date: date) { res in
                                     for i in 0...success!.count - 1 {
@@ -545,7 +547,6 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                                                 let nonFreeTime = res![j].visitStartTime
                                                 if time != nonFreeTime {
                                                     let timee = time?.dropLast(3)
-                                                    print(timee)
                                                     self.freeTimes.append(Time(time: String(timee!)))
                                                 }
                                             }
@@ -564,6 +565,7 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
                                 self.appointmentView.isHidden = true
                                 self.timeLabel.isHidden = true
                                 self.collectionViewB.isHidden = true
+                                self.appointButton.isHidden = true
                             }
                         }
                     }
@@ -585,7 +587,6 @@ extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == collectionViewA {
             let width = (collectionViewA.frame.size.width - 20) / 8
-            //let height = (collectionViewA.frame.size.height + 80) / 8
             return CGSize(width: width, height: width)
         } else {
             return CGSize(width: 65, height: 44)

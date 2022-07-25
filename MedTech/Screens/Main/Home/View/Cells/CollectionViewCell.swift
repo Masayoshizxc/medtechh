@@ -41,6 +41,7 @@ class CollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.addSubview(mainImageView)
+        
 
         addSubview(numbersOfWeeks)
         numbersOfWeeks.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
@@ -100,6 +101,8 @@ class CollectionViewCell: UICollectionViewCell {
     
     func fill(text: Int) {
         numbersOfWeeks.text = String(text)
+        numbersOfWeeks.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        self.mainImageView.backgroundColor = .white
     }
 }
 

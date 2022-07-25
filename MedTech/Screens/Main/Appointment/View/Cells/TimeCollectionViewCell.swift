@@ -14,7 +14,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.font = Fonts.SFProText.medium.font(size: 18)
         label.text = "11:00"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
     
@@ -38,7 +38,7 @@ class TimeCollectionViewCell: UICollectionViewCell {
     }
     
     func changeColorToDefault() {
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
     }
     
     func setUpConstraints() {

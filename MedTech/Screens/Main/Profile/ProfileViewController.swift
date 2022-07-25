@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     
     let tableView = UITableView()
 
-    
+    let shape = CAShapeLayer()
     
     init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
         viewModel = vm
@@ -32,33 +32,15 @@ class ProfileViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.left.to.line.alt"), for: .normal)
         button.setTitle(" Выйти", for: .normal)
-        button.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
+        button.setTitleColor(UIColor(named: "Violet"), for: .normal)
         button.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
-        button.backgroundColor = UIColor(red: 248/255, green: 229/255, blue: 229/255, alpha: 1)
+        button.backgroundColor = UIColor(named: "LightestPeach")
         button.layer.cornerRadius = 20
-//        button.setTitleColor(UIColor(red: 248/255, green: 229/255, blue: 229/255, alpha: 1), for: .normal)
-        button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        button.tintColor = UIColor(named: "Violet")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-//    let titleForPage : UILabel = {
-//        var title = UILabel()
-//        title.text = "Профиль"
-//        title.textColor = .black
-////        title.font = title.font.withSize(25)
-//        title.font = .boldSystemFont(ofSize: 25)
-//        title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-//        return title
-//    }()
-    
-    private lazy var notificationsButton : UIButton = {
-       let button = UIButton()
-        button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
-        button.addTarget(self, action: #selector(goToVC2), for: .touchUpInside)
-        button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-        return button
-    }()
     
     lazy var sosButton : UIButton = {
         let button = UIButton()
@@ -67,7 +49,7 @@ class ProfileViewController: UIViewController {
         button.layer.cornerRadius = 18
         button.frame = CGRect(x: 0, y: 0, width: 65, height: 44)
         button.addTarget(self, action: #selector(didTapSosButton), for: .touchUpInside)
-        button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
+        button.backgroundColor = UIColor(named: "Peach")
         return button
     }()
     
@@ -77,9 +59,6 @@ class ProfileViewController: UIViewController {
         imageView.frame.size = CGSize(width: 75, height: 75)
         imageView.image = UIImage(named: "profileImage")
         imageView.layer.cornerRadius = 37.5
-        imageView.layer.borderColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1).cgColor
-        imageView.layer.borderWidth = 1.5
-        
         return imageView
     }()
     let trimestImage : UIImageView = {
@@ -92,9 +71,6 @@ class ProfileViewController: UIViewController {
     }()
     private lazy var scrollView : UIScrollView = {
        let scrollView = UIScrollView()
-//        scrollView.backgroundColor = .yellow
-//        scrollView.isScrollEnabled = true
-        
         return scrollView
     }()
     
@@ -102,9 +78,11 @@ class ProfileViewController: UIViewController {
        let label = UILabel()
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 24)
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         label.text = "14-ая\nнеделя"
-        label.frame = CGRect(x: trimestImage.bounds.origin.x, y: trimestImage.bounds.origin.y, width: 300, height: 45)
+        label.frame = CGRect(x: trimestImage.bounds.origin.x,
+                             y: trimestImage.bounds.origin.y,
+                             width: 300, height: 45)
         label.textAlignment = .center
         self.trimestImage.addSubview(label)
         return label
@@ -113,7 +91,7 @@ class ProfileViewController: UIViewController {
        let label = UILabel()
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 24)
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         label.text = "2-й\nтриместр"
         label.frame = CGRect(x: trimestImage.bounds.origin.x, y: trimestImage.bounds.origin.y, width: 300, height: 45)
         label.textAlignment = .center
@@ -129,23 +107,12 @@ class ProfileViewController: UIViewController {
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 16
         button.titleLabel?.contentMode = .left
-        button.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
-//        button.titleLabel?.textColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1)
+        button.setTitleColor(UIColor(named: "Violet"), for: .normal)
         return button
     }()
     
     let viewInView : UIView = {
        let view = UIView()
-//        view.setTitle("Скачать медкарту", for: .normal)
-//        view.titleLabel?.font = .boldSystemFont(ofSize: 16)
-//        view.backgroundColor = .white
-//        view.layer.borderColor = UIColor.red.cgColor
-//        view.layer.borderWidth = 2
-//        view.layer.cornerRadius = 16
-//        view.titleLabel?.contentMode = .left
-//        view.setTitleColor(UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1), for: .normal)
-//        view.backgroundColor = .purple
-//        button.titleLabel?.textColor = UIColor(red: 252/255, green: 208/255, blue: 207/255, alpha: 1)
         return view
     }()
     
@@ -153,7 +120,7 @@ class ProfileViewController: UIViewController {
        let name = UILabel()
         name.text = "Айжамал Масыбаева Бекболсуновна"
         name.font = .boldSystemFont(ofSize: 25)
-        name.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        name.textColor = UIColor(named: "Violet")
         name.numberOfLines = 0
         return name
     }()
@@ -161,8 +128,6 @@ class ProfileViewController: UIViewController {
     let dataView : UIView = {
        let vieww = UIView()
         vieww.frame.size = CGSize(width: 375, height: 700)
-//        vieww.backgroundColor = .systemGreen
-//        vieww.translatesAutoresizingMaskIntoConstraints = false
         return vieww
         
     }()
@@ -183,91 +148,112 @@ class ProfileViewController: UIViewController {
     let doctorTitle : UILabel = {
         let label = UILabel()
         label.text = "Гинеколог"
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         return label
     }()
-    let mailTitle : UILabel = {
-        let label = UILabel()
-        label.text = "Электронная почта"
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-        return label
-    }()
-    let numberTitle : UILabel = {
-        let label = UILabel()
-        label.text = "Номер телефона"
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-        return label
-    }()
-    let bDayTitle : UILabel = {
-        let label = UILabel()
-        label.text = "Дата рождения"
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-        return label
-    }()
-    let addressTitle : UILabel = {
-        let label = UILabel()
-        label.text = "Место проживания"
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-        return label
-    }()
-//    let passwordTitle : UILabel = {
-//        let label = UILabel()
-//        label.text = "Пароль"
-//        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-//        return label
-//    }()
+    
     let doctorName : UILabel = {
         let label = UILabel()
         label.text = "Хафизова Валентина Владимировна"
-        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         label.numberOfLines = 0
         return label
     }()
+    
+    let mailTitle : UILabel = {
+        let label = UILabel()
+        label.text = "Электронная почта"
+        label.textColor = UIColor(named: "Violet")
+        return label
+    }()
+    
     let mailName : UILabel = {
         let label = UILabel()
         label.text = "aizhamal@gmail.com"
-        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
     }()
+    
+    let numberTitle : UILabel = {
+        let label = UILabel()
+        label.text = "Номер телефона"
+        label.textColor = UIColor(named: "Violet")
+        return label
+    }()
+    
     let numberName : UILabel = {
         let label = UILabel()
         label.text = "+996551552770"
-        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
     }()
+    
+    let bDayTitle : UILabel = {
+        let label = UILabel()
+        label.text = "Дата рождения"
+        label.textColor = UIColor(named: "Violet")
+        return label
+    }()
+    
     let bDayName : UILabel = {
         let label = UILabel()
         label.text = "28.09.2002"
-        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
     }()
+    
+    let addressTitle : UILabel = {
+        let label = UILabel()
+        label.text = "Место проживания"
+        label.textColor = UIColor(named: "Violet")
+        return label
+    }()
+
     let addressName : UILabel = {
         let label = UILabel()
         label.text = "Ул. Юнусалиева 81"
-        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+        label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
     }()
-//    let passwordName : UILabel = {
-//        let label = UILabel()
-//        label.text = "Пароль"
-//        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-//        return label
-//    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Профиль"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
         view.backgroundColor = .white
         scrollView.showsVerticalScrollIndicator = false
+        
+        let circlePath = UIBezierPath(arcCenter: profileImage.center,
+                                      radius: 45,
+                                      startAngle: -(.pi / 2),
+                                      endAngle: .pi * 2,
+                                      clockwise: true)
+        
+        
+        let trackShape = CAShapeLayer()
+        trackShape.path = circlePath.cgPath
+        trackShape.fillColor = UIColor.clear.cgColor
+        trackShape.strokeColor = UIColor(named: "LightestPeach")?.cgColor
+        trackShape.lineWidth = 2
+        profileImage.layer.addSublayer(trackShape)
+        
+        let shape = CAShapeLayer()
+        shape.path = circlePath.cgPath
+        shape.lineWidth = 2
+        shape.strokeColor = UIColor(named: "Peach")?.cgColor
+        shape.strokeEnd = 0.4
+        shape.fillColor = UIColor.clear.cgColor
+        
+        profileImage.layer.addSublayer(shape)
+        
         let userId = userDefaults.getUserId()
         viewModel.getPatient(id: userId) { result in
-            print(result)
             let user = result?.userDTO
             let doctor = result?.doctorDTO?.userDTO
             self.userName.text = "\(user!.firstName) \(user!.lastName) \(user!.middleName)"
@@ -279,7 +265,6 @@ class ProfileViewController: UIViewController {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)
-            print(startOfPregancy)
             let dateRangeStart = Date()
             //let dateRangeEnd = Date().addingTimeInterval(12345678)
             let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
@@ -294,17 +279,15 @@ class ProfileViewController: UIViewController {
             } else {
                 self.trimestLabel.text = "Ваша беременность закончилась"
             }
-            //print("difference is \(components.month ?? 0) months and \(components.weekOfYear ?? 0) weeks")
         }
         setUpSubviews()
         setUpScrollView()
-//        setUpTableViewController()
-//        setUpDataTableView()
         setUpConstraints()
          
     }
+    
     func setUpSubviews(){
-        view.addSubviews(scrollView, sosButton, notificationsButton)
+        view.addSubviews(scrollView, sosButton)
         scrollView.addSubview(dataView)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         dataView.addSubviews(
@@ -319,19 +302,7 @@ class ProfileViewController: UIViewController {
         viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName,logOutButton)
     }
     
-   
-//    func setUpDataTableView(){
-//        viewAsTableView.addSubview(tableView)
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
-//        tableView.isScrollEnabled = false
-////        tableView.allowsSelection = false
-//
-//    }
-    
     @objc func didTapSosButton() {
-        print("SOS button tapped")
         let number = userDefaults.getEmergency()
         callNumber(phoneNumber: number)
     }
@@ -346,7 +317,6 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func didTapLogOutButton() {
-        print("Logged outdfdfdf")
         userDefaults.isSignedIn(signedIn: false)
         let userId = userDefaults.getUserId()
         let data: [String : Any] = [
@@ -391,13 +361,6 @@ class ProfileViewController: UIViewController {
             make.left.right.equalToSuperview().inset(27)
         }
         
-        notificationsButton.snp.makeConstraints{make in
-//            make.top.equalToSuperview().inset(65)
-//            make.left.equalToSuperview().inset(30)
-//            make.width.equalTo(65)
-//            make.height.equalTo(44)
-            
-        }
 //        sosButton.snp.makeConstraints{make in
 //            make.top.equalToSuperview().inset(65)
 //            make.right.equalToSuperview().inset(30)
@@ -410,11 +373,11 @@ class ProfileViewController: UIViewController {
 //        }
         profileImage.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(15)
+            make.left.equalToSuperview().inset(30)
             //            make.width.height.equalTo(75)
         }
         trimestImage.snp.makeConstraints{make in
-            make.top.equalTo(userName.snp.bottom).offset(31)
+            make.top.equalTo(userName.snp.bottom).offset(45)
 //            make.centerX.equalToSuperview()
             make.centerX.equalToSuperview()
 //            make.left.right.equalToSuperview().inset(27)
@@ -443,7 +406,7 @@ class ProfileViewController: UIViewController {
         }
         userName.snp.makeConstraints{make in
             make.centerY.equalTo(profileImage)
-            make.left.equalTo(profileImage.snp.right).offset(21)
+            make.left.equalTo(profileImage.snp.right).offset(30)
             make.width.equalTo(230)
         }
         dataView.snp.makeConstraints{make in
