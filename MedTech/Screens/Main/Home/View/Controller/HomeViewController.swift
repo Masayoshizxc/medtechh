@@ -14,7 +14,9 @@ class HomeViewController: UIViewController {
     private let viewModel: HomeViewModelProtocol
     
     private let appointmentsViewModel: AppointmentViewModelProtocol
-
+    
+    let notificationsView = NotificationsViewController()
+    
     var model = [WeekModel]()
     
     var selectedWeek = 1
@@ -25,7 +27,7 @@ class HomeViewController: UIViewController {
         appointmentsViewModel = vm2
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -61,7 +63,7 @@ class HomeViewController: UIViewController {
         tableView.register(WeekTableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()
-
+    
     let notificationsButton : UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
@@ -96,7 +98,7 @@ class HomeViewController: UIViewController {
     }()
     
     let topic : UIView = {
-      let vieww = UIView()
+        let vieww = UIView()
         vieww.layer.cornerRadius = 30
         vieww.backgroundColor = .white
         vieww.translatesAutoresizingMaskIntoConstraints = false
@@ -114,7 +116,7 @@ class HomeViewController: UIViewController {
             collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
         }
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         AppUtility.lockOrientation(.all)
@@ -134,18 +136,8 @@ class HomeViewController: UIViewController {
         setUpSubViews()
         setUpConstraints()
         
-        appointmentsViewModel.getLastVisit(id: 2) { rs in
-            if rs != nil {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
-                dateFormatter.dateFormat = "dd-MMM"
-                dateFormatter.locale = Locale(identifier: "ru")
-                let dateString = dateFormatter.string(from: dateDate!)
-                self.remindButton.setTitle(" Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
-            }
-        }
-            
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isScrollEnabled = false
@@ -155,21 +147,8 @@ class HomeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        viewModel.getAllWeeks { result in
-            if !result!.isEmpty {
-                DispatchQueue.main.async {
-                    self.model = result!
-                    self.sortAnArrayOfArray(self.model)
-                    if !self.model.isEmpty {
-                        let size = 250 * (self.model[self.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
-                        self.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + CGFloat(size))
-                    }
-                    self.scrollView.contentSize = self.contentSize
-                    self.collectionView.reloadData()
-                    self.tableView.reloadData()
-                }
-            }
-        }
+        getLastVisit()
+        getAllWeeks()
         
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
@@ -190,12 +169,12 @@ class HomeViewController: UIViewController {
     }
     
     private func callNumber(phoneNumber:String) {
-      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
-        let application:UIApplication = UIApplication.shared
-        if (application.canOpenURL(phoneCallURL)) {
-            application.open(phoneCallURL, options: [:], completionHandler: nil)
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
         }
-      }
     }
     
     func sortAnArrayOfArray(_ mod: [WeekModel]) {
@@ -209,6 +188,39 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func getLastVisit() {
+        let userId = userDefaults.getUserId()
+        appointmentsViewModel.getLastVisit(id: userId) { rs in
+            if rs != nil {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
+                dateFormatter.dateFormat = "dd-MMM"
+                dateFormatter.locale = Locale(identifier: "ru")
+                let dateString = dateFormatter.string(from: dateDate!)
+                self.remindButton.setTitle(" Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+            }
+        }
+    }
+    
+    func getAllWeeks() {
+        viewModel.getAllWeeks { result in
+            if !result!.isEmpty {
+                DispatchQueue.main.async {
+                    self.model = result!
+                    self.sortAnArrayOfArray(self.model)
+                    if !self.model.isEmpty {
+                        let size = 250 * (self.model[self.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
+                        self.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + CGFloat(size))
+                    }
+                    self.scrollView.contentSize = self.contentSize
+                    self.collectionView.reloadData()
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     func setUpSubViews(){
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
@@ -219,10 +231,16 @@ class HomeViewController: UIViewController {
         )
     }
     
+    @objc func didTapNotificationsButton(){
+        let loadVC = NotificationsViewController()
+        loadVC.modalPresentationStyle = .fullScreen
+        self.present(loadVC, animated: true, completion: nil)
+    }
+    
     
     let badgeSize: CGFloat = 13
     let badgeTag = 9830384
-
+    
     func badgeLabel(withCount count: Int) -> UILabel {
         let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
         badgeCount.translatesAutoresizingMaskIntoConstraints = false
@@ -240,7 +258,7 @@ class HomeViewController: UIViewController {
     func showBadge(withCount count: Int) {
         let badge = badgeLabel(withCount: count)
         notificationsButton.addSubview(badge)
-
+        
         NSLayoutConstraint.activate([
             notificationsButton.widthAnchor.constraint(equalToConstant: 25),
             notificationsButton.heightAnchor.constraint(equalToConstant: 25),
@@ -257,6 +275,9 @@ class HomeViewController: UIViewController {
     }
     
     func setUpConstraints() {
+        notificationsButton.snp.makeConstraints{make in
+            make.width.height.equalTo(40)
+        }
         remindButton.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(20)
@@ -280,7 +301,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model.count
@@ -313,36 +334,36 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
             
             cell.layer.addSublayer(shape)
         }
-//        if !model.isEmpty {
-//            if indexPath.row < currentWeek {
-//                cell.setBeforeDate(text: model[indexPath.row].weekday)
-//            } else {
-//                cell.fill(text: model[indexPath.row].weekday)
-//            }
-//        }
-
-//        let circlePath = UIBezierPath(arcCenter: cell.center,
-//                                      radius: cell.frame.width / 2 - 1,
-//                                      startAngle: -(.pi / 2),
-//                                      endAngle: .pi * 2,
-//                                      clockwise: true)
-//        
-//        
-//        let trackShape = CAShapeLayer()
-//        trackShape.path = circlePath.cgPath
-//        trackShape.fillColor = UIColor.clear.cgColor
-//        trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
-//        trackShape.lineWidth = 2
-//        cell.layer.addSublayer(trackShape)
-//        
-//        let shape = CAShapeLayer()
-//        shape.path = circlePath.cgPath
-//        shape.lineWidth = 2
-//        shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
-//        shape.strokeEnd = 0.4
-//        shape.fillColor = UIColor.clear.cgColor
-//        
-//        cell.layer.addSublayer(shape)
+        //        if !model.isEmpty {
+        //            if indexPath.row < currentWeek {
+        //                cell.setBeforeDate(text: model[indexPath.row].weekday)
+        //            } else {
+        //                cell.fill(text: model[indexPath.row].weekday)
+        //            }
+        //        }
+        
+        //        let circlePath = UIBezierPath(arcCenter: cell.center,
+        //                                      radius: cell.frame.width / 2 - 1,
+        //                                      startAngle: -(.pi / 2),
+        //                                      endAngle: .pi * 2,
+        //                                      clockwise: true)
+        //
+        //
+        //        let trackShape = CAShapeLayer()
+        //        trackShape.path = circlePath.cgPath
+        //        trackShape.fillColor = UIColor.clear.cgColor
+        //        trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
+        //        trackShape.lineWidth = 2
+        //        cell.layer.addSublayer(trackShape)
+        //
+        //        let shape = CAShapeLayer()
+        //        shape.path = circlePath.cgPath
+        //        shape.lineWidth = 2
+        //        shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
+        //        shape.strokeEnd = 0.4
+        //        shape.fillColor = UIColor.clear.cgColor
+        //
+        //        cell.layer.addSublayer(shape)
         cell.fill(text: model[indexPath.row].weekday)
         return cell
     }
@@ -361,6 +382,7 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
 }
+
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -388,11 +410,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension UICollectionView {
-
+    
     func register<Cell: UICollectionViewCell>(_ cellType: Cell.Type) {
         register(cellType, forCellWithReuseIdentifier: cellType.identifier)
     }
-
+    
     func getReuseCell<Cell: UICollectionViewCell>(
         _ cellType: Cell.Type,
         indexPath: IndexPath

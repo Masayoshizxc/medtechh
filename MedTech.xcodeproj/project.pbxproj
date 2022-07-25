@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3462623A29213F969545CC16 /* Pods_MedTech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E31A1E59CBAD484A0CAD671 /* Pods_MedTech.framework */; };
 		3C491005285DD8B70047A02A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C491004285DD8B70047A02A /* Colors.xcassets */; };
 		3C491008285DDA180047A02A /* GeneratedFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C491007285DDA180047A02A /* GeneratedFonts.swift */; };
 		3C49100C285DE1E90047A02A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C49100B285DE1E90047A02A /* Images.xcassets */; };
 		3C49100E285DE2B30047A02A /* GeneratedIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49100D285DE2B30047A02A /* GeneratedIcons.swift */; };
+		65CB9E172EC31F9C16DE0C7B /* Pods_MedTech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEA5521CA48D1D08D2359AB0 /* Pods_MedTech.framework */; };
 		A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A901787F284A6CBF00FFFBA2 /* LoginViewController.swift */; };
-		A9017882284A6CDB00FFFBA2 /* AppointentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */; };
+		A9017882284A6CDB00FFFBA2 /* AppointmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017881284A6CDB00FFFBA2 /* AppointmentViewController.swift */; };
 		A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */; };
 		A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */; };
 		A9017888284A6D2300FFFBA2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */; };
@@ -94,10 +94,8 @@
 		3C491007285DDA180047A02A /* GeneratedFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedFonts.swift; sourceTree = "<group>"; };
 		3C49100B285DE1E90047A02A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3C49100D285DE2B30047A02A /* GeneratedIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedIcons.swift; sourceTree = "<group>"; };
-		4E31A1E59CBAD484A0CAD671 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		92FE2E667328E6DFEC194CBD /* Pods-MedTech.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.release.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.release.xcconfig"; sourceTree = "<group>"; };
 		A901787F284A6CBF00FFFBA2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointentViewController.swift; sourceTree = "<group>"; };
+		A9017881284A6CDB00FFFBA2 /* AppointmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentViewController.swift; sourceTree = "<group>"; };
 		A9017883284A6CEC00FFFBA2 /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
 		A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A9017887284A6D2300FFFBA2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -171,7 +169,9 @@
 		AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewController.swift; sourceTree = "<group>"; };
 		AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		C3EA1D763C72A979A4335489 /* Pods-MedTech.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.debug.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.debug.xcconfig"; sourceTree = "<group>"; };
+		DEA5521CA48D1D08D2359AB0 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E5CA0CA06792244DEBB4F7 /* Pods-MedTech.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.release.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.release.xcconfig"; sourceTree = "<group>"; };
+		F05B4399357255C2985809F5 /* Pods-MedTech.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.debug.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,26 +179,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3462623A29213F969545CC16 /* Pods_MedTech.framework in Frameworks */,
+				65CB9E172EC31F9C16DE0C7B /* Pods_MedTech.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3E1F9A88C14075D21AF3ED8D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				4E31A1E59CBAD484A0CAD671 /* Pods_MedTech.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		5B26D6509DEFA9A57C68D6E9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C3EA1D763C72A979A4335489 /* Pods-MedTech.debug.xcconfig */,
-				92FE2E667328E6DFEC194CBD /* Pods-MedTech.release.xcconfig */,
+				F05B4399357255C2985809F5 /* Pods-MedTech.debug.xcconfig */,
+				E1E5CA0CA06792244DEBB4F7 /* Pods-MedTech.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -292,9 +284,9 @@
 			isa = PBXGroup;
 			children = (
 				A9192F9D2882A23B00EC5F19 /* Model */,
-				A93D2EB6287541D200DEE1BF /* ViewModel */,
 				A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */,
 				AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */,
+				A93D2EB6287541D200DEE1BF /* ViewModel */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -399,7 +391,7 @@
 				A979965A2845FEAE00454CEF /* MedTech */,
 				A97996592845FEAE00454CEF /* Products */,
 				5B26D6509DEFA9A57C68D6E9 /* Pods */,
-				3E1F9A88C14075D21AF3ED8D /* Frameworks */,
+				F751A3741463DA1007AF9466 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -463,7 +455,7 @@
 		A9A3552C287F06AB00116E7E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				A9017881284A6CDB00FFFBA2 /* AppointentViewController.swift */,
+				A9017881284A6CDB00FFFBA2 /* AppointmentViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -707,6 +699,14 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
+		F751A3741463DA1007AF9466 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DEA5521CA48D1D08D2359AB0 /* Pods_MedTech.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -714,12 +714,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A979966C2845FEAF00454CEF /* Build configuration list for PBXNativeTarget "MedTech" */;
 			buildPhases = (
-				99ADBA7484B66E1530A419B4 /* [CP] Check Pods Manifest.lock */,
+				FD9FB957B2C1DB6EFE3867E3 /* [CP] Check Pods Manifest.lock */,
 				A97996542845FEAE00454CEF /* Sources */,
 				A97996552845FEAE00454CEF /* Frameworks */,
 				A97996562845FEAE00454CEF /* Resources */,
 				3C491006285DD98C0047A02A /* Run Script */,
-				2C08335497F7646438D937A3 /* [CP] Embed Pods Frameworks */,
+				FC2738D4D0FC5EF0564C3157 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -782,23 +782,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C08335497F7646438D937A3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedTech/Pods-MedTech-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedTech/Pods-MedTech-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedTech/Pods-MedTech-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3C491006285DD98C0047A02A /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -817,7 +800,24 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" \nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
 		};
-		99ADBA7484B66E1530A419B4 /* [CP] Check Pods Manifest.lock */ = {
+		FC2738D4D0FC5EF0564C3157 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedTech/Pods-MedTech-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedTech/Pods-MedTech-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedTech/Pods-MedTech-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD9FB957B2C1DB6EFE3867E3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -861,7 +861,7 @@
 				A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */,
 				A9A35525287EFF8200116E7E /* Day.swift in Sources */,
 				A95E5C022875668E00F7D575 /* ForgotPasswordViewModel.swift in Sources */,
-				A9017882284A6CDB00FFFBA2 /* AppointentViewController.swift in Sources */,
+				A9017882284A6CDB00FFFBA2 /* AppointmentViewController.swift in Sources */,
 				A9A35527287F040B00116E7E /* Time.swift in Sources */,
 				A9DDAA7B2874A29700FB0257 /* AuthRouter.swift in Sources */,
 				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
@@ -1051,7 +1051,7 @@
 		};
 		A979966D2845FEAF00454CEF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3EA1D763C72A979A4335489 /* Pods-MedTech.debug.xcconfig */;
+			baseConfigurationReference = F05B4399357255C2985809F5 /* Pods-MedTech.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1082,7 +1082,7 @@
 		};
 		A979966E2845FEAF00454CEF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92FE2E667328E6DFEC194CBD /* Pods-MedTech.release.xcconfig */;
+			baseConfigurationReference = E1E5CA0CA06792244DEBB4F7 /* Pods-MedTech.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

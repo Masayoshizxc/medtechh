@@ -10,13 +10,14 @@ import SnapKit
 
 class EditProfileViewController: UIViewController {
     
-    let goToVC1 : UIButton = {
+    private lazy var goToVC1 : UIButton = {
         let button = UIButton()
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.red.cgColor
         button.setTitle("< Back", for: .normal)
         button.backgroundColor = .yellow
         button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(goToProfilePage), for: .touchUpInside)
         return button
     }()
 
@@ -24,9 +25,12 @@ class EditProfileViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(goToVC1)
         view.backgroundColor = .white
+        setUpConstraints()
     }
     
-
+    @objc func goToProfilePage(){
+        dismiss(animated: true, completion: nil)
+    }
     func setUpConstraints() {
         
         goToVC1.snp.makeConstraints{make in

@@ -9,7 +9,6 @@ import UIKit
 import SDWebImage
 
 class WeekTableViewCell: UITableViewCell {
-
     let title : UILabel = {
        let title = UILabel()
         //title.text = "Что есть во время беременности?"

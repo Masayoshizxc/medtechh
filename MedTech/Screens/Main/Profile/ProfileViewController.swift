@@ -15,14 +15,14 @@ class ProfileViewController: UIViewController {
     private let viewModel: ProfileViewModelProtocol
     
     let tableView = UITableView()
-
+    
     let shape = CAShapeLayer()
     
     init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
         viewModel = vm
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -41,6 +41,24 @@ class ProfileViewController: UIViewController {
         return button
     }()
     
+    //    let titleForPage : UILabel = {
+    //        var title = UILabel()
+    //        title.text = "Профиль"
+    //        title.textColor = .black
+    ////        title.font = title.font.withSize(25)
+    //        title.font = .boldSystemFont(ofSize: 25)
+    //        title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+    //        return title
+    //    }()
+    
+    private lazy var editButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Изменить", for: .normal)
+        button.addTarget(self, action: #selector(goToVC2), for: .touchUpInside)
+        button.backgroundColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        button.layer.cornerRadius = 20
+        return button
+    }()
     
     lazy var sosButton : UIButton = {
         let button = UIButton()
@@ -54,7 +72,7 @@ class ProfileViewController: UIViewController {
     }()
     
     let profileImage : UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.layer.cornerRadius = imageView.frame.size.width/2
         imageView.frame.size = CGSize(width: 75, height: 75)
         imageView.image = UIImage(named: "profileImage")
@@ -62,7 +80,7 @@ class ProfileViewController: UIViewController {
         return imageView
     }()
     let trimestImage : UIImageView = {
-       let image = UIImageView()
+        let image = UIImageView()
         image.layer.cornerRadius = 16
         image.image = UIImage(named: "trimestInfo")
         image.contentMode = .scaleAspectFill
@@ -70,12 +88,12 @@ class ProfileViewController: UIViewController {
         return image
     }()
     private lazy var scrollView : UIScrollView = {
-       let scrollView = UIScrollView()
+        let scrollView = UIScrollView()
         return scrollView
     }()
     
     private lazy var weekLabel : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = UIColor(named: "Violet")
@@ -87,8 +105,9 @@ class ProfileViewController: UIViewController {
         self.trimestImage.addSubview(label)
         return label
     }()
+    
     private lazy var trimestLabel : UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = UIColor(named: "Violet")
@@ -99,7 +118,7 @@ class ProfileViewController: UIViewController {
         return label
     }()
     let downloadButton : UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("Скачать медкарту", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
         button.backgroundColor = .white
@@ -112,12 +131,12 @@ class ProfileViewController: UIViewController {
     }()
     
     let viewInView : UIView = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     
     let userName : UILabel = {
-       let name = UILabel()
+        let name = UILabel()
         name.text = "Айжамал Масыбаева Бекболсуновна"
         name.font = .boldSystemFont(ofSize: 25)
         name.textColor = UIColor(named: "Violet")
@@ -125,21 +144,24 @@ class ProfileViewController: UIViewController {
         return name
     }()
     
-    let dataView : UIView = {
-       let vieww = UIView()
-        vieww.frame.size = CGSize(width: 375, height: 700)
+    lazy var dataView : UIView = {
+        let vieww = UIView()
+        //vieww.frame.size = CGSize(width: 375, height: 700)
+        //        vieww.frame.size = CGSize(width: view.frame.size.width, height: 700)
+        //        vieww.backgroundColor = .systemGreen
+        //        vieww.translatesAutoresizingMaskIntoConstraints = false
         return vieww
         
     }()
     let box : UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.layer.borderColor = UIColor.black.cgColor
         imageView.layer.borderWidth = 3
         imageView.layer.cornerRadius = 10
         return imageView
     }()
     let viewAsTableView : UIView = {
-       let view = UIView()
+        let view = UIView()
         view.frame.size = CGSize(width: 336, height: 270)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
@@ -158,12 +180,14 @@ class ProfileViewController: UIViewController {
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         label.numberOfLines = 0
+        
+        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return label
     }()
     
     let mailTitle : UILabel = {
         let label = UILabel()
-        label.text = "Электронная почта"
+        label.text = "Email"
         label.textColor = UIColor(named: "Violet")
         return label
     }()
@@ -212,7 +236,7 @@ class ProfileViewController: UIViewController {
         label.textColor = UIColor(named: "Violet")
         return label
     }()
-
+    
     let addressName : UILabel = {
         let label = UILabel()
         label.text = "Ул. Юнусалиева 81"
@@ -220,7 +244,7 @@ class ProfileViewController: UIViewController {
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Профиль"
@@ -252,6 +276,47 @@ class ProfileViewController: UIViewController {
         
         profileImage.layer.addSublayer(shape)
         
+        getPatient()
+        
+        setUpSubviews()
+        setUpScrollView()
+        setUpConstraints()
+        
+    }
+    
+    func setUpSubviews(){
+        view.addSubviews(scrollView, sosButton)
+        scrollView.addSubview(dataView)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
+        dataView.addSubviews(
+            profileImage,
+            trimestImage,
+            downloadButton,
+            userName,
+            viewAsTableView,
+            viewInView,
+            logOutButton,
+            editButton)
+        viewAsTableView.addSubview(box)
+        trimestImage.addSubviews(weekLabel,trimestLabel)
+        viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName)
+    }
+    
+    @objc func didTapSosButton() {
+        let number = userDefaults.getEmergency()
+        callNumber(phoneNumber: number)
+    }
+    
+    private func callNumber(phoneNumber:String) {
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    func getPatient() {
         let userId = userDefaults.getUserId()
         viewModel.getPatient(id: userId) { result in
             let user = result?.userDTO
@@ -280,40 +345,6 @@ class ProfileViewController: UIViewController {
                 self.trimestLabel.text = "Ваша беременность закончилась"
             }
         }
-        setUpSubviews()
-        setUpScrollView()
-        setUpConstraints()
-         
-    }
-    
-    func setUpSubviews(){
-        view.addSubviews(scrollView, sosButton)
-        scrollView.addSubview(dataView)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
-        dataView.addSubviews(
-                         profileImage,
-                         trimestImage,
-                         downloadButton,
-                         userName,
-                         viewAsTableView,
-                         viewInView)
-        viewAsTableView.addSubview(box)
-        trimestImage.addSubviews(weekLabel,trimestLabel)
-        viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName,logOutButton)
-    }
-    
-    @objc func didTapSosButton() {
-        let number = userDefaults.getEmergency()
-        callNumber(phoneNumber: number)
-    }
-    
-    private func callNumber(phoneNumber:String) {
-      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
-        let application:UIApplication = UIApplication.shared
-        if (application.canOpenURL(phoneCallURL)) {
-            application.open(phoneCallURL, options: [:], completionHandler: nil)
-        }
-      }
     }
     
     @objc func didTapLogOutButton() {
@@ -335,88 +366,102 @@ class ProfileViewController: UIViewController {
         loadVC.modalPresentationStyle = .fullScreen
         self.present(loadVC, animated: true, completion: nil)
     }
-//    private let appointTable = AppointmentTableViewController()
+    //    private let appointTable = AppointmentTableViewController()
     
     func setUpScrollView(){
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 700 + 200)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 700 + 150)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-//    func setUpTableViewController(){
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
-//    }
+    //    func setUpTableViewController(){
+    //        tableView.delegate = self
+    //        tableView.dataSource = self
+    //        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
+    //    }
     
     func setUpConstraints() {
-        
         logOutButton.snp.makeConstraints { make in
-//            make.left.equalToSuperview().inset(235)
-//            make.right.equalToSuperview().inset(27)
-            make.top.equalTo(addressName).offset(30)
+            //            make.left.equalToSuperview().inset(235)
+            //            make.right.equalToSuperview().inset(27)
+            make.top.equalTo(editButton.snp.bottom).offset(65)
             make.width.equalTo(128)
             make.height.equalTo(44)
             
-//            make.top.equalTo(dataView.snp.bottom).inset(94)
+            //            make.top.equalTo(dataView.snp.bottom).inset(94)
             make.left.right.equalToSuperview().inset(27)
         }
         
-//        sosButton.snp.makeConstraints{make in
-//            make.top.equalToSuperview().inset(65)
-//            make.right.equalToSuperview().inset(30)
-//            make.width.equalTo(65)
-//            make.height.equalTo(44)
-//        }
-//        titleForPage.snp.makeConstraints{make in
-//            make.top.equalToSuperview().inset(70)
-//            make.centerX.equalToSuperview()
-//        }
+        //            editButton.snp.makeConstraints{make in
+        //    //            make.top.equalToSuperview().inset(65)
+        //    //            make.left.equalToSuperview().inset(30)
+        //    //            make.width.equalTo(65)
+        //    //            make.height.equalTo(44)
+        //
+        //            }
+        sosButton.snp.makeConstraints{make in
+            make.top.equalToSuperview().inset(65)
+            make.right.equalToSuperview().inset(30)
+            make.width.equalTo(65)
+            make.height.equalTo(44)
+        }
+        //            titleForPage.snp.makeConstraints{make in
+        //                make.top.equalToSuperview().inset(70)
+        //                make.centerX.equalToSuperview()
+        //            }
         profileImage.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(10)
-            make.left.equalToSuperview().inset(30)
-            //            make.width.height.equalTo(75)
+            make.top.equalTo(sosButton).offset(61)
+            make.left.equalToSuperview().inset(37)
+            make.width.height.equalTo(75)
         }
         trimestImage.snp.makeConstraints{make in
-            make.top.equalTo(userName.snp.bottom).offset(45)
-//            make.centerX.equalToSuperview()
-            make.centerX.equalToSuperview()
-//            make.left.right.equalToSuperview().inset(27)
+            make.top.equalTo(profileImage.snp.bottom).offset(27)
+            //            make.centerX.equalToSuperview()
+            //                make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(120)
         }
         weekLabel.snp.makeConstraints{make in
             make.centerY.equalTo(trimestImage)
-            make.left.equalToSuperview().inset(20)
+            make.left.equalToSuperview().inset(40)
         }
         trimestLabel.snp.makeConstraints{make in
             make.centerY.equalTo(trimestImage)
-            make.right.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(40)
         }
         downloadButton.snp.makeConstraints{make in
             make.top.equalTo(trimestImage.snp.bottom).offset(30)
             make.left.right.equalToSuperview().inset(27)
-//            make.width.equalTo(336)
+            //            make.width.equalTo(336)
             make.height.equalTo(60)
         }
         
         viewInView.snp.makeConstraints{make in
             make.top.equalTo(downloadButton.snp.bottom).offset(30)
             make.left.right.equalToSuperview().inset(27)
-//            make.width.equalTo(336)
+            //            make.width.equalTo(336)
             make.height.equalTo(300)
+        }
+        editButton.snp.makeConstraints{make in
+            make.top.equalTo(viewInView.snp.bottom).offset(35)
+            make.left.right.equalToSuperview().inset(27)
+            make.height.equalTo(44)
         }
         userName.snp.makeConstraints{make in
             make.centerY.equalTo(profileImage)
-            make.left.equalTo(profileImage.snp.right).offset(30)
+            make.left.equalTo(profileImage.snp.right).offset(21)
             make.width.equalTo(230)
         }
         dataView.snp.makeConstraints{make in
-            make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.left.right.equalToSuperview()
+            //                make.top.left.right.bottom.equalToSuperview()
+            //                make.top.equalToSuperview()
+            make.width.equalTo(view.frame.size.width)
+            make.height.equalTo(view.frame.size.height)
+            
+            
         }
         viewAsTableView.snp.makeConstraints{make in
-//            make.top.equalTo(downloadButton.snp.bottom).offset(30)
-//            make.left.equalToSuperview()
+            //            make.top.equalTo(downloadButton.snp.bottom).offset(30)
+            //            make.left.equalToSuperview()
             make.top.equalTo(downloadButton.snp.bottom).inset(50)
             make.centerX.equalToSuperview()
         }
@@ -425,20 +470,18 @@ class ProfileViewController: UIViewController {
         }
         
         scrollView.snp.makeConstraints{make in
-            make.top.equalTo(scrollView.snp.bottom).offset(40)
-            make.edges.equalToSuperview()
-            make.height.equalTo(800)
-            make.centerX.equalTo(view.snp.centerX)
-            //make.width.equalTo(view.snp.width)
-//            make.left.right.equalToSuperview().inset(27)
+            make.top.equalTo(sosButton.snp.bottom).offset(60)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(view.frame.size.height - 100)
+            //            make.left.right.equalToSuperview().inset(27)
             
         }
-//        tableView.snp.makeConstraints{make in
-//            make.top.bottom.left.right.equalToSuperview()
-//        }
-//        appointTable.tableView.snp.makeConstraints{make in
-//            make.top.bottom.left.right.equalToSuperview()
-//        }
+        //        tableView.snp.makeConstraints{make in
+        //            make.top.bottom.left.right.equalToSuperview()
+        //        }
+        //        appointTable.tableView.snp.makeConstraints{make in
+        //            make.top.bottom.left.right.equalToSuperview()
+        //        }
         doctorTitle.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(8)
             make.left.equalToSuperview()
@@ -459,37 +502,34 @@ class ProfileViewController: UIViewController {
             make.top.equalTo(bDayTitle.snp.bottom).offset(31)
             make.left.equalToSuperview()
         }
-//        passwordTitle.snp.makeConstraints{make in
-//            make.top.equalTo(addressTitle.snp.bottom).offset(31)
-//            make.left.equalToSuperview()
-//        }
+        //            passwordTitle.snp.makeConstraints{make in
+        //                make.top.equalTo(addressTitle.snp.bottom).offset(31)
+        //                make.left.equalToSuperview()
+        //            }
         doctorName.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(-5)
-            make.left.equalTo(doctorTitle.snp.right)
+            make.top.equalToSuperview().inset(8)
             make.right.equalToSuperview()
-            make.width.equalTo(170)
-            make.height.equalTo(60)
         }
         mailName.snp.makeConstraints{make in
-            make.top.equalTo(doctorName.snp.bottom).offset(10)
+            make.top.equalTo(doctorName.snp.bottom).offset(31)
             make.right.equalToSuperview()
         }
         numberName.snp.makeConstraints{make in
-            make.top.equalTo(mailName.snp.bottom).offset(32)
+            make.top.equalTo(mailName.snp.bottom).offset(31)
             make.right.equalToSuperview()
         }
         bDayName.snp.makeConstraints{make in
-            make.top.equalTo(numberName.snp.bottom).offset(35)
+            make.top.equalTo(numberName.snp.bottom).offset(31)
             make.right.equalToSuperview()
         }
         addressName.snp.makeConstraints{make in
-            make.top.equalTo(bDayName.snp.bottom).offset(33)
+            make.top.equalTo(bDayName.snp.bottom).offset(31)
             make.right.equalToSuperview()
         }
-//        passwordName.snp.makeConstraints{make in
-//            make.top.equalTo(addressName.snp.bottom).offset(31)
-//            make.right.equalToSuperview()
-//        }
+        //            passwordName.snp.makeConstraints{make in
+        //                make.top.equalTo(addressName.snp.bottom).offset(31)
+        //                make.right.equalToSuperview()
+        //            }
         
     }
     
@@ -537,7 +577,7 @@ extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
             return 70
         }
         else{
-        return CGFloat(50)
+            return CGFloat(50)
         }
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import Toast_Swift
 
-class AppointentViewController: UIViewController {
+class AppointmentViewController: UIViewController {
     
     private let viewModel: AppointmentViewModelProtocol
     
@@ -215,13 +215,7 @@ class AppointentViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: callButton)
         
-        let userId = userDefaults.getUserId()
-        viewModel.getDoctorId(id: userId) { rslt in
-            if rslt != nil {
-                let id = rslt?.userDTO.id
-                self.userDefaults.saveDoctorId(id: id!)
-            }
-        }
+        getDoctorId()
                 
         collectionViewA.backgroundColor = .white
         collectionViewA.isScrollEnabled = false
@@ -276,6 +270,16 @@ class AppointentViewController: UIViewController {
             application.open(phoneCallURL, options: [:], completionHandler: nil)
         }
       }
+    }
+    
+    func getDoctorId() {
+        let userId = userDefaults.getUserId()
+        viewModel.getDoctorId(id: userId) { rslt in
+            if rslt != nil {
+                let id = rslt?.userDTO.id
+                self.userDefaults.saveDoctorId(id: id!)
+            }
+        }
     }
     
     func setMonthView() {
@@ -432,7 +436,7 @@ class AppointentViewController: UIViewController {
     }
 }
 
-extension AppointentViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == collectionViewA {
             return days.count
