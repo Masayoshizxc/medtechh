@@ -386,7 +386,7 @@ class ProfileViewController: UIViewController {
             logOutButton.snp.makeConstraints { make in
     //            make.left.equalToSuperview().inset(235)
     //            make.right.equalToSuperview().inset(27)
-                make.top.equalTo(editButton.snp.bottom).offset(65)
+                make.top.equalTo(editButton.snp.bottom).offset(32)
                 make.width.equalTo(128)
                 make.height.equalTo(44)
                 
@@ -412,7 +412,7 @@ class ProfileViewController: UIViewController {
 //                make.centerX.equalToSuperview()
 //            }
             profileImage.snp.makeConstraints{make in
-                make.top.equalTo(sosButton).offset(61)
+                make.top.equalToSuperview().inset(40)
                 make.left.equalToSuperview().inset(37)
                 make.width.height.equalTo(75)
             }
@@ -445,7 +445,7 @@ class ProfileViewController: UIViewController {
                 make.height.equalTo(300)
             }
         editButton.snp.makeConstraints{make in
-            make.top.equalTo(viewInView.snp.bottom).offset(35)
+            make.top.equalTo(viewInView.snp.bottom).offset(5)
             make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(44)
         }
@@ -473,7 +473,7 @@ class ProfileViewController: UIViewController {
             }
             
             scrollView.snp.makeConstraints{make in
-                make.top.equalTo(sosButton.snp.bottom).offset(60)
+                make.top.equalToSuperview()
                 make.left.right.equalToSuperview()
                 make.height.equalTo(view.frame.size.height - 100)
     //            make.left.right.equalToSuperview().inset(27)
