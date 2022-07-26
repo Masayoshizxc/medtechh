@@ -152,8 +152,8 @@ class UserDefaultsService {
         storage.setValue(id, forKey: CreateDoctor.doctor_id.rawValue)
     }
     
-    func getDoctorId() -> Int {
-        return storage.value(forKey: CreateDoctor.doctor_id.rawValue) as! Int
+    func getDoctorId() -> Int? {
+        return storage.value(forKey: CreateDoctor.doctor_id.rawValue) as? Int ?? nil
     }
     
     func saveDate(date: String) {

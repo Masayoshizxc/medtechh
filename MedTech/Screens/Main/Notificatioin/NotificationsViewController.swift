@@ -9,9 +9,11 @@ import UIKit
 import SnapKit
 
 class NotificationsViewController: UIViewController {
+
     var count = [1]
     var tableView = UITableView()
-    let exitButton : UIButton = {
+
+    private lazy var exitButton : UIButton = {
        let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)

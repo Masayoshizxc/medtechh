@@ -45,21 +45,22 @@ class LoginViewController: BaseViewController {
         let label = UILabel()
         label.text = "Вход"
         label.font = Fonts.SFProText.semibold.font(size: 24)
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let emailField: EmailTextField = {
         let field = EmailTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Электронная почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)])
+        field.attributedPlaceholder = NSAttributedString(string: "Электронная почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]) as Any as! NSAttributedString
         field.returnKeyType = .continue
         return field
     }()
     
     let passwordField: PasswordTextField = {
         let field = PasswordTextField()
-        field.attributedPlaceholder = NSAttributedString(string: "Пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)])
+        field.attributedPlaceholder = NSAttributedString(string: "Пароль",
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "Violet") as Any])
         return field
     }()
     
@@ -75,7 +76,7 @@ class LoginViewController: BaseViewController {
         button.setTitle("Забыли пароль ?", for: .normal)
         button.addTarget(self, action: #selector(didTapForgotPasswordButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1), for: .normal)
+        button.setTitleColor(UIColor(named: "Violet"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 14)
         return button
     }()

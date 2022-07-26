@@ -24,7 +24,7 @@ class ForgotPasswordViewController: BaseViewController {
         let label = UILabel()
         label.text = "Введите электронную почту"
         label.font = Fonts.SFProText.semibold.font(size: 24)
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -58,7 +58,7 @@ class ForgotPasswordViewController: BaseViewController {
         super.viewDidLoad()
         let backButton = UIBarButtonItem()
         backButton.title = ""
-        backButton.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        backButton.tintColor = UIColor(named: "Violet")
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
 
         view.addSubviews(

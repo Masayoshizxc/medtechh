@@ -22,13 +22,8 @@ class ChecklistViewController: BaseViewController {
         button.setTitle("SOS", for: .normal)
         button.tintColor = .black
         button.layer.cornerRadius = 18
-        button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
-//        button.setTitleShadowColor(.black, for: .normal)
+        button.backgroundColor = UIColor(named: "Peach")
         button.frame = CGRect(x: 0, y: 0, width: 65, height: 44)
-        //button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        //button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        //button.layer.shadowOpacity = 1.0
-        //button.layer.shadowRadius = 16
         button.addTarget(self, action: #selector(didTapSosButton), for: .touchUpInside)
         
         return button
@@ -37,8 +32,8 @@ class ChecklistViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Чеклист"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
         view.backgroundColor = .white
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
@@ -69,7 +64,6 @@ class ChecklistViewController: BaseViewController {
     }
     
     @objc func didTapSosButton() {
-        print("SOS button tapped")
         let number = userDefaults.getEmergency()
         callNumber(phoneNumber: number)
     }
@@ -95,12 +89,10 @@ extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .white
         
         cell.setUpData(model: model[indexPath.row])
-        
-        //cell.textLabel?.text = model[indexPath.row].first
-        
+                
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 20.0, y: 63.0, width: cell.contentView.frame.size.width - 40, height: 1.0)
-        bottomBorder.backgroundColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1).cgColor
+        bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         cell.contentView.layer.addSublayer(bottomBorder)
         return cell
     }

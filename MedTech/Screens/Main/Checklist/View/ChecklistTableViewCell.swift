@@ -11,7 +11,7 @@ class ChecklistTableViewCell: UITableViewCell {
     
     private let firstLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        label.textColor = UIColor(named: "Violet")
         label.font = Fonts.SFProText.medium.font(size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -19,7 +19,7 @@ class ChecklistTableViewCell: UITableViewCell {
     
     private let secondLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
+        label.textColor = UIColor(named: "Peach")
         label.font = Fonts.SFProText.medium.font(size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
