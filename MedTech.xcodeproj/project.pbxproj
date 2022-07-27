@@ -85,6 +85,7 @@
 		AEE1C1DB287AD1C200D72075 /* DoctorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */; };
 		AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */; };
 		AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */; };
+		AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +169,7 @@
 		AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorTableViewController.swift; sourceTree = "<group>"; };
 		AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewController.swift; sourceTree = "<group>"; };
 		AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewCell.swift; sourceTree = "<group>"; };
+		AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		DEA5521CA48D1D08D2359AB0 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E5CA0CA06792244DEBB4F7 /* Pods-MedTech.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.release.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.release.xcconfig"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */,
+				AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */,
 			);
 			path = Notificatioin;
 			sourceTree = "<group>";
@@ -881,6 +884,7 @@
 				AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */,
 				3C49100E285DE2B30047A02A /* GeneratedIcons.swift in Sources */,
 				A97F4A462882A36000FEEBA9 /* ProfileRouter.swift in Sources */,
+				AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */,
 				A971FB7F287D690800CC5E30 /* BabyDevelopmentRouter.swift in Sources */,
 				A9DDAA752874953600FB0257 /* SignIn.swift in Sources */,
 				A9F2BEA9287B20FF00AA83A4 /* CalendarHelper.swift in Sources */,

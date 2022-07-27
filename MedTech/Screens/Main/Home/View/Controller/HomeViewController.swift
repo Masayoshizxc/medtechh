@@ -60,15 +60,16 @@ class HomeViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(WeekTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(WeekTableViewCell.self, forCellReuseIdentifier: "homePageCell")
         return tableView
     }()
     
-    let notificationsButton : UIButton = {
+    lazy var notificationsButton : UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
         button.tintColor = UIColor(named: "Violet")
         button.frame = CGRect(x: 0, y: 0, width: 220, height: 220)
+        button.addTarget(self, action: #selector(didTapNotificationsButton), for: .touchUpInside)
         return button
     }()
     
@@ -135,8 +136,16 @@ class HomeViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         setUpSubViews()
         setUpConstraints()
-        
-        
+        appointmentsViewModel.getLastVisit(id: 2) { rs in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+
+            let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
+            dateFormatter.dateFormat = "dd-MMM"
+            dateFormatter.locale = Locale(identifier: "ru")
+            let dateString = dateFormatter.string(from: dateDate!)
+            self.remindButton.setTitle("Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -395,7 +404,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! WeekTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "homePageCell", for: indexPath) as! WeekTableViewCell
         if !model.isEmpty {
             let data = model[selectedWeek].weeksOfBabyDevelopmentDTOS![indexPath.row]
             cell.setUpData(titleLabel: data.header!, image: data.imageUrl!, description: data.description!)

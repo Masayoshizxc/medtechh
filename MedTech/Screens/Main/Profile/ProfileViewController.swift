@@ -391,7 +391,68 @@ class ProfileViewController: UIViewController {
             make.top.equalTo(editButton.snp.bottom).offset(65)
             make.width.equalTo(128)
             make.height.equalTo(44)
+            logOutButton.snp.makeConstraints { make in
+    //            make.left.equalToSuperview().inset(235)
+    //            make.right.equalToSuperview().inset(27)
+                make.top.equalTo(editButton.snp.bottom).offset(32)
+                make.width.equalTo(128)
+                make.height.equalTo(44)
+                
+    //            make.top.equalTo(dataView.snp.bottom).inset(94)
+                make.left.right.equalToSuperview().inset(27)
+            }
             
+//            editButton.snp.makeConstraints{make in
+//    //            make.top.equalToSuperview().inset(65)
+//    //            make.left.equalToSuperview().inset(30)
+//    //            make.width.equalTo(65)
+//    //            make.height.equalTo(44)
+//
+//            }
+            sosButton.snp.makeConstraints{make in
+                make.top.equalToSuperview().inset(65)
+                make.right.equalToSuperview().inset(30)
+                make.width.equalTo(65)
+                make.height.equalTo(44)
+            }
+//            titleForPage.snp.makeConstraints{make in
+//                make.top.equalToSuperview().inset(70)
+//                make.centerX.equalToSuperview()
+//            }
+            profileImage.snp.makeConstraints{make in
+                make.top.equalToSuperview().inset(40)
+                make.left.equalToSuperview().inset(37)
+                make.width.height.equalTo(75)
+            }
+            trimestImage.snp.makeConstraints{make in
+                make.top.equalTo(profileImage.snp.bottom).offset(27)
+    //            make.centerX.equalToSuperview()
+//                make.centerX.equalToSuperview()
+                make.left.right.equalToSuperview().inset(27)
+                make.height.equalTo(120)
+            }
+            weekLabel.snp.makeConstraints{make in
+                make.centerY.equalTo(trimestImage)
+                make.left.equalToSuperview().inset(40)
+            }
+            trimestLabel.snp.makeConstraints{make in
+                make.centerY.equalTo(trimestImage)
+                make.right.equalToSuperview().inset(40)
+            }
+            downloadButton.snp.makeConstraints{make in
+                make.top.equalTo(trimestImage.snp.bottom).offset(30)
+                make.left.right.equalToSuperview().inset(27)
+    //            make.width.equalTo(336)
+                make.height.equalTo(60)
+            }
+            
+            viewInView.snp.makeConstraints{make in
+                make.top.equalTo(downloadButton.snp.bottom).offset(30)
+                make.left.right.equalToSuperview().inset(27)
+    //            make.width.equalTo(336)
+                make.height.equalTo(300)
+            }
+
             //            make.top.equalTo(dataView.snp.bottom).inset(94)
             make.left.right.equalToSuperview().inset(27)
         }
@@ -446,8 +507,9 @@ class ProfileViewController: UIViewController {
             //            make.width.equalTo(336)
             make.height.equalTo(300)
         }
+
         editButton.snp.makeConstraints{make in
-            make.top.equalTo(viewInView.snp.bottom).offset(35)
+            make.top.equalTo(viewInView.snp.bottom).offset(5)
             make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(44)
         }
@@ -462,6 +524,70 @@ class ProfileViewController: UIViewController {
             make.width.equalTo(view.frame.size.width)
             make.height.equalTo(view.frame.size.height)
             
+
+            scrollView.snp.makeConstraints{make in
+                make.top.equalToSuperview()
+                make.left.right.equalToSuperview()
+                make.height.equalTo(view.frame.size.height - 100)
+    //            make.left.right.equalToSuperview().inset(27)
+                
+            }
+    //        tableView.snp.makeConstraints{make in
+    //            make.top.bottom.left.right.equalToSuperview()
+    //        }
+    //        appointTable.tableView.snp.makeConstraints{make in
+    //            make.top.bottom.left.right.equalToSuperview()
+    //        }
+            doctorTitle.snp.makeConstraints{make in
+                make.top.equalToSuperview().inset(8)
+                make.left.equalToSuperview()
+            }
+            mailTitle.snp.makeConstraints{make in
+                make.top.equalTo(doctorTitle.snp.bottom).offset(31)
+                make.left.equalToSuperview()
+            }
+            numberTitle.snp.makeConstraints{make in
+                make.top.equalTo(mailTitle.snp.bottom).offset(31)
+                make.left.equalToSuperview()
+            }
+            bDayTitle.snp.makeConstraints{make in
+                make.top.equalTo(numberTitle.snp.bottom).offset(31)
+                make.left.equalToSuperview()
+            }
+            addressTitle.snp.makeConstraints{make in
+                make.top.equalTo(bDayTitle.snp.bottom).offset(31)
+                make.left.equalToSuperview()
+            }
+//            passwordTitle.snp.makeConstraints{make in
+//                make.top.equalTo(addressTitle.snp.bottom).offset(31)
+//                make.left.equalToSuperview()
+//            }
+            doctorName.snp.makeConstraints{make in
+                make.top.equalToSuperview().inset(8)
+                make.right.equalToSuperview()
+            }
+            mailName.snp.makeConstraints{make in
+                make.top.equalTo(doctorName.snp.bottom).offset(31)
+                make.right.equalToSuperview()
+            }
+            numberName.snp.makeConstraints{make in
+                make.top.equalTo(mailName.snp.bottom).offset(31)
+                make.right.equalToSuperview()
+            }
+            bDayName.snp.makeConstraints{make in
+                make.top.equalTo(numberName.snp.bottom).offset(31)
+                make.right.equalToSuperview()
+            }
+            addressName.snp.makeConstraints{make in
+                make.top.equalTo(bDayName.snp.bottom).offset(31)
+                make.right.equalToSuperview()
+            }
+//            passwordName.snp.makeConstraints{make in
+//                make.top.equalTo(addressName.snp.bottom).offset(31)
+//                make.right.equalToSuperview()
+//            }
+//
+
             
         }
         viewAsTableView.snp.makeConstraints{make in
@@ -491,6 +617,7 @@ class ProfileViewController: UIViewController {
         doctorTitle.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(8)
             make.left.equalToSuperview()
+
         }
         mailTitle.snp.makeConstraints{make in
             make.top.equalTo(doctorTitle.snp.bottom).offset(31)
