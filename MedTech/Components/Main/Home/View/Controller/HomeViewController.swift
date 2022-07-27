@@ -137,14 +137,23 @@ class HomeViewController: UIViewController {
         setUpSubViews()
         setUpConstraints()
         appointmentsViewModel.getLastVisit(id: 2) { rs in
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            if rs != nil {
+                self.remindButton.isHidden = false
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
 
-            let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
-            dateFormatter.dateFormat = "dd-MMM"
-            dateFormatter.locale = Locale(identifier: "ru")
-            let dateString = dateFormatter.string(from: dateDate!)
-            self.remindButton.setTitle("Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+                let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
+                dateFormatter.dateFormat = "dd-MMM"
+                dateFormatter.locale = Locale(identifier: "ru")
+                let dateString = dateFormatter.string(from: dateDate!)
+                self.remindButton.setTitle("Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+            } else {
+                DispatchQueue.main.async {
+                    self.remindButton.isHidden = true
+                }
+                
+            }
+            
         }
         
         tableView.delegate = self

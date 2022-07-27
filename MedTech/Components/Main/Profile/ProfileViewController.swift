@@ -40,17 +40,7 @@ class ProfileViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    //    let titleForPage : UILabel = {
-    //        var title = UILabel()
-    //        title.text = "Профиль"
-    //        title.textColor = .black
-    ////        title.font = title.font.withSize(25)
-    //        title.font = .boldSystemFont(ofSize: 25)
-    //        title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-    //        return title
-    //    }()
-    
+
     private lazy var editButton : UIButton = {
         let button = UIButton()
         button.setTitle("Изменить", for: .normal)
@@ -146,11 +136,6 @@ class ProfileViewController: UIViewController {
     
     lazy var dataView : UIView = {
         let vieww = UIView()
-        //vieww.backgroundColor = .red
-        //vieww.frame.size = CGSize(width: 375, height: 700)
-        //        vieww.frame.size = CGSize(width: view.frame.size.width, height: 700)
-        //        vieww.backgroundColor = .systemGreen
-        //        vieww.translatesAutoresizingMaskIntoConstraints = false
         return vieww
         
     }()
@@ -251,7 +236,16 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
         view.backgroundColor = .white
         scrollView.showsVerticalScrollIndicator = false
+        addProgressBar()
+        getPatient()
         
+        setUpSubviews()
+        setUpScrollView()
+        setUpConstraints()
+        
+    }
+    
+    func addProgressBar() {
         let circlePath = UIBezierPath(arcCenter: profileImage.center,
                                       radius: 45,
                                       startAngle: -(.pi / 2),
@@ -274,13 +268,6 @@ class ProfileViewController: UIViewController {
         shape.fillColor = UIColor.clear.cgColor
         
         profileImage.layer.addSublayer(shape)
-        
-        getPatient()
-        
-        setUpSubviews()
-        setUpScrollView()
-        setUpConstraints()
-        
     }
     
     func setUpSubviews(){
@@ -318,6 +305,7 @@ class ProfileViewController: UIViewController {
     func getPatient() {
         let userId = userDefaults.getUserId()
         viewModel.getPatient(id: userId) { result in
+            print(result)
             let user = result?.userDTO
             let doctor = result?.doctorDTO?.userDTO
             self.userName.text = "\(user!.firstName) \(user!.lastName) \(user!.middleName)"
@@ -326,6 +314,7 @@ class ProfileViewController: UIViewController {
             self.numberName.text = user?.phoneNumber
             self.bDayName.text = user?.dob
             self.addressName.text = user?.address
+            //self.profileImage.sd_setImage(with: us)
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)

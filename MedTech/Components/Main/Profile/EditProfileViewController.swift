@@ -13,6 +13,7 @@ class EditProfileViewController: UIViewController {
     private lazy var saveButton : UIButton = {
         let button = UIButton()
         button.setImage(Icons.done.image, for: .normal)
+        button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
         return button
     }()
     let profileImage : UIImageView = {
@@ -112,7 +113,13 @@ class EditProfileViewController: UIViewController {
         label.layer.addSublayer(bottomBorder)
         return label
     }()
-
+    
+    private lazy var confirmButton: LoginButton = {
+        let button = LoginButton()
+        button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
+        button.setTitle("Confirm", for: .normal)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,14 +144,24 @@ class EditProfileViewController: UIViewController {
             userMail,
             userNumber,
             userBirth,
-            userAddress
+            userAddress,
+            confirmButton
         )
         view.backgroundColor = .white
         setUpConstraints()
     }
     
+    @objc func didTapDone() {
+        let vc = PasswordViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc func didTapPencil() {
         presentPhotoActionSheet()
+    }
+    
+    @objc func didTapConfirmButton() {
+        print("Confirm button tapped")
     }
     
     func setUpConstraints() {
@@ -203,6 +220,13 @@ class EditProfileViewController: UIViewController {
         userAddress.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(placeUserAddress.snp.bottom).offset(16)
+        }
+        
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(userAddress.snp.bottom).offset(40)
+            make.width.equalTo(336)
+            make.height.equalTo(50)
         }
     }
 }

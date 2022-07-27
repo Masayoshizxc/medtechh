@@ -48,6 +48,7 @@
 		A97F4A442882A29D00FEEBA9 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F4A432882A29D00FEEBA9 /* Patient.swift */; };
 		A97F4A462882A36000FEEBA9 /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97F4A452882A36000FEEBA9 /* ProfileRouter.swift */; };
 		A97FC05F287753FA00B689C1 /* CodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97FC05E287753FA00B689C1 /* CodeTextField.swift */; };
+		A989B28C289132620034B92B /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A989B28B289132620034B92B /* PasswordViewController.swift */; };
 		A9A35525287EFF8200116E7E /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A35524287EFF8200116E7E /* Day.swift */; };
 		A9A35527287F040B00116E7E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A35526287F040B00116E7E /* Time.swift */; };
 		A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3552F287FED5200116E7E /* AppointmentView.swift */; };
@@ -133,6 +134,7 @@
 		A97F4A432882A29D00FEEBA9 /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		A97F4A452882A36000FEEBA9 /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		A97FC05E287753FA00B689C1 /* CodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextField.swift; sourceTree = "<group>"; };
+		A989B28B289132620034B92B /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		A9A35524287EFF8200116E7E /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		A9A35526287F040B00116E7E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		A9A3552F287FED5200116E7E /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
@@ -197,7 +199,7 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		A901787E284A6C9F00FFFBA2 /* Screens */ = {
+		A901787E284A6C9F00FFFBA2 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				A91DF78F28636F7C00C79BDF /* Reusable */,
@@ -205,7 +207,7 @@
 				A9B1B3F528636BFC00D15021 /* Main */,
 				A9B1B3F428636BD300D15021 /* TabBar */,
 			);
-			path = Screens;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		A906FE6728806B3B00FF3E92 /* ViewModel */ = {
@@ -288,6 +290,7 @@
 				A9192F9D2882A23B00EC5F19 /* Model */,
 				A9017885284A6CF700FFFBA2 /* ProfileViewController.swift */,
 				AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */,
+				A989B28B289132620034B92B /* PasswordViewController.swift */,
 				A93D2EB6287541D200DEE1BF /* ViewModel */,
 			);
 			path = Profile;
@@ -414,7 +417,7 @@
 				A98EEB9528635E950038C1D2 /* Resources */,
 				A9A3552E287F107E00116E7E /* Services */,
 				AE5045F82859F3C00047CA62 /* Frames */,
-				A901787E284A6C9F00FFFBA2 /* Screens */,
+				A901787E284A6C9F00FFFBA2 /* Components */,
 				A97996662845FEAF00454CEF /* LaunchScreen.storyboard */,
 				A97996692845FEAF00454CEF /* Info.plist */,
 			);
@@ -866,6 +869,7 @@
 				A95E5C022875668E00F7D575 /* ForgotPasswordViewModel.swift in Sources */,
 				A9017882284A6CDB00FFFBA2 /* AppointmentViewController.swift in Sources */,
 				A9A35527287F040B00116E7E /* Time.swift in Sources */,
+				A989B28C289132620034B92B /* PasswordViewController.swift in Sources */,
 				A9DDAA7B2874A29700FB0257 /* AuthRouter.swift in Sources */,
 				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
 				A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */,

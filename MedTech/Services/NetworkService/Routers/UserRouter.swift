@@ -8,19 +8,19 @@
 import Foundation
 
 enum UserRouter: BaseRouter {
-    case changePassword(id: Int, password: String)
+    case changePassword(id: Int, oldPassword: String?, newPassword: String)
 
     var path: String {
         switch self {
-        case let .changePassword(id, _):
+        case let .changePassword(id, _, _):
             return "/api/v1/users/\(id)/change-password"
         }
     }
 
     var queryParameter: [URLQueryItem]? {
         switch self {
-        case let .changePassword(_, password):
-            return [URLQueryItem(name: "password", value: password)]
+        case let .changePassword(_, _, newPassword):
+            return [URLQueryItem(name: "newPassword", value: newPassword)]
         }
     }
 

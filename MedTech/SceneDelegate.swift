@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let window = UIWindow(windowScene: windowScene)
             let userDefaults = UserDefaultsService()
-            
+
             if userDefaults.didSignedIn() == true {
                 let navBar = UINavigationController(rootViewController: TabBarViewController())
                 window.rootViewController = navBar
@@ -32,10 +32,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.rootViewController = navBar
             }
             
-//            let viewController = CodeViewController()
+//            let viewController = PasswordViewController()
 //            let navBar = UINavigationController(rootViewController: viewController)
 //            window.rootViewController = navBar
-//
+
             self.window = window
             window.makeKeyAndVisible()
         }

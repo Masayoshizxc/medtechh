@@ -107,15 +107,20 @@ class NewPasswordViewController: BaseViewController {
         
         viewModel.changePassword(id: userId, password: password) { result in
             print("New password result: \(String(describing: result))")
+            if result != nil {
+                if self.isForgetPassword {
+                    let vc = LoginViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = TabBarViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            } else {
+                print("There is somtsefe")
+            }
         }
         
-        if isForgetPassword {
-            let vc = LoginViewController()
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = TabBarViewController()
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        
         
     }
     

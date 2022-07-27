@@ -15,11 +15,10 @@ class NewPasswordViewModel: NewPasswordViewModelProtocol {
     let networkService: NetworkService = NetworkService()
     
     func changePassword(id: Int, password: String, completion: @escaping ((FailureModel?) -> Void)) {
-        networkService.sendRequest(urlRequest: UserRouter.changePassword(id: id, password: password).createURLRequest(),
+        networkService.sendRequest(urlRequest: UserRouter.changePassword(id: id, oldPassword: nil, newPassword: password).createURLRequest(),
                                    successModel: FailureModel.self) { result in
             switch result {
             case .success(let model):
-                
                 //print(model)
                 completion(model)
             case .badRequest(let error):
