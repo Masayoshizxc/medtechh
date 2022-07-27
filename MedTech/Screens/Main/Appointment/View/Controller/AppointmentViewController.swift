@@ -147,7 +147,7 @@ class AppointmentViewController: UIViewController {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.alignment = .fill
-        stack.distribution = .fillProportionally
+        stack.distribution = .fillEqually
         [monday,
         tuesday,
         wendnesday,
@@ -402,7 +402,7 @@ class AppointmentViewController: UIViewController {
         
         collectionViewA.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom)
-            make.left.right.equalToSuperview()
+            make.left.right.equalToSuperview().inset(6)
             make.height.equalTo(300)
         }
         

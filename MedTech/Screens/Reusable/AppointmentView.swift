@@ -155,15 +155,15 @@ class AppointmentView: UIView {
             make.top.equalToSuperview()
             make.width.equalTo(190)
             make.height.equalTo(64)
-            make.left.equalTo(doctorImageView.snp.right).offset(30)
+            make.left.equalTo(doctorImageView.snp.right).offset(20)
         }
         
         jobLabel.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(-10)
-            make.left.equalTo(doctorImageView.snp.right).offset(30)
+            make.left.equalTo(nameLabel.snp.left)
         }
         calendarImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
+            make.bottom.equalTo(jobLabel.snp.top)
             make.right.equalToSuperview().offset(-20)
             make.width.equalTo(24)
             make.height.equalTo(24)

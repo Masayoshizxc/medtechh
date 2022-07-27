@@ -17,7 +17,8 @@ class EditProfileViewController: UIViewController {
     }()
     let profileImage : UIImageView = {
         let image = UIImageView()
-        image.layer.cornerRadius = 37.5
+        image.clipsToBounds = true
+        image.layer.cornerRadius = 45
         image.image = Icons.profileImage.image
         return image
     }()
@@ -27,6 +28,7 @@ class EditProfileViewController: UIViewController {
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
         button.tintColor = .white
         button.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
+        button.addTarget(self, action: #selector(didTapPencil), for: .touchUpInside)
         return button
     }()
     
@@ -141,13 +143,16 @@ class EditProfileViewController: UIViewController {
         setUpConstraints()
     }
     
+    @objc func didTapPencil() {
+        presentPhotoActionSheet()
+    }
+    
     func setUpConstraints() {
 
         profileImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(120)
             make.width.height.equalTo(90)
-            
         }
         changeImageButton.snp.makeConstraints{make in
             make.bottom.equalTo(profileImage.snp.bottom)
@@ -199,6 +204,47 @@ class EditProfileViewController: UIViewController {
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(placeUserAddress.snp.bottom).offset(16)
         }
+    }
+}
+
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func presentPhotoActionSheet() {
+        let actionSheet = UIAlertController(title: "Profile picture", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take a photo", style: .default, handler: { [weak self] _ in
+            self?.presentCamera()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose a photo", style: .default, handler: { [weak self] _ in
+            self?.presentPhotoPicker()
+        }))
+        present(actionSheet, animated: true)
+    }
+    
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func presentPhotoPicker() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as! UIImage
+        profileImage.image = selectedImage
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
