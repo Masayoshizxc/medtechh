@@ -517,7 +517,7 @@ class ProfileViewController: UIViewController {
             //                make.top.left.right.bottom.equalToSuperview()
             //                make.top.equalToSuperview()
             make.width.equalTo(view.frame.size.width)
-            make.height.equalTo(view.frame.size.height)
+            make.height.equalTo(700 + 200)
             
 
             scrollView.snp.makeConstraints{make in

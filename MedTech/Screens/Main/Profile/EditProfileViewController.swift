@@ -84,13 +84,13 @@ class EditProfileViewController: UIViewController {
         label.font = UIFont(name: "SFProText-Regular", size: 13)
         return label
     }()
-    let placeUserPassword : UILabel = {
-        let label = UILabel()
-        label.text = "Пароль"
-        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
-        label.font = UIFont(name: "SFProText-Regular", size: 13)
-        return label
-    }()
+//    let placeUserPassword : UILabel = {
+//        let label = UILabel()
+//        label.text = "Пароль"
+//        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+//        label.font = UIFont(name: "SFProText-Regular", size: 13)
+//        return label
+//    }()
     let userName : UILabel = {
         let label = UILabel()
         label.text = "Масыбаева Айжамал Айдаровна"
@@ -126,13 +126,13 @@ class EditProfileViewController: UIViewController {
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
         return label
     }()
-    let userPassword : UITextField = {
-        let label = UITextField()
-        label.text = "1********9"
-        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
-        label.font = UIFont(name: "SFProText-Semibold", size: 14)
-        return label
-    }()
+//    let userPassword : UITextField = {
+//        let label = UITextField()
+//        label.text = "1********9"
+//        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+//        label.font = UIFont(name: "SFProText-Semibold", size: 14)
+//        return label
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,13 +146,11 @@ class EditProfileViewController: UIViewController {
                          placeUserNumber,
                          placeUserBirth,
                          placeUserAddress,
-                         placeUserPassword,
                          userName,
                          userMail,
                          userNumber,
                          userBirth,
-                         userAddress,
-                         userPassword)
+                         userAddress)
         view.backgroundColor = .white
         setUpConstraints()
     }
@@ -241,15 +239,15 @@ class EditProfileViewController: UIViewController {
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(placeUserAddress.snp.bottom).offset(16)
         }
-        placeUserPassword.snp.makeConstraints{make in
-            make.left.equalToSuperview().inset(27)
-            make.top.equalTo(userAddress.snp.bottom).offset(27)
-            
-        }
-        userPassword.snp.makeConstraints{make in
-            make.left.equalToSuperview().inset(27)
-            make.top.equalTo(placeUserPassword.snp.bottom).offset(16)
-        }
+//        placeUserPassword.snp.makeConstraints{make in
+//            make.left.equalToSuperview().inset(27)
+//            make.top.equalTo(userAddress.snp.bottom).offset(27)
+//            
+//        }
+//        userPassword.snp.makeConstraints{make in
+//            make.left.equalToSuperview().inset(27)
+//            make.top.equalTo(placeUserPassword.snp.bottom).offset(16)
+//        }
     }
 }
 
