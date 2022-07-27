@@ -146,6 +146,7 @@ class ProfileViewController: UIViewController {
     
     lazy var dataView : UIView = {
         let vieww = UIView()
+        //vieww.backgroundColor = .red
         //vieww.frame.size = CGSize(width: 375, height: 700)
         //        vieww.frame.size = CGSize(width: view.frame.size.width, height: 700)
         //        vieww.backgroundColor = .systemGreen
@@ -180,8 +181,6 @@ class ProfileViewController: UIViewController {
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         label.numberOfLines = 0
-        
-        label.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return label
     }()
     
@@ -331,7 +330,6 @@ class ProfileViewController: UIViewController {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)
             let dateRangeStart = Date()
-            //let dateRangeEnd = Date().addingTimeInterval(12345678)
             let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
             let weeks = components.weekOfYear ?? 0
             self.weekLabel.text = "\(weeks)-я\n неделя"
@@ -354,11 +352,19 @@ class ProfileViewController: UIViewController {
             "userId" : userId
         ]
         let encodedData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-        viewModel.logOut(data: encodedData!) { result in
-            print(result!)
-        }
-        let vc = LoginViewController()
-        tabBarController?.navigationController?.pushViewController(vc, animated: true)
+        let sheet = UIAlertController(title: "Выйти", message: "Вы уверены что вы хотите выйти из аккаунта?", preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "Отменить", style: .destructive, handler: { _ in
+            self.dismiss(animated: true)
+        }))
+        sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { _ in
+            self.viewModel.logOut(data: encodedData!) { result in
+                let vc = LoginViewController()
+                self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        }))
+        present(sheet, animated: true)
+        
     }
     
     @objc func goToVC2() {
@@ -366,10 +372,9 @@ class ProfileViewController: UIViewController {
         loadVC.modalPresentationStyle = .fullScreen
         self.present(loadVC, animated: true, completion: nil)
     }
-    //    private let appointTable = AppointmentTableViewController()
     
     func setUpScrollView(){
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 700 + 150)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 700 + 200)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -409,8 +414,8 @@ class ProfileViewController: UIViewController {
         //                make.centerX.equalToSuperview()
         //            }
         profileImage.snp.makeConstraints{make in
-            make.top.equalTo(sosButton).offset(61)
-            make.left.equalToSuperview().inset(37)
+            make.top.equalToSuperview().offset(30)
+            make.left.equalToSuperview().inset(35)
             make.width.height.equalTo(75)
         }
         trimestImage.snp.makeConstraints{make in
@@ -448,7 +453,7 @@ class ProfileViewController: UIViewController {
         }
         userName.snp.makeConstraints{make in
             make.centerY.equalTo(profileImage)
-            make.left.equalTo(profileImage.snp.right).offset(21)
+            make.left.equalTo(profileImage.snp.right).offset(30)
             make.width.equalTo(230)
         }
         dataView.snp.makeConstraints{make in
@@ -472,10 +477,11 @@ class ProfileViewController: UIViewController {
         scrollView.snp.makeConstraints{make in
             make.top.equalTo(sosButton.snp.bottom).offset(60)
             make.left.right.equalToSuperview()
-            make.height.equalTo(view.frame.size.height - 100)
+            make.height.equalToSuperview()
             //            make.left.right.equalToSuperview().inset(27)
             
         }
+        
         //        tableView.snp.makeConstraints{make in
         //            make.top.bottom.left.right.equalToSuperview()
         //        }
@@ -507,7 +513,7 @@ class ProfileViewController: UIViewController {
         //                make.left.equalToSuperview()
         //            }
         doctorName.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(8)
+            make.top.equalTo(doctorTitle.snp.top)
             make.right.equalToSuperview()
         }
         mailName.snp.makeConstraints{make in

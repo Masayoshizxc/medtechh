@@ -120,7 +120,7 @@ class CodeViewController: UIViewController {
         codeField4.delegate = self
         codeField5.delegate = self
         codeField6.delegate = self
-        
+        codeField1.becomeFirstResponder()
         
         
         view.addSubviews(firstLabel, secondLabel, stackView, enterButton, resendButton)
@@ -154,12 +154,12 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
                     self?.codeField4.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
                     self?.codeField5.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
                     self?.codeField6.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField1.text = ""
-                    self?.codeField2.text = ""
-                    self?.codeField3.text = ""
-                    self?.codeField4.text = ""
-                    self?.codeField5.text = ""
-                    self?.codeField6.text = ""
+                    self?.codeField1.text = nil
+                    self?.codeField2.text = nil
+                    self?.codeField3.text = nil
+                    self?.codeField4.text = nil
+                    self?.codeField5.text = nil
+                    self?.codeField6.text = nil
                     self?.codeField1.becomeFirstResponder()
                 }
                 print("error")
@@ -207,23 +207,63 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
 
 extension CodeViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if codeField1.text?.count == 1 {
-            enterButton.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
-            codeField2.becomeFirstResponder()
+        let text = textField.text
+        print(text?.count)
+        if text?.count == 1 {
+            switch textField {
+            case codeField1:
+                enterButton.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+                codeField2.becomeFirstResponder()
+            case codeField2:
+                codeField3.becomeFirstResponder()
+            case codeField3:
+                codeField4.becomeFirstResponder()
+            case codeField4:
+                codeField5.becomeFirstResponder()
+            case codeField5:
+                codeField6.becomeFirstResponder()
+            case codeField6:
+                codeField6.resignFirstResponder()
+            default:
+                break
+            }
         }
-        if codeField2.text?.count == 1 {
-            codeField3.becomeFirstResponder()
+        
+        if text?.count == 0 {
+            switch textField {
+            case codeField1:
+                enterButton.backgroundColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
+                codeField1.becomeFirstResponder()
+            case codeField2:
+                codeField1.becomeFirstResponder()
+            case codeField3:
+                codeField2.becomeFirstResponder()
+            case codeField4:
+                codeField3.becomeFirstResponder()
+            case codeField5:
+                codeField4.becomeFirstResponder()
+            case codeField6:
+                codeField5.becomeFirstResponder()
+            default:
+                break
+            }
         }
-        if codeField3.text?.count == 1 {
-            codeField4.becomeFirstResponder()
-        }
-        if codeField4.text?.count == 1 {
-            codeField5.becomeFirstResponder()
-        }
-        if codeField5.text?.count == 1 {
-            codeField6.becomeFirstResponder()
-        }
+
+        
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowedCharacters = CharacterSet.decimalDigits
+        let characterSet = CharacterSet(charactersIn: string)
+        
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        return allowedCharacters.isSuperset(of: characterSet) && updatedText.count < 2
+    }
+    
     
 }
 

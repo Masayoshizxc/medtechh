@@ -152,6 +152,8 @@ class LoginViewController: BaseViewController {
                         self?.alertIcon.isHidden = false
                         self?.alertLabel.isHidden = false
                         self?.alertLabel.text = "Неверный email или пароль"
+                        self?.emailField.layer.borderColor = UIColor.red.cgColor
+                        self?.passwordField.layer.borderColor = UIColor.red.cgColor
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -159,6 +161,8 @@ class LoginViewController: BaseViewController {
                         self?.alertIcon.isHidden = false
                         self?.alertLabel.isHidden = false
                         self?.alertLabel.text = "Неверный email или пароль"
+                        self?.emailField.layer.borderColor = UIColor.red.cgColor
+                        self?.passwordField.layer.borderColor = UIColor.red.cgColor
                     }
                 }
                 
@@ -168,6 +172,8 @@ class LoginViewController: BaseViewController {
             alertIcon.isHidden = false
             alertLabel.isHidden = false
             alertLabel.text = "Wrong email"
+            emailField.layer.borderColor = UIColor.red.cgColor
+            passwordField.layer.borderColor = UIColor.red.cgColor
         }
     }
     
