@@ -55,12 +55,12 @@ class NotificationsViewController: UIViewController {
     func setUpConstraints(){
         exitButton.snp.makeConstraints{make in
             make.width.height.equalTo(40)
-            make.top.equalToSuperview().inset(70)
+            make.top.equalToSuperview().inset(40)
             make.right.equalToSuperview().inset(30)
         }
         titleForPage.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)
-            make.top.equalToSuperview().inset(111)
+            make.top.equalToSuperview().inset(75)
         }
         tableView.snp.makeConstraints{make in
             make.top.equalTo(titleForPage.snp.bottom).offset(26)

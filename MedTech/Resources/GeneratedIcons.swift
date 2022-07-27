@@ -34,6 +34,7 @@ internal enum Icons {
   internal static let notifDay = ImageAsset(name: "notifDay")
   internal static let notifLocation = ImageAsset(name: "notifLocation")
   internal static let notifTime = ImageAsset(name: "notifTime")
+  internal static let profileImage = ImageAsset(name: "profileImage")
   internal static let time = ImageAsset(name: "time")
   internal static let unhide = ImageAsset(name: "unhide")
 }

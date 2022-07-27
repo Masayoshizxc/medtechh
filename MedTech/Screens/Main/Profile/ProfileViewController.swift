@@ -75,7 +75,7 @@ class ProfileViewController: UIViewController {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = imageView.frame.size.width/2
         imageView.frame.size = CGSize(width: 75, height: 75)
-        imageView.image = UIImage(named: "profileImage")
+        imageView.image = Icons.profileImage.image
         imageView.layer.cornerRadius = 37.5
         return imageView
     }()
@@ -369,8 +369,7 @@ class ProfileViewController: UIViewController {
     
     @objc func goToVC2() {
         let loadVC = EditProfileViewController()
-        loadVC.modalPresentationStyle = .fullScreen
-        self.present(loadVC, animated: true, completion: nil)
+        tabBarController?.navigationController?.pushViewController(loadVC, animated: true)
     }
     
     func setUpScrollView(){
@@ -522,7 +521,7 @@ class ProfileViewController: UIViewController {
             //                make.top.left.right.bottom.equalToSuperview()
             //                make.top.equalToSuperview()
             make.width.equalTo(view.frame.size.width)
-            make.height.equalTo(view.frame.size.height)
+            make.height.equalTo(700 + 200)
             
 
             scrollView.snp.makeConstraints{make in

@@ -402,8 +402,7 @@ class AppointmentViewController: UIViewController {
         
         collectionViewA.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(300)
         }
         
