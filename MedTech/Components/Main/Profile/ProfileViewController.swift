@@ -349,7 +349,8 @@ class ProfileViewController: BaseViewController {
             } else {
                 self.trimestLabel.text = "Ваша беременность закончилась"
             }
-            guard let image = URL(string: result?.imageUrl ?? "") else {
+            let imageURL = result?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
+            guard let image = URL(string: imageURL!) else {
                 print("There is no image")
                 return
             }
