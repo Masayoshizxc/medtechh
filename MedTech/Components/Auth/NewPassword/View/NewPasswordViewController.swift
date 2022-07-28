@@ -105,7 +105,7 @@ class NewPasswordViewController: BaseViewController {
         
         let userId = userDefaults.getUserId()
         
-        viewModel.changePassword(id: userId, password: password) { result in
+        viewModel.changePassword(id: userId, oldPassword: nil, newPassword: password) { result in
             print("New password result: \(String(describing: result))")
             if result != nil {
                 if self.isForgetPassword {

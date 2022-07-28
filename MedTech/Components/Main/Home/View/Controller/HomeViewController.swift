@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
     private let viewModel: HomeViewModelProtocol
@@ -125,36 +125,14 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        
         title = "Главная"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: notificationsButton)
         
         collectionView.showsHorizontalScrollIndicator = false
         setUpSubViews()
         setUpConstraints()
-        appointmentsViewModel.getLastVisit(id: 2) { rs in
-            if rs != nil {
-                self.remindButton.isHidden = false
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-
-                let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
-                dateFormatter.dateFormat = "dd-MMM"
-                dateFormatter.locale = Locale(identifier: "ru")
-                let dateString = dateFormatter.string(from: dateDate!)
-                self.remindButton.setTitle("Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
-            } else {
-                DispatchQueue.main.async {
-                    self.remindButton.isHidden = true
-                }
-                
-            }
-            
-        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -167,18 +145,12 @@ class HomeViewController: UIViewController {
         
         getLastVisit()
         getAllWeeks()
+        getClinic()
         
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         showBadge(withCount: 5)
         
-        viewModel.getClinic { result in
-            guard let result = result else {
-                return
-            }
-            self.userDefaults.saveEmergency(phone: (result.emergencyPhoneNumber)!)
-            self.userDefaults.saveReception(phone: (result.receptionPhoneNumber)!)
-        }
     }
     
     @objc func didTapSosButton() {
@@ -206,10 +178,21 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func getClinic() {
+        viewModel.getClinic { result in
+            guard let result = result else {
+                return
+            }
+            self.userDefaults.saveEmergency(phone: (result.emergencyPhoneNumber)!)
+            self.userDefaults.saveReception(phone: (result.receptionPhoneNumber)!)
+        }
+    }
+    
     func getLastVisit() {
         let userId = userDefaults.getUserId()
         appointmentsViewModel.getLastVisit(id: userId) { rs in
             if rs != nil {
+                self.remindButton.isHidden = false
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
@@ -217,6 +200,10 @@ class HomeViewController: UIViewController {
                 dateFormatter.locale = Locale(identifier: "ru")
                 let dateString = dateFormatter.string(from: dateDate!)
                 self.remindButton.setTitle(" Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+            } else {
+                DispatchQueue.main.async {
+                    self.remindButton.isHidden = true
+                }
             }
         }
     }

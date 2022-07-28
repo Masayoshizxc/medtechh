@@ -32,6 +32,7 @@ extension BaseRouter {
         urlComponents.host = host
         urlComponents.path = path
         urlComponents.queryItems = queryParameter
+        urlComponents.percentEncodedQuery = urlComponents.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         guard let url = urlComponents.url else {
             fatalError(URLError(.unsupportedURL).localizedDescription)
         }

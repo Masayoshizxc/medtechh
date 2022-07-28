@@ -8,15 +8,16 @@
 import UIKit
 import SnapKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
     
-    private let viewModel: ProfileViewModelProtocol
+    var model: Patient?
     
     let tableView = UITableView()
-    
     let shape = CAShapeLayer()
+    
+    private let viewModel: ProfileViewModelProtocol
     
     init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
         viewModel = vm
@@ -26,7 +27,6 @@ class ProfileViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     private lazy var logOutButton: UIButton = {
         let button = UIButton()
@@ -137,8 +137,8 @@ class ProfileViewController: UIViewController {
     lazy var dataView : UIView = {
         let vieww = UIView()
         return vieww
-        
     }()
+    
     let box : UIImageView = {
         let imageView = UIImageView()
         imageView.layer.borderColor = UIColor.black.cgColor
@@ -153,10 +153,14 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .white
         return view
     }()
-    let doctorTitle : UILabel = {
+    lazy var doctorTitle : UILabel = {
         let label = UILabel()
         label.text = "Гинеколог"
         label.textColor = UIColor(named: "Violet")
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: 45, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
+        label.layer.addSublayer(bottomBorder)
         return label
     }()
     
@@ -169,10 +173,14 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let mailTitle : UILabel = {
+    lazy var mailTitle : UILabel = {
         let label = UILabel()
         label.text = "Email"
         label.textColor = UIColor(named: "Violet")
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
+        label.layer.addSublayer(bottomBorder)
         return label
     }()
     
@@ -184,10 +192,14 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let numberTitle : UILabel = {
+    lazy var numberTitle : UILabel = {
         let label = UILabel()
         label.text = "Номер телефона"
         label.textColor = UIColor(named: "Violet")
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
+        label.layer.addSublayer(bottomBorder)
         return label
     }()
     
@@ -199,10 +211,14 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let bDayTitle : UILabel = {
+    lazy var bDayTitle : UILabel = {
         let label = UILabel()
         label.text = "Дата рождения"
         label.textColor = UIColor(named: "Violet")
+        let bottomBorder = CALayer()
+        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
+        label.layer.addSublayer(bottomBorder)
         return label
     }()
     
@@ -214,7 +230,7 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let addressTitle : UILabel = {
+    lazy var addressTitle : UILabel = {
         let label = UILabel()
         label.text = "Место проживания"
         label.textColor = UIColor(named: "Violet")
@@ -232,17 +248,36 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Профиль"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
-        view.backgroundColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         scrollView.showsVerticalScrollIndicator = false
         addProgressBar()
-        getPatient()
-        
-        setUpSubviews()
         setUpScrollView()
-        setUpConstraints()
         
+        view.addSubviews(scrollView, sosButton)
+        scrollView.addSubview(dataView)
+        dataView.addSubviews(
+            profileImage,
+            trimestImage,
+            downloadButton,
+            userName,
+            viewAsTableView,
+            viewInView,
+            logOutButton,
+            editButton)
+        viewAsTableView.addSubview(box)
+        trimestImage.addSubviews(weekLabel,trimestLabel)
+        viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName)
+        setUpConstraints()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getPatient()
     }
     
     func addProgressBar() {
@@ -269,25 +304,7 @@ class ProfileViewController: UIViewController {
         
         profileImage.layer.addSublayer(shape)
     }
-    
-    func setUpSubviews(){
-        view.addSubviews(scrollView, sosButton)
-        scrollView.addSubview(dataView)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
-        dataView.addSubviews(
-            profileImage,
-            trimestImage,
-            downloadButton,
-            userName,
-            viewAsTableView,
-            viewInView,
-            logOutButton,
-            editButton)
-        viewAsTableView.addSubview(box)
-        trimestImage.addSubviews(weekLabel,trimestLabel)
-        viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName)
-    }
-    
+
     @objc func didTapSosButton() {
         let number = userDefaults.getEmergency()
         callNumber(phoneNumber: number)
@@ -305,7 +322,8 @@ class ProfileViewController: UIViewController {
     func getPatient() {
         let userId = userDefaults.getUserId()
         viewModel.getPatient(id: userId) { result in
-            print(result)
+            self.model = result
+            
             let user = result?.userDTO
             let doctor = result?.doctorDTO?.userDTO
             self.userName.text = "\(user!.firstName) \(user!.lastName) \(user!.middleName)"
@@ -314,7 +332,7 @@ class ProfileViewController: UIViewController {
             self.numberName.text = user?.phoneNumber
             self.bDayName.text = user?.dob
             self.addressName.text = user?.address
-            //self.profileImage.sd_setImage(with: us)
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)
@@ -331,6 +349,11 @@ class ProfileViewController: UIViewController {
             } else {
                 self.trimestLabel.text = "Ваша беременность закончилась"
             }
+            guard let image = URL(string: result?.imageUrl ?? "") else {
+                print("There is no image")
+                return
+            }
+            self.profileImage.sd_setImage(with: image)
         }
     }
     
@@ -358,6 +381,7 @@ class ProfileViewController: UIViewController {
     
     @objc func goToVC2() {
         let loadVC = EditProfileViewController()
+        loadVC.model = model
         tabBarController?.navigationController?.pushViewController(loadVC, animated: true)
     }
     
@@ -366,29 +390,12 @@ class ProfileViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    //    func setUpTableViewController(){
-    //        tableView.delegate = self
-    //        tableView.dataSource = self
-    //        tableView.register(AppointmentTableViewCell.self, forCellReuseIdentifier: "cell")
-    //    }
-    
     func setUpConstraints() {
         logOutButton.snp.makeConstraints { make in
-            //            make.left.equalToSuperview().inset(235)
-            //            make.right.equalToSuperview().inset(27)
             make.top.equalTo(editButton.snp.bottom).offset(65)
             make.width.equalTo(128)
             make.height.equalTo(44)
-            logOutButton.snp.makeConstraints { make in
-    //            make.left.equalToSuperview().inset(235)
-    //            make.right.equalToSuperview().inset(27)
-                make.top.equalTo(editButton.snp.bottom).offset(32)
-                make.width.equalTo(128)
-                make.height.equalTo(44)
-                
-    //            make.top.equalTo(dataView.snp.bottom).inset(94)
-                make.left.right.equalToSuperview().inset(27)
-            }
+            make.left.right.equalToSuperview().inset(27)
             
 //            editButton.snp.makeConstraints{make in
 //    //            make.top.equalToSuperview().inset(65)
@@ -445,23 +452,13 @@ class ProfileViewController: UIViewController {
             make.left.right.equalToSuperview().inset(27)
         }
         
-        //            editButton.snp.makeConstraints{make in
-        //    //            make.top.equalToSuperview().inset(65)
-        //    //            make.left.equalToSuperview().inset(30)
-        //    //            make.width.equalTo(65)
-        //    //            make.height.equalTo(44)
-        //
-        //            }
         sosButton.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(65)
             make.right.equalToSuperview().inset(30)
             make.width.equalTo(65)
             make.height.equalTo(44)
         }
-        //            titleForPage.snp.makeConstraints{make in
-        //                make.top.equalToSuperview().inset(70)
-        //                make.centerX.equalToSuperview()
-        //            }
+
         profileImage.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(30)
             make.left.equalToSuperview().inset(35)
@@ -469,8 +466,6 @@ class ProfileViewController: UIViewController {
         }
         trimestImage.snp.makeConstraints{make in
             make.top.equalTo(profileImage.snp.bottom).offset(27)
-            //            make.centerX.equalToSuperview()
-            //                make.centerX.equalToSuperview()
             make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(120)
         }
@@ -507,8 +502,6 @@ class ProfileViewController: UIViewController {
             make.width.equalTo(230)
         }
         dataView.snp.makeConstraints{make in
-            //                make.top.left.right.bottom.equalToSuperview()
-            //                make.top.equalToSuperview()
             make.width.equalTo(view.frame.size.width)
             make.height.equalTo(700 + 200)
             
@@ -517,65 +510,63 @@ class ProfileViewController: UIViewController {
                 make.top.equalToSuperview()
                 make.left.right.equalToSuperview()
                 make.height.equalTo(view.frame.size.height - 100)
-    //            make.left.right.equalToSuperview().inset(27)
-                
             }
-    //        tableView.snp.makeConstraints{make in
-    //            make.top.bottom.left.right.equalToSuperview()
-    //        }
-    //        appointTable.tableView.snp.makeConstraints{make in
-    //            make.top.bottom.left.right.equalToSuperview()
-    //        }
+
             doctorTitle.snp.makeConstraints{make in
                 make.top.equalToSuperview().inset(8)
                 make.left.equalToSuperview()
+                make.width.equalTo(100)
             }
+            
+            doctorName.snp.makeConstraints{make in
+                make.top.equalTo(doctorTitle.snp.top)
+                make.right.equalToSuperview()
+                make.left.equalTo(doctorTitle.snp.right).offset(110)
+            }
+            
             mailTitle.snp.makeConstraints{make in
                 make.top.equalTo(doctorTitle.snp.bottom).offset(31)
                 make.left.equalToSuperview()
             }
+            
+            mailName.snp.makeConstraints{make in
+                make.top.equalTo(mailTitle.snp.top)
+                make.right.equalToSuperview()
+                make.left.equalTo(mailTitle.snp.right).offset(10)
+            }
+            
             numberTitle.snp.makeConstraints{make in
                 make.top.equalTo(mailTitle.snp.bottom).offset(31)
                 make.left.equalToSuperview()
             }
+            
+            numberName.snp.makeConstraints{make in
+                make.top.equalTo(numberTitle.snp.top)
+                make.right.equalToSuperview()
+                make.left.equalTo(numberTitle.snp.right).offset(10)
+            }
+            
             bDayTitle.snp.makeConstraints{make in
                 make.top.equalTo(numberTitle.snp.bottom).offset(31)
                 make.left.equalToSuperview()
             }
+            
+            bDayName.snp.makeConstraints{make in
+                make.top.equalTo(bDayTitle.snp.top)
+                make.right.equalToSuperview()
+                make.left.equalTo(bDayTitle.snp.right).offset(10)
+            }
+            
             addressTitle.snp.makeConstraints{make in
                 make.top.equalTo(bDayTitle.snp.bottom).offset(31)
                 make.left.equalToSuperview()
             }
-//            passwordTitle.snp.makeConstraints{make in
-//                make.top.equalTo(addressTitle.snp.bottom).offset(31)
-//                make.left.equalToSuperview()
-//            }
-            doctorName.snp.makeConstraints{make in
-                make.top.equalToSuperview().inset(8)
-                make.right.equalToSuperview()
-            }
-            mailName.snp.makeConstraints{make in
-                make.top.equalTo(doctorName.snp.bottom).offset(31)
-                make.right.equalToSuperview()
-            }
-            numberName.snp.makeConstraints{make in
-                make.top.equalTo(mailName.snp.bottom).offset(31)
-                make.right.equalToSuperview()
-            }
-            bDayName.snp.makeConstraints{make in
-                make.top.equalTo(numberName.snp.bottom).offset(31)
-                make.right.equalToSuperview()
-            }
+            
             addressName.snp.makeConstraints{make in
-                make.top.equalTo(bDayName.snp.bottom).offset(31)
+                make.top.equalTo(addressTitle.snp.top)
                 make.right.equalToSuperview()
+                make.left.equalTo(addressTitle.snp.right).offset(10)
             }
-//            passwordName.snp.makeConstraints{make in
-//                make.top.equalTo(addressName.snp.bottom).offset(31)
-//                make.right.equalToSuperview()
-//            }
-//
-
             
         }
         viewAsTableView.snp.makeConstraints{make in

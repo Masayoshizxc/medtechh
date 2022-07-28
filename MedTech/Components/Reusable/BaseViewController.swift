@@ -12,8 +12,14 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
         AppUtility.lockOrientation(.portrait)
+        
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        backButton.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         
         view.backgroundColor = .white
     }

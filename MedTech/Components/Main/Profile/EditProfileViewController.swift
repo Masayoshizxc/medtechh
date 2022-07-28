@@ -8,8 +8,23 @@
 import UIKit
 import SnapKit
 
-class EditProfileViewController: UIViewController {
-
+class EditProfileViewController: BaseViewController {
+    
+    var model: Patient?
+    
+    let userDefaults = UserDefaultsService()
+    
+    private let viewModel: ProfileViewModelProtocol
+    
+    init(vm: ProfileViewModelProtocol = ProfileViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var saveButton : UIButton = {
         let button = UIButton()
         button.setImage(Icons.done.image, for: .normal)
@@ -124,14 +139,17 @@ class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Изменить профиль"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        backButton.tintColor = UIColor(named: "Violet")
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-        
+        let user = model?.userDTO
+        userName.text = "\(user!.lastName) \(user!.firstName) \(user!.middleName)"
+        userMail.text = user!.email
+        userNumber.text = user!.phoneNumber
+        userBirth.text = user!.dob
+        userAddress.text = user!.address
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         view.addSubviews(
             profileImage,
             changeImageButton,
@@ -147,10 +165,8 @@ class EditProfileViewController: UIViewController {
             userAddress,
             confirmButton
         )
-        view.backgroundColor = .white
         setUpConstraints()
     }
-    
     @objc func didTapDone() {
         let vc = PasswordViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -161,7 +177,17 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc func didTapConfirmButton() {
-        print("Confirm button tapped")
+        guard let address = userAddress.text, let number = userNumber.text else {
+            return
+        }
+        let userId = userDefaults.getUserId()
+        viewModel.getAddressAndPhone(id: userId, address: address, phone: number) { result in
+            print(result)
+            DispatchQueue.main.async {
+                self.userAddress.text = result?.userDTO?.address
+                self.userNumber.text = result?.userDTO?.phoneNumber
+            }
+        }
     }
     
     func setUpConstraints() {

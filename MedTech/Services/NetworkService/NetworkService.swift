@@ -20,8 +20,8 @@ class NetworkService {
                 return
             }
             let queue = DispatchQueue.main
-//            let decodedData = self.transformFromJSON(data: data, objectType: ReservedDates.self)
-//            print("This is decoded data:", decodedData?.reservedDates)
+            let decodedData = self.transformFromJSON(data: data, objectType: Patient.self)
+            print("This is decoded data:", decodedData)
             
             if let error = self.validateResponse(data: data, response: response, error: error) {
                 if case NetworkErrors.badRequest = error,

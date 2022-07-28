@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class NotificationsViewController: UIViewController {
+class NotificationsViewController: BaseViewController {
 
     var count = [1]
     var tableView = UITableView()
@@ -31,7 +31,7 @@ class NotificationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+
         setUpSubviews()
         setUpTableView()
         setUpConstraints()

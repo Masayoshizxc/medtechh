@@ -8,14 +8,14 @@
 import Foundation
 
 protocol NewPasswordViewModelProtocol {
-    func changePassword(id: Int, password: String, completion: @escaping ((FailureModel?) -> Void))
+    func changePassword(id: Int, oldPassword: String?, newPassword: String, completion: @escaping ((FailureModel?) -> Void))
 }
 
 class NewPasswordViewModel: NewPasswordViewModelProtocol {
     let networkService: NetworkService = NetworkService()
     
-    func changePassword(id: Int, password: String, completion: @escaping ((FailureModel?) -> Void)) {
-        networkService.sendRequest(urlRequest: UserRouter.changePassword(id: id, oldPassword: nil, newPassword: password).createURLRequest(),
+    func changePassword(id: Int, oldPassword: String?, newPassword: String, completion: @escaping ((FailureModel?) -> Void)) {
+        networkService.sendRequest(urlRequest: UserRouter.changePassword(id: id, oldPassword: oldPassword, newPassword: newPassword).createURLRequest(),
                                    successModel: FailureModel.self) { result in
             switch result {
             case .success(let model):
