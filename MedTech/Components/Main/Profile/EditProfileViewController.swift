@@ -108,8 +108,6 @@ class EditProfileViewController: BaseViewController {
         bottomBorder.frame = CGRect(x: 0, y: 25, width: view.frame.size.width - 60, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
-        label.rightView = editTextFieldButton
-        label.rightViewMode = .unlessEditing
         return label
     }()
     let userBirth : UILabel = {
@@ -128,8 +126,6 @@ class EditProfileViewController: BaseViewController {
         bottomBorder.frame = CGRect(x: 0, y: 25, width: view.frame.size.width - 60, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
-        label.rightView = editTextFieldButton
-        label.rightViewMode = .unlessEditing
         return label
     }()
     
@@ -138,12 +134,6 @@ class EditProfileViewController: BaseViewController {
         button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
         button.setTitle("Confirm", for: .normal)
         return button
-    }()
-    
-    private lazy var editTextFieldButton : UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage(named: "pencilEdit"), for: .normal)
-        return btn
     }()
     
     override func viewDidLoad() {
@@ -205,6 +195,20 @@ class EditProfileViewController: BaseViewController {
                 self.userNumber.text = result?.userDTO?.phoneNumber
             }
         }
+        let data = profileImage.image!.jpegData(compressionQuality: 0.5)
+        if model?.imageUrl != nil {
+            viewModel.changeImage(id: userId, image: data!) { result in
+                print("This is modeflsefkejf", result)
+            }
+        } else {
+            viewModel.addImage(id: userId, image: data!) { result in
+                print(result)
+            }
+        }
+        
+        
+        
+        
     }
     
     func setUpConstraints() {
