@@ -86,7 +86,7 @@ class HomeViewController: BaseViewController {
     
     lazy var remindButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "calendar"), for: .normal)
+        button.setImage(Icons.calendarTime.image, for: .normal)
         button.setTitle(" Следующее посещение 30-июля - 07:00", for: .normal)
         button.backgroundColor = UIColor(named: "Violet")
         button.layer.cornerRadius = 20
@@ -315,61 +315,38 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.getReuseCell(CollectionViewCell.self, indexPath: indexPath)
         if indexPath.row == selectedWeek {
-            //cell.changeSelected()
-            let circlePath = UIBezierPath(arcCenter: cell.center,
-                                          radius: cell.frame.width / 2 - 1,
-                                          startAngle: -(.pi / 2),
-                                          endAngle: .pi * 2,
-                                          clockwise: true)
-            
-            
-            let trackShape = CAShapeLayer()
-            trackShape.path = circlePath.cgPath
-            trackShape.fillColor = UIColor.clear.cgColor
-            trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
-            trackShape.lineWidth = 2
-            cell.layer.addSublayer(trackShape)
-            
-            let shape = CAShapeLayer()
-            shape.path = circlePath.cgPath
-            shape.lineWidth = 2
-            shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
-            shape.strokeEnd = 0.4
-            shape.fillColor = UIColor.clear.cgColor
-            
-            cell.layer.addSublayer(shape)
+            cell.changeSelected()
+//            let circlePath = UIBezierPath(arcCenter: cell.center,
+//                                          radius: cell.frame.width / 2 - 1,
+//                                          startAngle: -(.pi / 2),
+//                                          endAngle: .pi * 2,
+//                                          clockwise: true)
+//
+//
+//            let trackShape = CAShapeLayer()
+//            trackShape.path = circlePath.cgPath
+//            trackShape.fillColor = UIColor.clear.cgColor
+//            trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
+//            trackShape.lineWidth = 2
+//            cell.layer.addSublayer(trackShape)
+//
+//            let shape = CAShapeLayer()
+//            shape.path = circlePath.cgPath
+//            shape.lineWidth = 2
+//            shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
+//            shape.strokeEnd = 0.4
+//            shape.fillColor = UIColor.clear.cgColor
+//
+//            cell.layer.addSublayer(shape)
         }
-        //        if !model.isEmpty {
-        //            if indexPath.row < currentWeek {
-        //                cell.setBeforeDate(text: model[indexPath.row].weekday)
-        //            } else {
-        //                cell.fill(text: model[indexPath.row].weekday)
-        //            }
-        //        }
-        
-        //        let circlePath = UIBezierPath(arcCenter: cell.center,
-        //                                      radius: cell.frame.width / 2 - 1,
-        //                                      startAngle: -(.pi / 2),
-        //                                      endAngle: .pi * 2,
-        //                                      clockwise: true)
-        //
-        //
-        //        let trackShape = CAShapeLayer()
-        //        trackShape.path = circlePath.cgPath
-        //        trackShape.fillColor = UIColor.clear.cgColor
-        //        trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
-        //        trackShape.lineWidth = 2
-        //        cell.layer.addSublayer(trackShape)
-        //
-        //        let shape = CAShapeLayer()
-        //        shape.path = circlePath.cgPath
-        //        shape.lineWidth = 2
-        //        shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
-        //        shape.strokeEnd = 0.4
-        //        shape.fillColor = UIColor.clear.cgColor
-        //
-        //        cell.layer.addSublayer(shape)
-        cell.fill(text: model[indexPath.row].weekday)
+        if !model.isEmpty {
+            if indexPath.row < currentWeek {
+                cell.setBeforeDate(text: model[indexPath.row].weekday)
+            } else {
+                cell.fill(text: model[indexPath.row].weekday)
+            }
+        }
+        //cell.fill(text: model[indexPath.row].weekday)
         return cell
     }
     

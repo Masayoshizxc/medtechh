@@ -187,7 +187,9 @@ class EditProfileViewController: BaseViewController {
             return
         }
         let userId = userDefaults.getUserId()
-        let imageData = profileImage.image
+        let imageData = profileImage.image?.jpegData(compressionQuality: 0.9)
+        var data = Data()
+        data.append(imageData!)
         viewModel.getAddressAndPhone(id: userId, address: address, phone: number) { result in
             print(result)
             DispatchQueue.main.async {

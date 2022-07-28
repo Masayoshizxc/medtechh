@@ -21,6 +21,7 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 internal enum Icons {
   internal static let back = ImageAsset(name: "back")
   internal static let calendar = ImageAsset(name: "calendar")
+  internal static let calendarTime = ImageAsset(name: "calendarTime")
   internal static let calendarWhite = ImageAsset(name: "calendarWhite")
   internal static let call = ImageAsset(name: "call")
   internal static let callWhite = ImageAsset(name: "callWhite")
