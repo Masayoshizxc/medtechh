@@ -10,18 +10,18 @@ import UIKit
 
 enum ProfileRouter: BaseRouter {
     case getPatient(id: Int)
-    case addImage(id: Int, image: UIImage)
-    case changeImage(id: Int, image: UIImage)
+    case addImage(id: Int, image: Data)
+    case changeImage(id: Int, image: Data)
     case changeAddressAndPhone(id: Int, phone: String, address: String)
 
     var path: String {
         switch self {
         case let .getPatient(id):
             return "/api/v1/patients/\(id)"
-        case let .addImage(id, image):
-            return "/api/v1/patients/\(id)\(image)"
-        case let .changeImage(id, image):
-            return "/api/v1/patients/\(id)\(image)"
+        case let .addImage(id, _):
+            return "/api/v1/patients/img/\(id)"
+        case let .changeImage(id, _):
+            return "/api/v1/patients/img/\(id)"
         case let .changeAddressAndPhone(id, _, _):
             return "/api/v1/patients/edit/\(id)"
         }
@@ -48,7 +48,7 @@ enum ProfileRouter: BaseRouter {
         case .getPatient:
             return .GET
         case .addImage:
-            return .GET
+            return .POST
         case .changeImage:
             return .PUT
         case .changeAddressAndPhone:
@@ -60,10 +60,10 @@ enum ProfileRouter: BaseRouter {
         switch self {
         case .getPatient:
             return nil
-        case .addImage:
-            return nil
-        case .changeImage:
-            return nil
+        case let .addImage(_, image):
+            return image
+        case let .changeImage(_, image):
+            return image
         case .changeAddressAndPhone:
             return nil
         }
@@ -74,9 +74,9 @@ enum ProfileRouter: BaseRouter {
         case .getPatient:
             return nil
         case .addImage:
-            return nil
+            return [HttpHeader(field: "Content-Type", value: "multipart/form-data")]
         case .changeImage:
-            return nil
+            return [HttpHeader(field: "Content-Type", value: "multipart/form-data")]
         case .changeAddressAndPhone:
             return nil
         }

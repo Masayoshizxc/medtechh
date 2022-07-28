@@ -146,6 +146,12 @@ class EditProfileViewController: BaseViewController {
         userNumber.text = user!.phoneNumber
         userBirth.text = user!.dob
         userAddress.text = user!.address
+        let imageURL = model?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
+        guard let image = URL(string: imageURL!) else {
+            print("There is no image")
+            return
+        }
+        self.profileImage.sd_setImage(with: image)
     }
     
     override func viewWillLayoutSubviews() {
@@ -181,6 +187,7 @@ class EditProfileViewController: BaseViewController {
             return
         }
         let userId = userDefaults.getUserId()
+        let imageData = profileImage.image
         viewModel.getAddressAndPhone(id: userId, address: address, phone: number) { result in
             print(result)
             DispatchQueue.main.async {
