@@ -35,8 +35,11 @@ enum ProfileRouter: BaseRouter {
             return nil
         case .changeImage:
             return nil
-        case .changeAddressAndPhone:
-            return nil
+        case let .changeAddressAndPhone(_, phone, address):
+            return [
+                URLQueryItem(name: "address", value: address),
+                URLQueryItem(name: "phoneNumber", value: phone)
+            ]
         }
     }
 
@@ -49,7 +52,7 @@ enum ProfileRouter: BaseRouter {
         case .changeImage:
             return .PUT
         case .changeAddressAndPhone:
-            return .POST
+            return .PUT
         }
     }
 

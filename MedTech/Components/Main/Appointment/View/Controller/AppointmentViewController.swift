@@ -8,7 +8,7 @@
 import UIKit
 import Toast_Swift
 
-class AppointmentViewController: UIViewController {
+class AppointmentViewController: BaseViewController {
     
     private let viewModel: AppointmentViewModelProtocol
     
@@ -210,8 +210,6 @@ class AppointmentViewController: UIViewController {
         view.backgroundColor = .white
         
         title = "Запись"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")!] as [NSAttributedString.Key : Any]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: callButton)
         
@@ -233,10 +231,12 @@ class AppointmentViewController: UIViewController {
         appointmentView.isHidden = true
         
         setMonthView()
-        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         view.addSubview(scrollView)
         scrollView.addSubview(containerView)
-        
         containerView.addSubviews(
             monthView,
             monthLabel,
@@ -251,7 +251,6 @@ class AppointmentViewController: UIViewController {
         )
         setUpConstraints()
     }
-    
     
     @objc func didTapSosButton() {
         let number = userDefaults.getEmergency()

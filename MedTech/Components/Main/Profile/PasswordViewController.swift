@@ -7,7 +7,20 @@
 
 import UIKit
 
-class PasswordViewController: UIViewController {
+class PasswordViewController: BaseViewController {
+    
+    let userDefaults = UserDefaultsService()
+    
+    private let viewModel: NewPasswordViewModelProtocol
+
+    init(vm: NewPasswordViewModelProtocol = NewPasswordViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let oldPassword: PasswordTextField = {
         let field = PasswordTextField()
@@ -36,12 +49,6 @@ class PasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        backButton.tintColor = UIColor(named: "Violet")
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         
         view.addSubviews(
             oldPassword,
@@ -67,8 +74,10 @@ class PasswordViewController: UIViewController {
             print("New password are not the same")
             return
         }
-        
-        print("Confirm password tapped!!!")
+        let userId = userDefaults.getUserId()
+        viewModel.changePassword(id: userId, oldPassword: old, newPassword: new1) { result in
+            print(result)
+        }
     }
     
     func setUpConstraints() {
