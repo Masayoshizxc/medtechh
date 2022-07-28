@@ -69,16 +69,6 @@ class EditProfileViewController: UIViewController {
         return label
     }()
 
-//    let placeUserPassword : UILabel = {
-//        let label = UILabel()
-//        label.text = "Пароль"
-//        label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
-//        label.font = UIFont(name: "SFProText-Regular", size: 13)
-//        return label
-//    }()
-
-
-
     let userName : UILabel = {
         let label = UILabel()
         label.text = "Масыбаева Айжамал Айдаровна"
@@ -103,6 +93,8 @@ class EditProfileViewController: UIViewController {
         bottomBorder.frame = CGRect(x: 0, y: 25, width: view.frame.size.width - 60, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
+        label.rightView = editTextFieldButton
+        label.rightViewMode = .unlessEditing
         return label
     }()
     let userBirth : UILabel = {
@@ -121,18 +113,23 @@ class EditProfileViewController: UIViewController {
         bottomBorder.frame = CGRect(x: 0, y: 25, width: view.frame.size.width - 60, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
+        label.rightView = editTextFieldButton
+        label.rightViewMode = .unlessEditing
         return label
     }()
-
-//    let userPassword : UITextField = {
-//        let label = UITextField()
-//        label.text = "1********9"
-//        label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
-//        label.font = UIFont(name: "SFProText-Semibold", size: 14)
-//        return label
-//    }()
     
+    private lazy var confirmButton: LoginButton = {
+        let button = LoginButton()
+        button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
+        button.setTitle("Confirm", for: .normal)
+        return button
+    }()
     
+    private lazy var editTextFieldButton : UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "pencilEdit"), for: .normal)
+        return btn
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,7 +143,6 @@ class EditProfileViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
         
         view.addSubviews(
-            saveButton,
             profileImage,
             changeImageButton,
             placeUserName,
@@ -158,9 +154,9 @@ class EditProfileViewController: UIViewController {
             userMail,
             userNumber,
             userBirth,
-            userAddress
+            userAddress,
+            confirmButton
         )
-
         view.backgroundColor = .white
         setUpConstraints()
     }
@@ -235,24 +231,13 @@ class EditProfileViewController: UIViewController {
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(placeUserAddress.snp.bottom).offset(16)
         }
-
-//        placeUserPassword.snp.makeConstraints{make in
-//            make.left.equalToSuperview().inset(27)
-//            make.top.equalTo(userAddress.snp.bottom).offset(27)
-//            
-//        }
-//        userPassword.snp.makeConstraints{make in
-//            make.left.equalToSuperview().inset(27)
-//            make.top.equalTo(placeUserPassword.snp.bottom).offset(16)
-//        }
-
         
-        saveButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(71)
-            make.right.equalToSuperview().inset(27)
-            make.width.height.equalTo(24)
+        confirmButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(userAddress.snp.bottom).offset(40)
+            make.width.equalTo(336)
+            make.height.equalTo(50)
         }
-
     }
 }
 
