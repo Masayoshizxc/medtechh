@@ -11,7 +11,6 @@ import SDWebImage
 class WeekTableViewCell: UITableViewCell {
     let title : UILabel = {
        let title = UILabel()
-        //title.text = "Что есть во время беременности?"
         title.font = .boldSystemFont(ofSize: 24)
         title.textAlignment = .left
         title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
@@ -22,14 +21,12 @@ class WeekTableViewCell: UITableViewCell {
        let image = UIImageView()
         image.frame.size = CGSize(width: 230, height: 204)
         image.layer.cornerRadius = image.frame.size.width/2
-        //image.image = UIImage(named: "eat")
         image.contentMode = .scaleAspectFit
         return image
     }()
     
     var weekDescription : UILabel = {
        var text = UILabel()
-//        text.text = ("В 14 недель беременности мозг и нервная система ребенка развиваются семимильными шагами. Малыш становится чувствительнее, считается, что он уже способен ощущать настроение мамы, а на фото плода, сделанного учеными, можно увидеть различные гримасы – от подобия улыбки до выражения недовольства.")
         text.numberOfLines = 0
         text.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         return text

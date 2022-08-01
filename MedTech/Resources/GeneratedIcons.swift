@@ -20,24 +20,31 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Icons {
   internal static let back = ImageAsset(name: "back")
+  internal static let beakers = ImageAsset(name: "beakers")
   internal static let calendar = ImageAsset(name: "calendar")
   internal static let calendarTime = ImageAsset(name: "calendarTime")
   internal static let calendarWhite = ImageAsset(name: "calendarWhite")
   internal static let call = ImageAsset(name: "call")
   internal static let callWhite = ImageAsset(name: "callWhite")
+  internal static let checkmark = ImageAsset(name: "checkmark")
+  internal static let childObserve = ImageAsset(name: "childObserve")
   internal static let date = ImageAsset(name: "date")
   internal static let doctor = ImageAsset(name: "doctor")
+  internal static let domino = ImageAsset(name: "domino")
   internal static let done = ImageAsset(name: "done")
   internal static let error = ImageAsset(name: "error")
+  internal static let file = ImageAsset(name: "file")
   internal static let hide = ImageAsset(name: "hide")
   internal static let line = ImageAsset(name: "line")
   internal static let location = ImageAsset(name: "location")
   internal static let notifDay = ImageAsset(name: "notifDay")
   internal static let notifLocation = ImageAsset(name: "notifLocation")
   internal static let notifTime = ImageAsset(name: "notifTime")
+  internal static let pencilEdit = ImageAsset(name: "pencilEdit")
   internal static let profileImage = ImageAsset(name: "profileImage")
   internal static let time = ImageAsset(name: "time")
   internal static let unhide = ImageAsset(name: "unhide")
+  internal static let warning = ImageAsset(name: "warning")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 

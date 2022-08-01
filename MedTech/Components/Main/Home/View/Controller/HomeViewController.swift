@@ -55,12 +55,18 @@ class HomeViewController: BaseViewController {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(CollectionViewCell.self)
+        cv.showsHorizontalScrollIndicator = false
+        cv.backgroundColor = .white
+        cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(WeekTableViewCell.self, forCellReuseIdentifier: "homePageCell")
+        tableView.isScrollEnabled = false
+        tableView.allowsSelection = false
+        tableView.separatorColor = UIColor.clear
         return tableView
     }()
     
@@ -126,31 +132,38 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Главная"
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: notificationsButton)
         
-        collectionView.showsHorizontalScrollIndicator = false
-        setUpSubViews()
-        setUpConstraints()
-        
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.isScrollEnabled = false
-        tableView.allowsSelection = false
-        tableView.separatorColor = UIColor.clear
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         
         getLastVisit()
         getAllWeeks()
         getClinic()
         
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .white
         showBadge(withCount: 5)
-        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        setUpSubViews()
+        setUpConstraints()
+    }
+    
+    @objc func didPullRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.getLastVisit()
+            self.getAllWeeks()
+            self.getClinic()
+            self.scrollView.refreshControl?.endRefreshing()
+        }
     }
     
     @objc func didTapSosButton() {
@@ -179,48 +192,52 @@ class HomeViewController: BaseViewController {
     }
     
     func getClinic() {
-        viewModel.getClinic { result in
-            guard let result = result else {
+        viewModel.getClinic { [weak self] result in
+            guard let result = result, let strongSelf = self else {
                 return
             }
-            self.userDefaults.saveEmergency(phone: (result.emergencyPhoneNumber)!)
-            self.userDefaults.saveReception(phone: (result.receptionPhoneNumber)!)
+            strongSelf.userDefaults.saveEmergency(phone: (result.emergencyPhoneNumber)!)
+            strongSelf.userDefaults.saveReception(phone: (result.receptionPhoneNumber)!)
         }
     }
     
     func getLastVisit() {
         let userId = userDefaults.getUserId()
-        appointmentsViewModel.getLastVisit(id: userId) { rs in
+        appointmentsViewModel.getLastVisit(id: userId) { [weak self] rs in
             if rs != nil {
-                self.remindButton.isHidden = false
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateDate = dateFormatter.date(from: (rs?.dateVisit)!)
-                dateFormatter.dateFormat = "dd-MMM"
+                dateFormatter.dateFormat = "dd LLL"
                 dateFormatter.locale = Locale(identifier: "ru")
                 let dateString = dateFormatter.string(from: dateDate!)
-                self.remindButton.setTitle(" Следующее посещение \(dateString) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+                print(dateString)
+                self?.remindButton.setTitle(" Следующее посещение \(dateString.capitalized.dropLast()) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
+                self?.remindButton.isHidden = false
             } else {
                 DispatchQueue.main.async {
-                    self.remindButton.isHidden = true
+                    self?.remindButton.isHidden = true
                 }
             }
         }
     }
     
     func getAllWeeks() {
-        viewModel.getAllWeeks { result in
+        viewModel.getAllWeeks { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
             if !result!.isEmpty {
                 DispatchQueue.main.async {
-                    self.model = result!
-                    self.sortAnArrayOfArray(self.model)
-                    if !self.model.isEmpty {
-                        let size = 250 * (self.model[self.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
-                        self.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + CGFloat(size))
+                    strongSelf.model = result!
+                    strongSelf.sortAnArrayOfArray(strongSelf.model)
+                    if !strongSelf.model.isEmpty {
+                        let size = 250 * (strongSelf.model[strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
+                        strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
                     }
-                    self.scrollView.contentSize = self.contentSize
-                    self.collectionView.reloadData()
-                    self.tableView.reloadData()
+                    strongSelf.scrollView.contentSize = strongSelf.contentSize
+                    strongSelf.collectionView.reloadData()
+                    strongSelf.tableView.reloadData()
                 }
             }
         }
@@ -292,8 +309,8 @@ class HomeViewController: BaseViewController {
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(remindButton.snp.top).inset(60)
-            make.left.equalToSuperview().offset(5)
-            make.right.equalToSuperview().inset(3)
+            make.left.equalToSuperview().offset(7)
+            make.right.equalToSuperview().inset(7)
             make.height.equalTo(50)
         }
         

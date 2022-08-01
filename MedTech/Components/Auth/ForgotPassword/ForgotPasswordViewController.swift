@@ -56,20 +56,18 @@ class ForgotPasswordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        backButton.tintColor = UIColor(named: "Violet")
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-
+        
+        emailField.delegate = self
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         view.addSubviews(
             firstLabel,
             secondLabel,
             emailField,
             sendButton
         )
-        
-        emailField.delegate = self
-        
         setUpConstraints()
     }
     
@@ -79,17 +77,31 @@ class ForgotPasswordViewController: BaseViewController {
             return
         }
         
+        view.makeToastActivity(.center)
         if validateEmail(enteredEmail: email) {
             viewModel.forgotPassword(email: email) { [weak self] result in
+                guard let strongSelf = self else {
+                    return
+                }
                 print("Forgot password: \(String(describing: result))")
                 if result?.errors == nil {
-                    let vc = CodeViewController()
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    strongSelf.view.hideToastActivity()
+                    let sheet = UIAlertController(title: "Успешно", message: "На вашу почту отправлен код.", preferredStyle: .alert)
+                    sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
+                        let vc = CodeViewController()
+                        strongSelf.navigationController?.pushViewController(vc, animated: true)
+                        strongSelf.dismiss(animated: true)
+                    }))
+                    strongSelf.present(sheet, animated: true)
                 } else {
+                    strongSelf.view.hideToastActivity()
+                    strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
                     print("There was a problem with sending code")
                 }
             }
         } else {
+            view.hideToastActivity()
+            emailField.layer.borderColor = UIColor.red.cgColor
             print("Enter proper email")
         }
         

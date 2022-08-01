@@ -95,28 +95,45 @@ class NewPasswordViewController: BaseViewController {
               let confirmPassword = confirmPasswordField.text,
               !password.isEmpty,
               !confirmPassword.isEmpty else {
+            view.hideToastActivity()
+            passwordField.layer.borderColor = UIColor.red.cgColor
+            confirmPasswordField.layer.borderColor = UIColor.red.cgColor
             print("Enter password")
             return
         }
         guard password == confirmPassword else {
+            view.hideToastActivity()
+            passwordField.layer.borderColor = UIColor.red.cgColor
+            confirmPasswordField.layer.borderColor = UIColor.red.cgColor
             print("passwords are not the save")
             return
         }
         
         let userId = userDefaults.getUserId()
         
-        viewModel.changePassword(id: userId, oldPassword: nil, newPassword: password) { result in
+        viewModel.changePassword(id: userId, oldPassword: nil, newPassword: password) { [weak self] result in
             print("New password result: \(String(describing: result))")
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.view.makeToastActivity(.center)
             if result != nil {
-                if self.isForgetPassword {
-                    let vc = LoginViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = TabBarViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+                let sheet = UIAlertController(title: "Успешно", message: "Пароль успешно изменён !", preferredStyle: .alert)
+                sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
+                    if strongSelf.isForgetPassword {
+                        let vc = LoginViewController()
+                        strongSelf.navigationController?.pushViewController(vc, animated: true)
+                    } else {
+                        let vc = TabBarViewController()
+                        strongSelf.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    strongSelf.dismiss(animated: true)
+                }))
+                strongSelf.present(sheet, animated: true)
             } else {
-                print("There is somtsefe")
+                strongSelf.view.hideToastActivity()
+                strongSelf.passwordField.layer.borderColor = UIColor.red.cgColor
+                strongSelf.confirmPasswordField.layer.borderColor = UIColor.red.cgColor
             }
         }
         

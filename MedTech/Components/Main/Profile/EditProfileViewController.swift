@@ -187,9 +187,6 @@ class EditProfileViewController: BaseViewController {
             return
         }
         let userId = userDefaults.getUserId()
-        let imageData = profileImage.image?.jpegData(compressionQuality: 0.9)
-        var data = Data()
-        data.append(imageData!)
         viewModel.getAddressAndPhone(id: userId, address: address, phone: number) { result in
             print(result)
             DispatchQueue.main.async {
@@ -197,6 +194,20 @@ class EditProfileViewController: BaseViewController {
                 self.userNumber.text = result?.userDTO?.phoneNumber
             }
         }
+        let data = profileImage.image!.jpegData(compressionQuality: 0.5)
+        if model?.imageUrl != nil {
+            viewModel.changeImage(id: userId, image: data!) { result in
+                print("This is modeflsefkejf", result)
+            }
+        } else {
+            viewModel.addImage(id: userId, image: data!) { result in
+                print(result)
+            }
+        }
+        
+        
+        
+        
     }
     
     func setUpConstraints() {

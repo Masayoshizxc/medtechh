@@ -65,7 +65,7 @@ class ProfileViewController: BaseViewController {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = imageView.frame.size.width/2
         imageView.frame.size = CGSize(width: 75, height: 75)
-        imageView.image = Icons.profileImage.image
+        //imageView.image = Icons.profileImage.image
         imageView.layer.cornerRadius = 37.5
         return imageView
     }()
@@ -158,13 +158,13 @@ class ProfileViewController: BaseViewController {
         label.text = "Гинеколог"
         label.textColor = UIColor(named: "Violet")
         let bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(x: 0, y: 45, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.frame = CGRect(x: 0, y: 40, width: view.frame.size.width - 55, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
         return label
     }()
     
-    let doctorName : UILabel = {
+    lazy var doctorName : UILabel = {
         let label = UILabel()
         label.text = "Хафизова Валентина Владимировна"
         label.textColor = UIColor(named: "LightViolet")
@@ -175,7 +175,7 @@ class ProfileViewController: BaseViewController {
     
     lazy var mailTitle : UILabel = {
         let label = UILabel()
-        label.text = "Email"
+        label.text = "Почта"
         label.textColor = UIColor(named: "Violet")
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
@@ -245,6 +245,11 @@ class ProfileViewController: BaseViewController {
         return label
     }()
     
+    override func loadView() {
+        super.loadView()
+        getPatient()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Профиль"
@@ -252,6 +257,9 @@ class ProfileViewController: BaseViewController {
         scrollView.showsVerticalScrollIndicator = false
         addProgressBar()
         setUpScrollView()
+        
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         
         view.addSubviews(scrollView, sosButton)
         scrollView.addSubview(dataView)
@@ -272,7 +280,6 @@ class ProfileViewController: BaseViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -292,17 +299,24 @@ class ProfileViewController: BaseViewController {
         trackShape.path = circlePath.cgPath
         trackShape.fillColor = UIColor.clear.cgColor
         trackShape.strokeColor = UIColor(named: "LightestPeach")?.cgColor
-        trackShape.lineWidth = 2
+        trackShape.lineWidth = 5
         profileImage.layer.addSublayer(trackShape)
         
         let shape = CAShapeLayer()
         shape.path = circlePath.cgPath
-        shape.lineWidth = 2
+        shape.lineWidth = 5
         shape.strokeColor = UIColor(named: "Peach")?.cgColor
         shape.strokeEnd = 0.4
         shape.fillColor = UIColor.clear.cgColor
         
         profileImage.layer.addSublayer(shape)
+    }
+    
+    @objc func didPullRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.getPatient()
+            self.scrollView.refreshControl?.endRefreshing()
+        }
     }
 
     @objc func didTapSosButton() {
@@ -321,17 +335,21 @@ class ProfileViewController: BaseViewController {
     
     func getPatient() {
         let userId = userDefaults.getUserId()
-        viewModel.getPatient(id: userId) { result in
-            self.model = result
+        viewModel.getPatient(id: userId) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.model = result
             
             let user = result?.userDTO
             let doctor = result?.doctorDTO?.userDTO
-            self.userName.text = "\(user!.firstName) \(user!.lastName) \(user!.middleName)"
-            self.doctorName.text = "\(doctor!.firstName) \(doctor!.lastName) \(doctor!.middleName)"
-            self.mailName.text = user?.email
-            self.numberName.text = user?.phoneNumber
-            self.bDayName.text = user?.dob
-            self.addressName.text = user?.address
+            strongSelf.userName.text = "\(user!.firstName) \(user!.lastName) \(user!.middleName)"
+            strongSelf.doctorName.text = "\(doctor!.firstName) \(doctor!.lastName) \(doctor!.middleName)"
+            strongSelf.mailName.text = user?.email
+            strongSelf.numberName.text = user?.phoneNumber
+            strongSelf.bDayName.text = user?.dob
+            strongSelf.addressName.text = user?.address
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -339,22 +357,22 @@ class ProfileViewController: BaseViewController {
             let dateRangeStart = Date()
             let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
             let weeks = components.weekOfYear ?? 0
-            self.weekLabel.text = "\(weeks)-я\n неделя"
+            strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
             if weeks <= 12 {
-                self.trimestLabel.text = "1-й\nтриместр"
+                strongSelf.trimestLabel.text = "1-й\nтриместр"
             } else if weeks > 12 && weeks <= 27 {
-                self.trimestLabel.text = "2-й\nтриместр"
+                strongSelf.trimestLabel.text = "2-й\nтриместр"
             } else if weeks > 27 && weeks <= 40{
-                self.trimestLabel.text = "3-й\nтриместр"
+                strongSelf.trimestLabel.text = "3-й\nтриместр"
             } else {
-                self.trimestLabel.text = "Ваша беременность закончилась"
+                strongSelf.trimestLabel.text = "Ваша беременность закончилась"
             }
             let imageURL = result?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
             guard let image = URL(string: imageURL!) else {
                 print("There is no image")
                 return
             }
-            self.profileImage.sd_setImage(with: image)
+            strongSelf.profileImage.sd_setImage(with: image)
         }
     }
     
@@ -398,59 +416,6 @@ class ProfileViewController: BaseViewController {
             make.height.equalTo(44)
             make.left.right.equalToSuperview().inset(27)
             
-//            editButton.snp.makeConstraints{make in
-//    //            make.top.equalToSuperview().inset(65)
-//    //            make.left.equalToSuperview().inset(30)
-//    //            make.width.equalTo(65)
-//    //            make.height.equalTo(44)
-//
-//            }
-            sosButton.snp.makeConstraints{make in
-                make.top.equalToSuperview().inset(65)
-                make.right.equalToSuperview().inset(30)
-                make.width.equalTo(65)
-                make.height.equalTo(44)
-            }
-//            titleForPage.snp.makeConstraints{make in
-//                make.top.equalToSuperview().inset(70)
-//                make.centerX.equalToSuperview()
-//            }
-            profileImage.snp.makeConstraints{make in
-                make.top.equalToSuperview().inset(40)
-                make.left.equalToSuperview().inset(37)
-                make.width.height.equalTo(75)
-            }
-            trimestImage.snp.makeConstraints{make in
-                make.top.equalTo(profileImage.snp.bottom).offset(27)
-    //            make.centerX.equalToSuperview()
-//                make.centerX.equalToSuperview()
-                make.left.right.equalToSuperview().inset(27)
-                make.height.equalTo(120)
-            }
-            weekLabel.snp.makeConstraints{make in
-                make.centerY.equalTo(trimestImage)
-                make.left.equalToSuperview().inset(40)
-            }
-            trimestLabel.snp.makeConstraints{make in
-                make.centerY.equalTo(trimestImage)
-                make.right.equalToSuperview().inset(40)
-            }
-            downloadButton.snp.makeConstraints{make in
-                make.top.equalTo(trimestImage.snp.bottom).offset(30)
-                make.left.right.equalToSuperview().inset(27)
-    //            make.width.equalTo(336)
-                make.height.equalTo(60)
-            }
-            
-            viewInView.snp.makeConstraints{make in
-                make.top.equalTo(downloadButton.snp.bottom).offset(30)
-                make.left.right.equalToSuperview().inset(27)
-    //            make.width.equalTo(336)
-                make.height.equalTo(300)
-            }
-
-            //            make.top.equalTo(dataView.snp.bottom).inset(94)
-            make.left.right.equalToSuperview().inset(27)
         }
         
         sosButton.snp.makeConstraints{make in
@@ -481,14 +446,12 @@ class ProfileViewController: BaseViewController {
         downloadButton.snp.makeConstraints{make in
             make.top.equalTo(trimestImage.snp.bottom).offset(30)
             make.left.right.equalToSuperview().inset(27)
-            //            make.width.equalTo(336)
             make.height.equalTo(60)
         }
         
         viewInView.snp.makeConstraints{make in
             make.top.equalTo(downloadButton.snp.bottom).offset(30)
             make.left.right.equalToSuperview().inset(27)
-            //            make.width.equalTo(336)
             make.height.equalTo(300)
         }
 
@@ -505,144 +468,79 @@ class ProfileViewController: BaseViewController {
         dataView.snp.makeConstraints{make in
             make.width.equalTo(view.frame.size.width)
             make.height.equalTo(700 + 200)
-            
-
-            scrollView.snp.makeConstraints{make in
-                make.top.equalToSuperview()
-                make.left.right.equalToSuperview()
-                make.height.equalTo(view.frame.size.height - 100)
-            }
-
-            doctorTitle.snp.makeConstraints{make in
-                make.top.equalToSuperview().inset(8)
-                make.left.equalToSuperview()
-                make.width.equalTo(100)
-            }
-            
-            doctorName.snp.makeConstraints{make in
-                make.top.equalTo(doctorTitle.snp.top)
-                make.right.equalToSuperview()
-                make.left.equalTo(doctorTitle.snp.right).offset(110)
-            }
-            
-            mailTitle.snp.makeConstraints{make in
-                make.top.equalTo(doctorTitle.snp.bottom).offset(31)
-                make.left.equalToSuperview()
-            }
-            
-            mailName.snp.makeConstraints{make in
-                make.top.equalTo(mailTitle.snp.top)
-                make.right.equalToSuperview()
-                make.left.equalTo(mailTitle.snp.right).offset(10)
-            }
-            
-            numberTitle.snp.makeConstraints{make in
-                make.top.equalTo(mailTitle.snp.bottom).offset(31)
-                make.left.equalToSuperview()
-            }
-            
-            numberName.snp.makeConstraints{make in
-                make.top.equalTo(numberTitle.snp.top)
-                make.right.equalToSuperview()
-                make.left.equalTo(numberTitle.snp.right).offset(10)
-            }
-            
-            bDayTitle.snp.makeConstraints{make in
-                make.top.equalTo(numberTitle.snp.bottom).offset(31)
-                make.left.equalToSuperview()
-            }
-            
-            bDayName.snp.makeConstraints{make in
-                make.top.equalTo(bDayTitle.snp.top)
-                make.right.equalToSuperview()
-                make.left.equalTo(bDayTitle.snp.right).offset(10)
-            }
-            
-            addressTitle.snp.makeConstraints{make in
-                make.top.equalTo(bDayTitle.snp.bottom).offset(31)
-                make.left.equalToSuperview()
-            }
-            
-            addressName.snp.makeConstraints{make in
-                make.top.equalTo(addressTitle.snp.top)
-                make.right.equalToSuperview()
-                make.left.equalTo(addressTitle.snp.right).offset(10)
-            }
-            
-        }
-        viewAsTableView.snp.makeConstraints{make in
-            //            make.top.equalTo(downloadButton.snp.bottom).offset(30)
-            //            make.left.equalToSuperview()
-            make.top.equalTo(downloadButton.snp.bottom).inset(50)
-            make.centerX.equalToSuperview()
-        }
-        box.snp.makeConstraints{make in
-            make.centerX.centerY.equalToSuperview()
         }
         
         scrollView.snp.makeConstraints{make in
-            make.top.equalTo(sosButton.snp.bottom).offset(60)
+            make.top.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalToSuperview()
-            //            make.left.right.equalToSuperview().inset(27)
-            
+            make.height.equalTo(view.frame.size.height - 100)
         }
         
-        //        tableView.snp.makeConstraints{make in
-        //            make.top.bottom.left.right.equalToSuperview()
-        //        }
-        //        appointTable.tableView.snp.makeConstraints{make in
-        //            make.top.bottom.left.right.equalToSuperview()
-        //        }
         doctorTitle.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(8)
             make.left.equalToSuperview()
-
+            make.width.equalTo(100)
         }
+        
+        doctorName.snp.makeConstraints{make in
+            make.top.equalTo(doctorTitle.snp.top).offset(-10)
+            make.right.equalToSuperview()
+            make.left.equalTo(doctorTitle.snp.right).offset(110)
+        }
+        
         mailTitle.snp.makeConstraints{make in
             make.top.equalTo(doctorTitle.snp.bottom).offset(31)
             make.left.equalToSuperview()
         }
+        
+        mailName.snp.makeConstraints{make in
+            make.top.equalTo(mailTitle.snp.top)
+            make.right.equalToSuperview()
+            make.left.equalTo(mailTitle.snp.right).offset(10)
+        }
+        
         numberTitle.snp.makeConstraints{make in
             make.top.equalTo(mailTitle.snp.bottom).offset(31)
             make.left.equalToSuperview()
         }
+        
+        numberName.snp.makeConstraints{make in
+            make.top.equalTo(numberTitle.snp.top)
+            make.right.equalToSuperview()
+            make.left.equalTo(numberTitle.snp.right).offset(10)
+        }
+        
         bDayTitle.snp.makeConstraints{make in
             make.top.equalTo(numberTitle.snp.bottom).offset(31)
             make.left.equalToSuperview()
         }
+        
+        bDayName.snp.makeConstraints{make in
+            make.top.equalTo(bDayTitle.snp.top)
+            make.right.equalToSuperview()
+            make.left.equalTo(bDayTitle.snp.right).offset(10)
+        }
+        
         addressTitle.snp.makeConstraints{make in
             make.top.equalTo(bDayTitle.snp.bottom).offset(31)
             make.left.equalToSuperview()
         }
-        //            passwordTitle.snp.makeConstraints{make in
-        //                make.top.equalTo(addressTitle.snp.bottom).offset(31)
-        //                make.left.equalToSuperview()
-        //            }
-        doctorName.snp.makeConstraints{make in
-            make.top.equalTo(doctorTitle.snp.top)
-            make.right.equalToSuperview()
-        }
-        mailName.snp.makeConstraints{make in
-            make.top.equalTo(doctorName.snp.bottom).offset(31)
-            make.right.equalToSuperview()
-        }
-        numberName.snp.makeConstraints{make in
-            make.top.equalTo(mailName.snp.bottom).offset(31)
-            make.right.equalToSuperview()
-        }
-        bDayName.snp.makeConstraints{make in
-            make.top.equalTo(numberName.snp.bottom).offset(31)
-            make.right.equalToSuperview()
-        }
+        
         addressName.snp.makeConstraints{make in
-            make.top.equalTo(bDayName.snp.bottom).offset(31)
+            make.top.equalTo(addressTitle.snp.top)
             make.right.equalToSuperview()
+            make.left.equalTo(addressTitle.snp.right).offset(10)
         }
-        //            passwordName.snp.makeConstraints{make in
-        //                make.top.equalTo(addressName.snp.bottom).offset(31)
-        //                make.right.equalToSuperview()
-        //            }
+        
+        viewAsTableView.snp.makeConstraints{make in
+            make.top.equalTo(downloadButton.snp.bottom).inset(50)
+            make.centerX.equalToSuperview()
+        }
+        
+        box.snp.makeConstraints{make in
+            make.centerX.centerY.equalToSuperview()
+        }
+        
         
     }
     

@@ -78,14 +78,12 @@
 		A9EF50A9287AD7EE005DF870 /* HideButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF50A8287AD7EE005DF870 /* HideButton.swift */; };
 		A9F2BEA9287B20FF00AA83A4 /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F2BEA8287B20FF00AA83A4 /* CalendarHelper.swift */; };
 		A9F2BEAB287B232800AA83A4 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F2BEAA287B232800AA83A4 /* CalendarCollectionViewCell.swift */; };
+		A9FFEE472896B342000B295A /* ChecklistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */; };
+		A9FFEE492896B5FD000B295A /* Checklists.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE482896B5FD000B295A /* Checklists.swift */; };
+		A9FFEE4F2896B9DF000B295A /* MoreMoreChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE4E2896B9DF000B295A /* MoreMoreChecklistViewController.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
 		AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
-		AEE1C1D6287AD14000D72075 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1D5287AD14000D72075 /* TableViewCell.swift */; };
-		AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1D8287AD16800D72075 /* TableViewController.swift */; };
-		AEE1C1DB287AD1C200D72075 /* DoctorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */; };
-		AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */; };
-		AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */; };
 		AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -163,14 +161,12 @@
 		A9EF50A8287AD7EE005DF870 /* HideButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideButton.swift; sourceTree = "<group>"; };
 		A9F2BEA8287B20FF00AA83A4 /* CalendarHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		A9F2BEAA287B232800AA83A4 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCollectionViewCell.swift; sourceTree = "<group>"; };
+		A9FFEE482896B5FD000B295A /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
+		A9FFEE4E2896B9DF000B295A /* MoreMoreChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMoreChecklistViewController.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
-		AEE1C1D5287AD14000D72075 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		AEE1C1D8287AD16800D72075 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorTableViewController.swift; sourceTree = "<group>"; };
-		AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewController.swift; sourceTree = "<group>"; };
-		AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentTableViewCell.swift; sourceTree = "<group>"; };
 		AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		DEA5521CA48D1D08D2359AB0 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -507,7 +503,6 @@
 		A9B1B3F528636BFC00D15021 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				AEE1C1D4287AD02900D72075 /* TableView */,
 				A91DF78A28636EFA00C79BDF /* Home */,
 				A91DF78B28636F0100C79BDF /* Appointment */,
 				A91DF78C28636F0900C79BDF /* Checklist */,
@@ -638,7 +633,8 @@
 		A9E6C54E287818FD004FC946 /* MoreChecklist */ = {
 			isa = PBXGroup;
 			children = (
-				A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */,
+				A9FFEE4A2896B92C000B295A /* Model */,
+				A9FFEE4C2896B951000B295A /* View */,
 			);
 			path = MoreChecklist;
 			sourceTree = "<group>";
@@ -685,24 +681,38 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		A9FFEE4A2896B92C000B295A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A9FFEE482896B5FD000B295A /* Checklists.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A9FFEE4C2896B951000B295A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */,
+				A9FFEE4D2896B958000B295A /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A9FFEE4D2896B958000B295A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A9E6C54F2878192E004FC946 /* MoreChecklistViewController.swift */,
+				A9FFEE4E2896B9DF000B295A /* MoreMoreChecklistViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		AE5045F82859F3C00047CA62 /* Frames */ = {
 			isa = PBXGroup;
 			children = (
 				AE5045F92859F3D40047CA62 /* AppUtility.swift */,
 			);
 			path = Frames;
-			sourceTree = "<group>";
-		};
-		AEE1C1D4287AD02900D72075 /* TableView */ = {
-			isa = PBXGroup;
-			children = (
-				AEE1C1D5287AD14000D72075 /* TableViewCell.swift */,
-				AEE1C1D8287AD16800D72075 /* TableViewController.swift */,
-				AEE1C1DA287AD1C200D72075 /* DoctorTableViewController.swift */,
-				AEE1C1DC287AD1CF00D72075 /* AppointmentTableViewController.swift */,
-				AEE1C1DE287ADA8F00D72075 /* AppointmentTableViewCell.swift */,
-			);
-			path = TableView;
 			sourceTree = "<group>";
 		};
 		F751A3741463DA1007AF9466 /* Frameworks */ = {
@@ -860,7 +870,6 @@
 				A95E5C082875748000F7D575 /* CodeViewModel.swift in Sources */,
 				A91DF793286371B400C79BDF /* PasswordTextField.swift in Sources */,
 				A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */,
-				AEE1C1DD287AD1CF00D72075 /* AppointmentTableViewController.swift in Sources */,
 				A906FE6628806A7900FF3E92 /* AppointmentsRouter.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
 				A9192F9C28826EAB00EC5F19 /* ProfileView.swift in Sources */,
@@ -878,14 +887,15 @@
 				A95E5C0528756E2B00F7D575 /* CodeViewController.swift in Sources */,
 				A9DDAA702874946200FB0257 /* HttpHeader.swift in Sources */,
 				A97FC05F287753FA00B689C1 /* CodeTextField.swift in Sources */,
+				A9FFEE4F2896B9DF000B295A /* MoreMoreChecklistViewController.swift in Sources */,
 				A971FB86287D6A6900CC5E30 /* HomeViewModel.swift in Sources */,
+				A9FFEE492896B5FD000B295A /* Checklists.swift in Sources */,
 				AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */,
 				A9DDAA7E2874A2C600FB0257 /* UserRouter.swift in Sources */,
 				A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */,
 				A9017880284A6CBF00FFFBA2 /* LoginViewController.swift in Sources */,
 				A9E6C54C2878140B004FC946 /* CodeModel.swift in Sources */,
 				AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */,
-				AEE1C1D9287AD16800D72075 /* TableViewController.swift in Sources */,
 				3C49100E285DE2B30047A02A /* GeneratedIcons.swift in Sources */,
 				A97F4A462882A36000FEEBA9 /* ProfileRouter.swift in Sources */,
 				AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */,
@@ -902,12 +912,9 @@
 				A9DDAA6E2874946200FB0257 /* NetworkErrors.swift in Sources */,
 				A97996602845FEAE00454CEF /* HomeViewController.swift in Sources */,
 				A906FE6D28806D7900FF3E92 /* TimeModel.swift in Sources */,
-				AEE1C1D6287AD14000D72075 /* TableViewCell.swift in Sources */,
 				A9DDAA732874947500FB0257 /* UserDefaultsService.swift in Sources */,
 				A91DF79128636FA800C79BDF /* EmailTextField.swift in Sources */,
 				A9486B48285CE69200E54DAC /* NewPasswordViewController.swift in Sources */,
-				AEE1C1DF287ADA8F00D72075 /* AppointmentTableViewCell.swift in Sources */,
-				AEE1C1DB287AD1C200D72075 /* DoctorTableViewController.swift in Sources */,
 				A9C77FC9287E9DED00AB6768 /* TimeCollectionViewCell.swift in Sources */,
 				A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */,
 				A9DDAA712874946200FB0257 /* FailureModel.swift in Sources */,
@@ -924,6 +931,7 @@
 				A9EF50A9287AD7EE005DF870 /* HideButton.swift in Sources */,
 				A970D74C28871F32003B22FD /* ReservedDates.swift in Sources */,
 				A97F4A442882A29D00FEEBA9 /* Patient.swift in Sources */,
+				A9FFEE472896B342000B295A /* ChecklistCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1064,6 +1072,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MedTech/MedTech.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V3G3959732;
@@ -1074,7 +1083,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1082,6 +1091,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.team5.MedTech;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1095,6 +1105,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MedTech/MedTech.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V3G3959732;
@@ -1105,7 +1116,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1113,6 +1124,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.team5.MedTech;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

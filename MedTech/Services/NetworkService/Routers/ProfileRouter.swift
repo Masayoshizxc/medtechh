@@ -74,7 +74,10 @@ enum ProfileRouter: BaseRouter {
         case .getPatient:
             return nil
         case .addImage:
-            return [HttpHeader(field: "Content-Type", value: "multipart/form-data")]
+            return [
+                HttpHeader(field: "Content-Type", value: "multipart/form-data"),
+                HttpHeader(field: "Content-Type", value: "image/jpeg")
+            ]
         case .changeImage:
             return [HttpHeader(field: "Content-Type", value: "multipart/form-data")]
         case .changeAddressAndPhone:

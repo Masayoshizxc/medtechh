@@ -208,7 +208,6 @@ class AppointmentViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         title = "Запись"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: callButton)
@@ -219,7 +218,7 @@ class AppointmentViewController: BaseViewController {
         collectionViewA.isScrollEnabled = false
         collectionViewA.delegate = self
         collectionViewA.dataSource = self
-        
+                
         collectionViewB.backgroundColor = .white
         collectionViewB.isScrollEnabled = false
         collectionViewB.delegate = self
@@ -273,10 +272,10 @@ class AppointmentViewController: BaseViewController {
     
     func getDoctorId() {
         let userId = userDefaults.getUserId()
-        viewModel.getDoctorId(id: userId) { rslt in
+        viewModel.getDoctorId(id: userId) { [weak self] rslt in
             if rslt != nil {
                 let id = rslt?.userDTO.id
-                self.userDefaults.saveDoctorId(id: id!)
+                self?.userDefaults.saveDoctorId(id: id!)
             }
         }
     }
@@ -335,7 +334,6 @@ class AppointmentViewController: BaseViewController {
     }
     
     @objc func didTapAppointButton() {
-        print("Appoint button tapped!!!")
         let date = self.userDefaults.getDate()
         let time = self.userDefaults.getTime()
         let sheet = UIAlertController(title: "Записаться", message: "Вы уверены что вы хотите записаться?", preferredStyle: .alert)
@@ -346,20 +344,23 @@ class AppointmentViewController: BaseViewController {
             let doctorId = self?.userDefaults.getDoctorId()
             let userId = self?.userDefaults.getUserId()
             self?.viewModel.postAppointments(date: date, doctorId: doctorId!, patientId: userId!, visitTime: time) { result in
+                guard let strongSelf = self else {
+                    return
+                }
                 if result != nil {
                     DispatchQueue.main.async {
-                        self?.view.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .bottom)
-                        self?.appointmentView.getData(model: result!)
-                        self?.timeLabel.isHidden = true
-                        self?.collectionViewB.isHidden = true
-                        self?.appointButton.isHidden = true
-                        self?.appointmentView.isHidden = false
-                        self?.dismiss(animated: true)
+                        strongSelf.view.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .bottom)
+                        strongSelf.appointmentView.getData(model: result!)
+                        strongSelf.timeLabel.isHidden = true
+                        strongSelf.collectionViewB.isHidden = true
+                        strongSelf.appointButton.isHidden = true
+                        strongSelf.appointmentView.isHidden = false
+                        strongSelf.dismiss(animated: true)
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self?.view.makeToast("Вы не можете записаться на пройденный день!", duration: 1.5, position: .bottom)
-                        self?.dismiss(animated: true)
+                        strongSelf.view.makeToast("Вы не можете записаться на пройденный день!", duration: 1.5, position: .bottom)
+                        strongSelf.dismiss(animated: true)
                     }
                 }
             }
@@ -400,7 +401,7 @@ class AppointmentViewController: BaseViewController {
         }
         
         collectionViewA.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom)
+            make.top.equalTo(stackView.snp.bottom).offset(10)
             make.left.right.equalToSuperview().inset(6)
             make.height.equalTo(300)
         }
@@ -427,8 +428,9 @@ class AppointmentViewController: BaseViewController {
         appointmentView.snp.makeConstraints { make in
             make.top.equalTo(collectionViewA.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
-            make.height.equalTo(254)
-            make.width.equalTo(336)
+            make.left.right.equalTo(collectionViewA).inset(20)
+            make.height.equalTo(264)
+            //make.width.equalTo(336)
         }
         
     }
@@ -470,7 +472,6 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                         }
                     }
                 }
-                
                 
                 let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
                 if days[indexPath.row].isSelected == true {
@@ -531,17 +532,20 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                 dateFormatter.dateFormat = "ee"
                 let langStr = Locale.current.languageCode
                 let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
-                viewModel.getVisit(id: userId, date: date) { result in
+                viewModel.getVisit(id: userId, date: date) { [weak self] result in
+                    guard let strongSelf = self else {
+                        return
+                    }
                     if (result?.doctorDTO?.id) != nil {
-                        self.appointmentView.isHidden = false
-                        self.timeLabel.isHidden = true
-                        self.collectionViewB.isHidden = true
-                        self.appointmentView.getData(model: result!)
+                        strongSelf.appointmentView.isHidden = false
+                        strongSelf.timeLabel.isHidden = true
+                        strongSelf.collectionViewB.isHidden = true
+                        strongSelf.appointmentView.getData(model: result!)
                     } else {
-                        let doctorId = self.userDefaults.getDoctorId()
-                        self.viewModel.getFreeTimes(doctorId: doctorId!, weekday: String(dateStr)) { success in
+                        let doctorId = strongSelf.userDefaults.getDoctorId()
+                        strongSelf.viewModel.getFreeTimes(doctorId: doctorId!, weekday: String(dateStr)) { success in
                             if !success!.isEmpty {
-                                self.viewModel.getNonFreeTimes(date: date) { res in
+                                strongSelf.viewModel.getNonFreeTimes(date: date) { res in
                                     for i in 0...success!.count - 1 {
                                         let time = success![i].scheduleStartTime
                                         if !res!.isEmpty {
@@ -549,25 +553,25 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                                                 let nonFreeTime = res![j].visitStartTime
                                                 if time != nonFreeTime {
                                                     let timee = time?.dropLast(3)
-                                                    self.freeTimes.append(Time(time: String(timee!)))
+                                                    strongSelf.freeTimes.append(Time(time: String(timee!)))
                                                 }
                                             }
                                         } else {
                                             let timee = time?.dropLast(3)
-                                            self.freeTimes.append(Time(time: String(timee!)))
+                                            strongSelf.freeTimes.append(Time(time: String(timee!)))
                                         }
                                         
                                     }
-                                    self.appointmentView.isHidden = true
-                                    self.timeLabel.isHidden = false
-                                    self.collectionViewB.isHidden = false
-                                    self.collectionViewB.reloadData()
+                                    strongSelf.appointmentView.isHidden = true
+                                    strongSelf.timeLabel.isHidden = false
+                                    strongSelf.collectionViewB.isHidden = false
+                                    strongSelf.collectionViewB.reloadData()
                                 }
                             } else {
-                                self.appointmentView.isHidden = true
-                                self.timeLabel.isHidden = true
-                                self.collectionViewB.isHidden = true
-                                self.appointButton.isHidden = true
+                                strongSelf.appointmentView.isHidden = true
+                                strongSelf.timeLabel.isHidden = true
+                                strongSelf.collectionViewB.isHidden = true
+                                strongSelf.appointButton.isHidden = true
                             }
                         }
                     }
