@@ -25,7 +25,7 @@ class MoreChecklistViewController: BaseViewController {
         collectionView.dataSource = self
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(40)
+            make.edges.equalToSuperview().inset(20)
         }
         
         model.append(Checklists(image: Icons.file.image, title: "Обследование"))

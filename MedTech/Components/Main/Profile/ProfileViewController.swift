@@ -344,8 +344,8 @@ class ProfileViewController: BaseViewController {
             
             let user = result?.userDTO
             let doctor = result?.doctorDTO?.userDTO
-            strongSelf.userName.text = "\(user!.firstName) \(user!.lastName) \(user!.middleName)"
-            strongSelf.doctorName.text = "\(doctor!.firstName) \(doctor!.lastName) \(doctor!.middleName)"
+            strongSelf.userName.text = "\(user?.firstName ?? "") \(user?.lastName ?? "") \(user?.middleName ?? "")"
+            strongSelf.doctorName.text = "\(doctor?.firstName ?? "") \(doctor?.lastName ?? "") \(doctor?.middleName ?? "")"
             strongSelf.mailName.text = user?.email
             strongSelf.numberName.text = user?.phoneNumber
             strongSelf.bDayName.text = user?.dob
@@ -366,6 +366,10 @@ class ProfileViewController: BaseViewController {
                 strongSelf.trimestLabel.text = "3-й\nтриместр"
             } else {
                 strongSelf.trimestLabel.text = "Ваша беременность закончилась"
+            }
+            guard result?.imageUrl != nil else {
+                self?.profileImage.image = Icons.profileImage.image
+                return
             }
             let imageURL = result?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
             guard let image = URL(string: imageURL!) else {
