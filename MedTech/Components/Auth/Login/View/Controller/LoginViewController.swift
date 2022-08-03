@@ -259,7 +259,7 @@ extension LoginViewController: UITextFieldDelegate {
     }
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if emailField.text!.count >= 1 {
-            loginButton.backgroundColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+            loginButton.backgroundColor = UIColor(named: "Violet")            
         }
     }
 }

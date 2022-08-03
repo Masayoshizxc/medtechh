@@ -125,7 +125,7 @@ class AppointmentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func getData(model: DoctorVisit) {
+    func getData(model: PatientVisitDTO) {
         let urlString = model.doctorDTO?.imageUrl?.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
         
         let image = URL(string: urlString ?? "")

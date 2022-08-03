@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DoctorVisit : Codable {
+struct PatientVisitDTO : Codable {
     let id : Int?
     let doctorDTO : DoctorDTO?
     let dateVisit : String?

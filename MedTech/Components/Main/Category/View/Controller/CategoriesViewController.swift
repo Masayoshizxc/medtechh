@@ -7,9 +7,10 @@
 
 import UIKit
 
-class MoreChecklistViewController: BaseViewController {
+class CategoriesViewController: BaseViewController {
     
     var model = [Checklists]()
+    var checklist: ChecklistModel?
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,6 +24,7 @@ class MoreChecklistViewController: BaseViewController {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(20)
@@ -39,7 +41,7 @@ class MoreChecklistViewController: BaseViewController {
 
 }
 
-extension MoreChecklistViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension CategoriesViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model.count
     }
@@ -53,15 +55,37 @@ extension MoreChecklistViewController: UICollectionViewDelegateFlowLayout, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(model[indexPath.row].title, "selected")
-        let vc = MoreMoreChecklistViewController()
+        var vc = UIViewController()
+        switch indexPath.row {
+        case 0:
+            vc = QuestionAnswerViewController()
+            print(checklist?.basic_questions)
+        case 1:
+            vc = AnalysesViewController()
+            print(checklist?.analyzes)
+        case 2:
+            vc = UltReportViewController()
+            print(checklist?.ultReport, checklist?.imageUrl)
+        case 3:
+            vc = DrugViewController()
+            print(checklist?.drugList)
+        case 4:
+            vc = ExtraInfoViewController()
+            print(checklist?.extraInfo)
+        case 5:
+            vc = ConclusionViewController()
+            print(checklist?.conclusion)
+        default:
+            break
+        }
+        
         vc.title = model[indexPath.row].title
         navigationController?.pushViewController(vc, animated: true)
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 160, height: 200)
+        return CGSize(width: widthComputed(160), height: 200)
     }
         
 }

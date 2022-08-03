@@ -52,6 +52,10 @@ class NotificationsViewController: BaseViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func setUpConstraints(){
         exitButton.snp.makeConstraints{make in
             make.width.height.equalTo(40)
@@ -82,6 +86,8 @@ extension NotificationsViewController : UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.ID,for: indexPath)
 //        cell.textLabel?.text = "Hello"
+        cell.clipsToBounds = true
+        cell.layer.cornerRadius = 5
         return cell
         
     }

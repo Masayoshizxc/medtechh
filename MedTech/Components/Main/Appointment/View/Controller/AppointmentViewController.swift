@@ -464,10 +464,12 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                 
                 let doctorId = userDefaults.getDoctorId()
                 if doctorId != nil {
-                    viewModel.getReservedDates(doctorId: doctorId!, date: "\(monthYear)-01") { result in
-                        for res in result!.reservedDates! {
-                            if date == res {
-                                cell.changeColorToGrey()
+                    DispatchQueue.main.async {
+                        self.viewModel.getReservedDates(doctorId: doctorId!, date: "\(monthYear)-01") { result in
+                            for res in result!.reservedDates! {
+                                if date == res {
+                                    cell.changeColorToGrey()
+                                }
                             }
                         }
                     }
@@ -546,6 +548,7 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                         strongSelf.viewModel.getFreeTimes(doctorId: doctorId!, weekday: String(dateStr)) { success in
                             if !success!.isEmpty {
                                 strongSelf.viewModel.getNonFreeTimes(date: date) { res in
+                                    strongSelf.freeTimes.removeAll()
                                     for i in 0...success!.count - 1 {
                                         let time = success![i].scheduleStartTime
                                         if !res!.isEmpty {

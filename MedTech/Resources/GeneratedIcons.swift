@@ -32,6 +32,7 @@ internal enum Icons {
   internal static let doctor = ImageAsset(name: "doctor")
   internal static let domino = ImageAsset(name: "domino")
   internal static let done = ImageAsset(name: "done")
+  internal static let download = ImageAsset(name: "download")
   internal static let error = ImageAsset(name: "error")
   internal static let file = ImageAsset(name: "file")
   internal static let hide = ImageAsset(name: "hide")

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 enum ProfileRouter: BaseRouter {
     case getPatient(id: Int)

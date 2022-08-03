@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MoreMoreChecklistViewController: BaseViewController {
+class DrugViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

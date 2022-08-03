@@ -12,8 +12,9 @@ class WeekTableViewCell: UITableViewCell {
     let title : UILabel = {
        let title = UILabel()
         title.font = .boldSystemFont(ofSize: 24)
-        title.textAlignment = .left
+        title.textAlignment = .center
         title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        title.numberOfLines = 0
         return title
     }()
     
@@ -47,8 +48,11 @@ class WeekTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpData(titleLabel: String, image: String, description: String) {
-        let imageURL = URL(string: image.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com"))
+    func setUpData(titleLabel: String, image: String?, description: String) {
+        guard image != nil else {
+            return
+        }
+        let imageURL = URL(string: image!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com"))
         imageView1.sd_setImage(with: imageURL)
         title.text = titleLabel
         weekDescription.text =  description
@@ -57,22 +61,20 @@ class WeekTableViewCell: UITableViewCell {
     func setUpConstraints() {
         title.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.width.equalTo(336)
-            make.height.equalTo(24)
+            make.left.right.equalToSuperview().inset(3)
         }
         
         imageView1.snp.makeConstraints { make in
             make.top.equalTo(title.snp.bottom).offset(30)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(230)
-            make.height.equalTo(214)
+            make.left.right.equalToSuperview()
+            make.width.equalTo(widthComputed(230))
+            make.height.equalTo(heightComputed(214))
         }
         
         weekDescription.snp.makeConstraints { make in
-            make.top.equalTo(imageView1.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            make.top.equalTo(imageView1.snp.bottom).offset(20)
+            make.left.right.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().offset(-30)
         }
     }
 

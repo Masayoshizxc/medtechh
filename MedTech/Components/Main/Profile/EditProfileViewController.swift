@@ -132,7 +132,7 @@ class EditProfileViewController: BaseViewController {
     private lazy var confirmButton: LoginButton = {
         let button = LoginButton()
         button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
-        button.setTitle("Confirm", for: .normal)
+        button.setTitle("Подтвердить", for: .normal)
         return button
     }()
     
@@ -140,18 +140,8 @@ class EditProfileViewController: BaseViewController {
         super.viewDidLoad()
         title = "Изменить профиль"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-        let user = model?.userDTO
-        userName.text = "\(user!.lastName) \(user!.firstName) \(user!.middleName)"
-        userMail.text = user!.email
-        userNumber.text = user!.phoneNumber
-        userBirth.text = user!.dob
-        userAddress.text = user!.address
-        let imageURL = model?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
-        guard let image = URL(string: imageURL!) else {
-            print("There is no image")
-            return
-        }
-        self.profileImage.sd_setImage(with: image)
+        
+        setUpData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -173,6 +163,25 @@ class EditProfileViewController: BaseViewController {
         )
         setUpConstraints()
     }
+    
+    func setUpData() {
+        let user = model?.userDTO
+        userName.text = "\(user!.lastName) \(user!.firstName) \(user!.middleName)"
+        userMail.text = user!.email
+        userNumber.text = user!.phoneNumber
+        userBirth.text = user!.dob
+        userAddress.text = user!.address
+        guard model?.imageUrl != nil else {
+            return
+        }
+        let imageURL = model?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
+        guard let image = URL(string: imageURL!) else {
+            print("There is no image")
+            return
+        }
+        self.profileImage.sd_setImage(with: image)
+    }
+    
     @objc func didTapDone() {
         let vc = PasswordViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -188,7 +197,6 @@ class EditProfileViewController: BaseViewController {
         }
         let userId = userDefaults.getUserId()
         viewModel.getAddressAndPhone(id: userId, address: address, phone: number) { result in
-            print(result)
             DispatchQueue.main.async {
                 self.userAddress.text = result?.userDTO?.address
                 self.userNumber.text = result?.userDTO?.phoneNumber
@@ -197,24 +205,25 @@ class EditProfileViewController: BaseViewController {
         let data = profileImage.image!.jpegData(compressionQuality: 0.5)
         if model?.imageUrl != nil {
             viewModel.changeImage(id: userId, image: data!) { result in
-                print("This is modeflsefkejf", result)
             }
         } else {
             viewModel.addImage(id: userId, image: data!) { result in
                 print(result)
             }
         }
-        
-        
-        
-        
+        let sheet = UIAlertController(title: "Успешно", message: "Поля успешно изменены.", preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+            self.dismiss(animated: true)
+        }))
+        self.present(sheet, animated: true)
     }
     
     func setUpConstraints() {
 
         profileImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(120)
+            make.top.equalToSuperview().inset(90)
             make.width.height.equalTo(90)
         }
         changeImageButton.snp.makeConstraints{make in
@@ -246,7 +255,7 @@ class EditProfileViewController: BaseViewController {
             
         }
         userNumber.snp.makeConstraints{make in
-            make.left.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(27)
             make.top.equalTo(placeUserNumber.snp.bottom).offset(16)
         }
         placeUserBirth.snp.makeConstraints{make in
@@ -264,7 +273,7 @@ class EditProfileViewController: BaseViewController {
             
         }
         userAddress.snp.makeConstraints{make in
-            make.left.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(27)
             make.top.equalTo(placeUserAddress.snp.bottom).offset(16)
         }
         

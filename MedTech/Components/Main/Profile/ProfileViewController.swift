@@ -107,17 +107,26 @@ class ProfileViewController: BaseViewController {
         self.trimestImage.addSubview(label)
         return label
     }()
-    let downloadButton : UIButton = {
+    lazy var downloadButton : UIButton = {
         let button = UIButton()
         button.setTitle("Скачать медкарту", for: .normal)
+        button.setTitleColor(UIColor(named: "Violet"), for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.titleLabel?.textAlignment = .left
+        button.contentHorizontalAlignment = .left
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.backgroundColor = .white
         button.layer.borderColor = UIColor.red.cgColor
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.cornerRadius = 16
-        button.titleLabel?.contentMode = .left
-        button.setTitleColor(UIColor(named: "Violet"), for: .normal)
+        button.addTarget(self, action: #selector(didTapDownloadButton), for: .touchUpInside)
         return button
+    }()
+    
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icons.download.image
+        return imageView
     }()
     
     let viewInView : UIView = {
@@ -169,6 +178,7 @@ class ProfileViewController: BaseViewController {
         label.text = "Хафизова Валентина Владимировна"
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
+        label.textAlignment = .right
         label.numberOfLines = 0
         return label
     }()
@@ -271,7 +281,9 @@ class ProfileViewController: BaseViewController {
             viewAsTableView,
             viewInView,
             logOutButton,
-            editButton)
+            editButton
+        )
+        downloadButton.addSubview(imageView)
         viewAsTableView.addSubview(box)
         trimestImage.addSubviews(weekLabel,trimestLabel)
         viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName)
@@ -302,14 +314,22 @@ class ProfileViewController: BaseViewController {
         trackShape.lineWidth = 5
         profileImage.layer.addSublayer(trackShape)
         
-        let shape = CAShapeLayer()
         shape.path = circlePath.cgPath
         shape.lineWidth = 5
         shape.strokeColor = UIColor(named: "Peach")?.cgColor
-        shape.strokeEnd = 0.4
+        shape.strokeEnd = 0
         shape.fillColor = UIColor.clear.cgColor
         
         profileImage.layer.addSublayer(shape)
+    }
+    
+    @objc func didTapDownloadButton() {
+        print("Download button tapped!!!")
+        view.makeToastActivity(.center)
+        guard let url = URL(string: "https://medtech-team5.herokuapp.com/api/v1/word/4") else { return }
+        let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
+        let downloadTask = urlSession.downloadTask(with: url)
+        downloadTask.resume()
     }
     
     @objc func didPullRefresh() {
@@ -335,48 +355,53 @@ class ProfileViewController: BaseViewController {
     
     func getPatient() {
         let userId = userDefaults.getUserId()
-        viewModel.getPatient(id: userId) { [weak self] result in
-            guard let strongSelf = self else {
-                return
+        DispatchQueue.main.async {
+            self.viewModel.getPatient(id: userId) { [weak self] result in
+                guard let strongSelf = self else {
+                    return
+                }
+                
+                strongSelf.model = result
+                
+                let user = result?.userDTO
+                let doctor = result?.doctorDTO?.userDTO
+                strongSelf.userName.text = "\(user?.firstName ?? "") \(user?.lastName ?? "") \(user?.middleName ?? "")"
+                strongSelf.doctorName.text = "\(doctor?.firstName ?? "") \(doctor?.lastName ?? "") \(doctor?.middleName ?? "")"
+                strongSelf.mailName.text = user?.email
+                strongSelf.numberName.text = user?.phoneNumber
+                strongSelf.bDayName.text = user?.dob
+                strongSelf.addressName.text = user?.address
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)
+                let dateRangeStart = Date()
+                let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
+                let weeks = components.weekOfYear ?? 0
+                strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
+                if weeks <= 12 {
+                    strongSelf.trimestLabel.text = "1-й\nтриместр"
+                } else if weeks > 12 && weeks <= 27 {
+                    strongSelf.trimestLabel.text = "2-й\nтриместр"
+                } else if weeks > 27 && weeks <= 40{
+                    strongSelf.trimestLabel.text = "3-й\nтриместр"
+                } else {
+                    strongSelf.trimestLabel.text = "Ваша беременность закончилась"
+                }
+                
+                strongSelf.shape.strokeEnd = CGFloat(Double(weeks) / 42.0)
+                                
+                guard result?.imageUrl != nil else {
+                    self?.profileImage.image = Icons.profileImage.image
+                    return
+                }
+                let imageURL = result?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
+                guard let image = URL(string: imageURL!) else {
+                    print("There is no image")
+                    return
+                }
+                strongSelf.profileImage.sd_setImage(with: image)
             }
-            
-            strongSelf.model = result
-            
-            let user = result?.userDTO
-            let doctor = result?.doctorDTO?.userDTO
-            strongSelf.userName.text = "\(user?.firstName ?? "") \(user?.lastName ?? "") \(user?.middleName ?? "")"
-            strongSelf.doctorName.text = "\(doctor?.firstName ?? "") \(doctor?.lastName ?? "") \(doctor?.middleName ?? "")"
-            strongSelf.mailName.text = user?.email
-            strongSelf.numberName.text = user?.phoneNumber
-            strongSelf.bDayName.text = user?.dob
-            strongSelf.addressName.text = user?.address
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)
-            let dateRangeStart = Date()
-            let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
-            let weeks = components.weekOfYear ?? 0
-            strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
-            if weeks <= 12 {
-                strongSelf.trimestLabel.text = "1-й\nтриместр"
-            } else if weeks > 12 && weeks <= 27 {
-                strongSelf.trimestLabel.text = "2-й\nтриместр"
-            } else if weeks > 27 && weeks <= 40{
-                strongSelf.trimestLabel.text = "3-й\nтриместр"
-            } else {
-                strongSelf.trimestLabel.text = "Ваша беременность закончилась"
-            }
-            guard result?.imageUrl != nil else {
-                self?.profileImage.image = Icons.profileImage.image
-                return
-            }
-            let imageURL = result?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
-            guard let image = URL(string: imageURL!) else {
-                print("There is no image")
-                return
-            }
-            strongSelf.profileImage.sd_setImage(with: image)
         }
     }
     
@@ -477,7 +502,7 @@ class ProfileViewController: BaseViewController {
         scrollView.snp.makeConstraints{make in
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalTo(view.frame.size.height - 100)
+            make.height.equalTo(view.frame.size.height - tabbarHeight)
         }
         
         doctorTitle.snp.makeConstraints{make in
@@ -490,6 +515,7 @@ class ProfileViewController: BaseViewController {
             make.top.equalTo(doctorTitle.snp.top).offset(-10)
             make.right.equalToSuperview()
             make.left.equalTo(doctorTitle.snp.right).offset(110)
+            make.bottom.equalTo(mailTitle.snp.top).offset(-15)
         }
         
         mailTitle.snp.makeConstraints{make in
@@ -545,54 +571,38 @@ class ProfileViewController: BaseViewController {
             make.centerX.centerY.equalToSuperview()
         }
         
+        imageView.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(18)
+            make.width.equalTo(20)
+        }
         
     }
     
 }
 
-
-extension ProfileViewController : UITableViewDelegate, UITableViewDataSource{
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "Hello"
-        if(indexPath.row == 0){
-            cell.textLabel?.text = "Лечащий врач"
-            cell.textLabel?.font = .boldSystemFont(ofSize: 21)
-            cell.textLabel?.textColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
-            cell.textLabel?.textAlignment = .center
-            return cell
+extension ProfileViewController: URLSessionDownloadDelegate {
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let url = downloadTask.originalRequest?.url else {
+            return
         }
-        if(indexPath.row == 1){
-            cell.imageView?.image = UIImage(named: "doctorPhoto")
-            cell.imageView?.layer.cornerRadius = cell.imageView?.frame.size.width ?? 50 / 2
-            cell.textLabel?.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-            cell.textLabel?.text = " Хафизова  Валентина    Владимировна"
-            cell.textLabel?.numberOfLines = 0
-            return cell
-        }
-        if(indexPath.row == 0 || indexPath.row == 1){
-            cell.layer.borderWidth = 10
-            cell.layer.borderColor = UIColor.yellow.cgColor
-            return cell
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if(indexPath.row == 0){
-            return 50
-        }
-        if(indexPath.row == 1){
-            return 70
-        }
-        else{
-            return CGFloat(50)
+        let lastUrl = url.appendingPathComponent("Медкарта.docx")
+        let docPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let destinationPath = docPath.appendingPathComponent(lastUrl.lastPathComponent)
+        
+        try? FileManager.default.removeItem(at: destinationPath)
+        
+        do {
+            try FileManager.default.copyItem(at: location, to: destinationPath)
+            print("Your file is here:", destinationPath)
+            let shareSheet = UIActivityViewController(activityItems: [destinationPath], applicationActivities: nil)
+            DispatchQueue.main.async {
+                self.present(shareSheet, animated: true)
+                self.view.hideToastActivity()
+            }
+        } catch let error {
+            print("Copy Error: \(error.localizedDescription)")
         }
     }
 }

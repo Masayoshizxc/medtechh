@@ -101,6 +101,7 @@ class HomeViewController: BaseViewController {
         button.titleLabel?.font = UIFont(name: "SFProText-Medium", size: 14)
         button.setTitleColor(.white , for: .normal)
         button.addTarget(self, action: #selector(didTapRemindButton), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     
@@ -111,11 +112,6 @@ class HomeViewController: BaseViewController {
         vieww.translatesAutoresizingMaskIntoConstraints = false
         return vieww
     }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        AppUtility.lockOrientation(.portrait)
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -144,17 +140,36 @@ class HomeViewController: BaseViewController {
         scrollView.refreshControl = UIRefreshControl()
         scrollView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         
-        getLastVisit()
-        getAllWeeks()
-        getClinic()
+        DispatchQueue.main.async {
+            self.getLastVisit()
+            self.getAllWeeks()
+            self.getClinic()
+        }
         
         showBadge(withCount: 5)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getLastVisit()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         setUpSubViews()
         setUpConstraints()
+    }
+    
+    func setUpSubViews(){
+        view.addSubview(scrollView)
+        scrollView.addSubview(containerView)
+        containerView.addSubviews(
+            remindButton,
+            collectionView,
+            tableView
+        )
     }
     
     @objc func didPullRefresh() {
@@ -211,12 +226,12 @@ class HomeViewController: BaseViewController {
                 dateFormatter.dateFormat = "dd LLL"
                 dateFormatter.locale = Locale(identifier: "ru")
                 let dateString = dateFormatter.string(from: dateDate!)
-                print(dateString)
                 self?.remindButton.setTitle(" Следующее посещение \(dateString.capitalized.dropLast()) - \(rs!.visitStartTime.dropLast(3))", for: .normal)
                 self?.remindButton.isHidden = false
             } else {
                 DispatchQueue.main.async {
-                    self?.remindButton.isHidden = true
+                    self?.remindButton.isHidden = false
+                    self?.remindButton.setTitle(" Следующих посешений нету", for: .normal)
                 }
             }
         }
@@ -232,7 +247,7 @@ class HomeViewController: BaseViewController {
                     strongSelf.model = result!
                     strongSelf.sortAnArrayOfArray(strongSelf.model)
                     if !strongSelf.model.isEmpty {
-                        let size = 250 * (strongSelf.model[strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
+                        let size = 200 * (strongSelf.model[strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
                         strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
                     }
                     strongSelf.scrollView.contentSize = strongSelf.contentSize
@@ -241,16 +256,6 @@ class HomeViewController: BaseViewController {
                 }
             }
         }
-    }
-    
-    func setUpSubViews(){
-        view.addSubview(scrollView)
-        scrollView.addSubview(containerView)
-        containerView.addSubviews(
-            remindButton,
-            collectionView,
-            tableView
-        )
     }
     
     @objc func didTapNotificationsButton(){
@@ -403,9 +408,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 500
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 500
+//    }
 }
 
 extension UICollectionView {

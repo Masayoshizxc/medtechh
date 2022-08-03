@@ -8,21 +8,21 @@
 import Foundation
 
 protocol AppointmentViewModelProtocol {
-    func getVisit(id: Int, date: String, completion: @escaping ((DoctorVisit?) -> Void))
+    func getVisit(id: Int, date: String, completion: @escaping ((PatientVisitDTO?) -> Void))
     func getFreeTimes(doctorId: Int, weekday: String, completion: @escaping (([TimeModel]?) -> Void))
-    func getNonFreeTimes(date: String, completion: @escaping (([DoctorVisit]?) -> Void))
+    func getNonFreeTimes(date: String, completion: @escaping (([PatientVisitDTO]?) -> Void))
     func getDoctorId(id: Int, completion: @escaping ((DoctorDTO?) -> Void))
-    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((DoctorVisit?) -> Void))
+    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void))
     func getReservedDates(doctorId: Int, date: String, completion: @escaping ((ReservedDates?) -> Void))
-    func getLastVisit(id: Int, completion: @escaping ((DoctorVisit?) -> Void))
+    func getLastVisit(id: Int, completion: @escaping ((PatientVisitDTO?) -> Void))
 }
 
 class AppointmentViewModel: AppointmentViewModelProtocol {
     let networkService: NetworkService = NetworkService()
     
-    func getVisit(id: Int, date: String, completion: @escaping ((DoctorVisit?) -> Void)) {
+    func getVisit(id: Int, date: String, completion: @escaping ((PatientVisitDTO?) -> Void)) {
         networkService.sendRequest(urlRequest: AppointmentsRouter.getVisit(id: id, date: date).createURLRequest(),
-                                   successModel: DoctorVisit.self) { result in
+                                   successModel: PatientVisitDTO.self) { result in
             switch result {
             case .success(let model):
                 completion(model)
@@ -70,9 +70,9 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
         }
     }
     
-    func getNonFreeTimes(date: String, completion: @escaping (([DoctorVisit]?) -> Void)) {
+    func getNonFreeTimes(date: String, completion: @escaping (([PatientVisitDTO]?) -> Void)) {
         networkService.sendRequest(urlRequest: AppointmentsRouter.getNonFreeTimes(date: date).createURLRequest(),
-                                   successModel: [DoctorVisit].self) { result in
+                                   successModel: [PatientVisitDTO].self) { result in
             switch result {
             case .success(let model):
                 completion(model)
@@ -119,12 +119,12 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
             }
         }
     }
-    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((DoctorVisit?) -> Void)) {
+    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void)) {
         networkService.sendRequest(urlRequest: AppointmentsRouter.postAppointments(date: date,
                                                                                    doctorId: doctorId,
                                                                                    patientId: patientId,
                                                                                    visitTime: visitTime).createURLRequest(),
-                                   successModel: DoctorVisit.self) { result in
+                                   successModel: PatientVisitDTO.self) { result in
             switch result {
             case .success(let model):
                 completion(model)
@@ -174,9 +174,9 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
         }
     }
     
-    func getLastVisit(id: Int, completion: @escaping ((DoctorVisit?) -> Void)) {
+    func getLastVisit(id: Int, completion: @escaping ((PatientVisitDTO?) -> Void)) {
         networkService.sendRequest(urlRequest: AppointmentsRouter.getLatestVisit(id: id).createURLRequest(),
-                                   successModel: DoctorVisit.self) { result in
+                                   successModel: PatientVisitDTO.self) { result in
             switch result {
             case .success(let model):
                 completion(model)

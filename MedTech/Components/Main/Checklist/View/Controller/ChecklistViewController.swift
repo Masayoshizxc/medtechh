@@ -11,10 +11,25 @@ class ChecklistViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
     var model = [Checklist]()
+    var checklist = [ChecklistModel]()
+    
+    private let viewModel: ChecklistViewModelProtocol
+    
+    init(vm: ChecklistViewModelProtocol = ChecklistViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     let tableView: UITableView = {
-        let table = UITableView()
-        return table
+        let tableView = UITableView()
+        tableView.register(ChecklistTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorColor = UIColor.clear
+        tableView.backgroundColor = .white
+        return tableView
     }()
     
     private lazy var sosButton4 : UIButton = {
@@ -34,33 +49,29 @@ class ChecklistViewController: BaseViewController {
         title = "Чеклист"
         let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
         navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
-        view.backgroundColor = .white
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         
-        model.append(Checklist(first: "Первичный осмотр -", second: "28.09.2022"))
-        model.append(Checklist(first: "Второй осмотр -", second: "04.11.2022"))
-        model.append(Checklist(first: "Третий осмотр -", second: "28.09.2022"))
-        model.append(Checklist(first: "Четвертый осмотр -", second: "04.11.2022"))
-        model.append(Checklist(first: "Пятый осмотр -", second: "28.09.2022"))
-        model.append(Checklist(first: "Шестой осмотр -", second: "04.11.2022"))
-        model.append(Checklist(first: "Седьмой осмотр -", second: "28.09.2022"))
-        model.append(Checklist(first: "Восьмой осмотр -", second: "04.11.2022"))
-        model.append(Checklist(first: "Девятый осмотр -", second: "28.09.2022"))
-        model.append(Checklist(first: "Десятый осмотр -", second: "04.11.2022"))
-                        
-        tableView.register(ChecklistTableViewCell.self, forCellReuseIdentifier: "cell")
+        getChecklists()
+        
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorColor = UIColor.clear
-        tableView.backgroundColor = .white
+                        
         view.addSubview(tableView)
-                
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+    }
+    
+    func getChecklists() {
+        let userId = userDefaults.getUserId()
+        viewModel.getChecklists(id: userId) { result in
+            self.checklist = result!
+            let dateVisit = result![0].patientVisitDTO!.dateVisit
+            self.model.append(Checklist(first: "Первичный осмотр -", second: dateVisit!))
+            self.tableView.reloadData()
+        }
     }
     
     @objc func didTapSosButton() {
@@ -103,8 +114,9 @@ extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = MoreChecklistViewController()
+        let vc = CategoriesViewController()
         vc.title = model[indexPath.row].first.replacingOccurrences(of: "-", with: "")
+        vc.checklist = checklist[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
         
