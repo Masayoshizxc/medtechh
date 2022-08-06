@@ -11,14 +11,12 @@ import SnapKit
 class HomeViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
-    private let viewModel: HomeViewModelProtocol
     
+    private var viewModel: HomeViewModelProtocol
     private let appointmentsViewModel: AppointmentViewModelProtocol
     
     let notificationsView = NotificationsViewController()
-    
-    var model = [WeekModel]()
-    
+        
     var selectedWeek = 1
     var currentWeek = 1
     
@@ -40,6 +38,8 @@ class HomeViewController: BaseViewController {
         view.frame = self.view.bounds
         view.contentSize = contentSize
         view.showsVerticalScrollIndicator = false
+        view.refreshControl = UIRefreshControl()
+        view.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         return view
     }()
     
@@ -50,7 +50,7 @@ class HomeViewController: BaseViewController {
         return view
     }()
     
-    let collectionView : UICollectionView = {
+    private lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -58,15 +58,23 @@ class HomeViewController: BaseViewController {
         cv.showsHorizontalScrollIndicator = false
         cv.backgroundColor = .white
         cv.showsHorizontalScrollIndicator = false
+        cv.delegate = self
+        cv.dataSource = self
         return cv
     }()
     
-    let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(WeekTableViewCell.self, forCellReuseIdentifier: "homePageCell")
         tableView.isScrollEnabled = false
         tableView.allowsSelection = false
         tableView.separatorColor = UIColor.clear
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
         return tableView
     }()
     
@@ -115,14 +123,9 @@ class HomeViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if !model.isEmpty {
+        if !viewModel.model!.isEmpty {
             collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        AppUtility.lockOrientation(.all)
     }
     
     override func viewDidLoad() {
@@ -131,24 +134,13 @@ class HomeViewController: BaseViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: notificationsButton)
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        scrollView.refreshControl = UIRefreshControl()
-        scrollView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
-        
         DispatchQueue.main.async {
             self.getLastVisit()
             self.getAllWeeks()
-            self.getClinic()
+            self.viewModel.getClinic()
         }
         
         showBadge(withCount: 5)
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 600
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,7 +168,9 @@ class HomeViewController: BaseViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.getLastVisit()
             self.getAllWeeks()
-            self.getClinic()
+            self.viewModel.getClinic()
+            self.collectionView.reloadData()
+            self.tableView.reloadData()
             self.scrollView.refreshControl?.endRefreshing()
         }
     }
@@ -186,7 +180,7 @@ class HomeViewController: BaseViewController {
         callNumber(phoneNumber: number)
     }
     
-    private func callNumber(phoneNumber:String) {
+    private func callNumber(phoneNumber: String) {
         if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
             let application:UIApplication = UIApplication.shared
             if (application.canOpenURL(phoneCallURL)) {
@@ -196,23 +190,13 @@ class HomeViewController: BaseViewController {
     }
     
     func sortAnArrayOfArray(_ mod: [WeekModel]) {
-        for i in 0...model.count - 1 {
-            let dto = model[i].weeksOfBabyDevelopmentDTOS
+        for i in 0...viewModel.model!.count - 1 {
+            let dto = viewModel.model![i].weeksOfBabyDevelopmentDTOS
             let sortedArray = dto?.sorted(by: { itemA, itemB in
                 return itemA.id < itemB.id
             })
-            model[i].weeksOfBabyDevelopmentDTOS?.removeAll()
-            model[i].weeksOfBabyDevelopmentDTOS?.append(contentsOf: sortedArray!)
-        }
-    }
-    
-    func getClinic() {
-        viewModel.getClinic { [weak self] result in
-            guard let result = result, let strongSelf = self else {
-                return
-            }
-            strongSelf.userDefaults.saveEmergency(phone: (result.emergencyPhoneNumber)!)
-            strongSelf.userDefaults.saveReception(phone: (result.receptionPhoneNumber)!)
+            viewModel.model![i].weeksOfBabyDevelopmentDTOS?.removeAll()
+            viewModel.model![i].weeksOfBabyDevelopmentDTOS?.append(contentsOf: sortedArray!)
         }
     }
     
@@ -242,19 +226,27 @@ class HomeViewController: BaseViewController {
             guard let strongSelf = self else {
                 return
             }
-            if !result!.isEmpty {
-                DispatchQueue.main.async {
-                    strongSelf.model = result!
-                    strongSelf.sortAnArrayOfArray(strongSelf.model)
-                    if !strongSelf.model.isEmpty {
-                        let size = 200 * (strongSelf.model[strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
-                        strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
+            if result == .success {
+                if !strongSelf.viewModel.model!.isEmpty {
+                    DispatchQueue.main.async {
+                        strongSelf.sortAnArrayOfArray(strongSelf.viewModel.model!)
+                        if !strongSelf.viewModel.model!.isEmpty {
+                            let size = 200 * (strongSelf.viewModel.model![strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
+                            strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
+                        }
+                        strongSelf.scrollView.contentSize = strongSelf.contentSize
+                        strongSelf.collectionView.reloadData()
+                        strongSelf.tableView.reloadData()
                     }
-                    strongSelf.scrollView.contentSize = strongSelf.contentSize
+                } else {
                     strongSelf.collectionView.reloadData()
                     strongSelf.tableView.reloadData()
+
                 }
+            } else {
+                print("There was an error with downloading")
             }
+            
         }
     }
     
@@ -331,44 +323,35 @@ class HomeViewController: BaseViewController {
 extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.count
+        guard viewModel.model != nil else {
+            return 0
+        }
+        return viewModel.model!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.getReuseCell(CollectionViewCell.self, indexPath: indexPath)
-        if indexPath.row == selectedWeek {
-            cell.changeSelected()
-//            let circlePath = UIBezierPath(arcCenter: cell.center,
-//                                          radius: cell.frame.width / 2 - 1,
-//                                          startAngle: -(.pi / 2),
-//                                          endAngle: .pi * 2,
-//                                          clockwise: true)
-//
-//
-//            let trackShape = CAShapeLayer()
-//            trackShape.path = circlePath.cgPath
-//            trackShape.fillColor = UIColor.clear.cgColor
-//            trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
-//            trackShape.lineWidth = 2
-//            cell.layer.addSublayer(trackShape)
-//
-//            let shape = CAShapeLayer()
-//            shape.path = circlePath.cgPath
-//            shape.lineWidth = 2
-//            shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
-//            shape.strokeEnd = 0.4
-//            shape.fillColor = UIColor.clear.cgColor
-//
-//            cell.layer.addSublayer(shape)
+        if currentWeek == viewModel.model![indexPath.row].weekday {
+            viewModel.model![indexPath.row].isThisWeek = true
         }
-        if !model.isEmpty {
-            if indexPath.row < currentWeek {
-                cell.setBeforeDate(text: model[indexPath.row].weekday)
-            } else {
-                cell.fill(text: model[indexPath.row].weekday)
-            }
+//        if indexPath.row == currentWeek {
+//            cell.addProgressBar()
+//        } else if indexPath.row == selectedWeek {
+//            cell.changeSelected()
+//        }
+//        if !model.isEmpty {
+//            if indexPath.row < currentWeek {
+//                cell.setBeforeDate(text: model[indexPath.row].weekday)
+//            } else {
+//                cell.fill(text: model[indexPath.row].weekday)
+//            }
+//        }
+        
+        if viewModel.model![indexPath.row].isThisWeek != false {
+            cell.addProgressBar(strokeEnd: 0.7)
         }
-        //cell.fill(text: model[indexPath.row].weekday)
+        
+        cell.fill(text: viewModel.model![indexPath.row].weekday)
         return cell
     }
     
@@ -377,8 +360,8 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedWeek = model[indexPath.row].weekday - 1
-        if !model.isEmpty {
+        selectedWeek = viewModel.model![indexPath.row].weekday - 1
+        if !viewModel.model!.isEmpty {
             collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
         }
         tableView.reloadData()
@@ -391,8 +374,9 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !model.isEmpty {
-            return model[selectedWeek].weeksOfBabyDevelopmentDTOS!.count
+        if !viewModel.model!.isEmpty {
+            print(viewModel)
+            return viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS!.count
         } else {
             return 3
         }
@@ -400,29 +384,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "homePageCell", for: indexPath) as! WeekTableViewCell
-        if !model.isEmpty {
-            let data = model[selectedWeek].weeksOfBabyDevelopmentDTOS![indexPath.row]
+        if !viewModel.model!.isEmpty{
+            let data = viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS![indexPath.row]
             cell.setUpData(titleLabel: data.header!, image: data.imageUrl!, description: data.description!)
         }
         return cell
     }
     
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 500
-//    }
-}
-
-extension UICollectionView {
-    
-    func register<Cell: UICollectionViewCell>(_ cellType: Cell.Type) {
-        register(cellType, forCellWithReuseIdentifier: cellType.identifier)
-    }
-    
-    func getReuseCell<Cell: UICollectionViewCell>(
-        _ cellType: Cell.Type,
-        indexPath: IndexPath
-    ) -> Cell {
-        dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath) as! Cell
-    }
 }

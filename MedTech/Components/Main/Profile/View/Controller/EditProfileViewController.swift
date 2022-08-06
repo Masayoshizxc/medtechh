@@ -83,7 +83,7 @@ class EditProfileViewController: BaseViewController {
         label.font = UIFont(name: "SFProText-Regular", size: 13)
         return label
     }()
-
+    
     let userName : UILabel = {
         let label = UILabel()
         label.text = "Масыбаева Айжамал Айдаровна"
@@ -166,11 +166,11 @@ class EditProfileViewController: BaseViewController {
     
     func setUpData() {
         let user = model?.userDTO
-        userName.text = "\(user!.lastName) \(user!.firstName) \(user!.middleName)"
-        userMail.text = user!.email
-        userNumber.text = user!.phoneNumber
-        userBirth.text = user!.dob
-        userAddress.text = user!.address
+        userName.text = "\(user?.lastName ?? "") \(user?.firstName ?? "") \(user?.middleName ?? "")"
+        userMail.text = user?.email
+        userNumber.text = user?.phoneNumber
+        userBirth.text = user?.dob
+        userAddress.text = user?.address
         guard model?.imageUrl != nil else {
             return
         }
@@ -202,14 +202,16 @@ class EditProfileViewController: BaseViewController {
                 self.userNumber.text = result?.userDTO?.phoneNumber
             }
         }
-        let data = profileImage.image!.jpegData(compressionQuality: 0.5)
+        
         if model?.imageUrl != nil {
-            viewModel.changeImage(id: userId, image: data!) { result in
-            }
+            //            viewModel.changeImage(id: userId, image: data, boundary: boundary) { result in
+            //                print(result)
+            //            }
+            uploadImage(paramName: "image", fileName: "image.png", image: profileImage.image!)
         } else {
-            viewModel.addImage(id: userId, image: data!) { result in
-                print(result)
-            }
+            //            viewModel.addImage(id: userId, image: data, boundary: boundary) { result in
+            //                print(result)
+            //            }
         }
         let sheet = UIAlertController(title: "Успешно", message: "Поля успешно изменены.", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
@@ -219,8 +221,37 @@ class EditProfileViewController: BaseViewController {
         self.present(sheet, animated: true)
     }
     
+    func uploadImage(paramName: String, fileName: String, image: UIImage) {
+        //https://medtech-team5.herokuapp.com/api/v1/patients/img/4
+        let url = URL(string: "https://medtech-team5.herokuapp.com/api/v1/patients/img/3")
+                
+        let session = URLSession.shared
+        
+        // Set the URLRequest to POST and to the specified URL
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+        //urlRequest.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type")
+        
+        var data = Data()
+        data.append("Content-Disposition: form-data; name=\"\(paramName)\"; fileName=\"\(fileName)\"\r\n".data(using: .utf8)!)
+        //data.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+        data.append(image.pngData()!)
+        
+        session.uploadTask(with: urlRequest, from: data, completionHandler: { responseData, response, error in
+            if error == nil {
+                let jsonData = try? JSONSerialization.jsonObject(with: responseData!, options: .allowFragments)
+                if let json = jsonData as? [String: Any] {
+                    print(json)
+                }
+            } else {
+                print(error)
+            }
+        }).resume()
+        
+    }
+    
     func setUpConstraints() {
-
+        
         profileImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(90)
@@ -337,5 +368,5 @@ extension UILabel {
                                     range: textRange)
         // Add other attributes if needed
         self.attributedText = attributedText
-        }
+    }
 }

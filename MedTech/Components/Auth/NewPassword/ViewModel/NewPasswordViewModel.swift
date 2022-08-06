@@ -12,31 +12,21 @@ protocol NewPasswordViewModelProtocol {
 }
 
 class NewPasswordViewModel: NewPasswordViewModelProtocol {
-    let networkService: NetworkService = NetworkService()
+    
+    private let service: NewPasswordServiceProtocol
+    private let userDefaults = UserDefaultsService()
+    
+    init(vm: NewPasswordServiceProtocol = NewPasswordService()) {
+        service = vm
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func changePassword(id: Int, oldPassword: String?, newPassword: String, completion: @escaping ((FailureModel?) -> Void)) {
-        networkService.sendRequest(urlRequest: UserRouter.changePassword(id: id, oldPassword: oldPassword, newPassword: newPassword).createURLRequest(),
-                                   successModel: FailureModel.self) { result in
-            switch result {
-            case .success(let model):
-                //print(model)
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+        service.changePassword(id: id, oldPassword: oldPassword, newPassword: newPassword) { result in
+            completion(result)
         }
     }
 }

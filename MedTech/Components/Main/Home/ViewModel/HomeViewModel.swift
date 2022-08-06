@@ -8,86 +8,45 @@
 import Foundation
 
 protocol HomeViewModelProtocol {
-    //func getWeek(week: String, completion: @escaping (([WeekModel]?) -> Void))
-    func getClinic(completion: @escaping ((Clinic?) -> Void))
-    func getAllWeeks(completion: @escaping (([WeekModel]?) -> Void))
+    func getClinic()
+    func getAllWeeks(completion: @escaping ((SuccessFailure) -> Void))
+    var model: [WeekModel]? {get set}
 }
 
 class HomeViewModel: HomeViewModelProtocol {
-    let networkService: NetworkService = NetworkService()
     
-//    func getWeek(week: String, completion: @escaping (([WeekModel]?) -> Void)) {
-//        networkService.sendRequest(urlRequest: BabyDevelopmentRouter.getWeek(week: week).createURLRequest(),
-//                                   successModel: [WeekModel].self) { result in
-//            switch result {
-//            case .success(let model):
-//                completion(model)
-//            case .badRequest(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-//            case .failure(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-////            case .forbidden(let error):
-////                completion(nil)
-////                debugPrint(#function, error)
-//            case .unauthorized(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-//            case .notFound(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-//            }
-//        }
-//    }
+    var model: [WeekModel]? = [WeekModel]()
+
+    private let service: HomeServiceProtocol
+    private let userDefaults = UserDefaultsService()
     
-    func getClinic(completion: @escaping ((Clinic?) -> Void)) {
-        networkService.sendRequest(urlRequest: ClinicRouter.getClinic.createURLRequest(),
-                                   successModel: Clinic.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    init(vm: HomeServiceProtocol = HomeService()) {
+        service = vm
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getClinic() {
+        service.getClinic { result in
+            guard result != nil else {
+                return
             }
+            self.userDefaults.saveEmergency(phone: (result?.emergencyPhoneNumber)!)
+            self.userDefaults.saveReception(phone: (result?.receptionPhoneNumber)!)
         }
     }
     
-    func getAllWeeks(completion: @escaping (([WeekModel]?) -> Void)) {
-        networkService.sendRequest(urlRequest: BabyDevelopmentRouter.getAllWeeks.createURLRequest(),
-                                   successModel: [WeekModel].self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    func getAllWeeks(completion: @escaping ((SuccessFailure) -> Void)) {
+        service.getAllWeeks { result in
+            if result != nil {
+                self.model = result
+                completion(.success)
+            } else {
+                completion(.failure)
             }
+            
         }
     }
 

@@ -8,194 +8,100 @@
 import Foundation
 
 protocol AppointmentViewModelProtocol {
-    func getVisit(id: Int, date: String, completion: @escaping ((PatientVisitDTO?) -> Void))
-    func getFreeTimes(doctorId: Int, weekday: String, completion: @escaping (([TimeModel]?) -> Void))
-    func getNonFreeTimes(date: String, completion: @escaping (([PatientVisitDTO]?) -> Void))
-    func getDoctorId(id: Int, completion: @escaping ((DoctorDTO?) -> Void))
-    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void))
-    func getReservedDates(doctorId: Int, date: String, completion: @escaping ((ReservedDates?) -> Void))
+    func getVisit(date: String, completion: @escaping ((SuccessFailure?) -> Void))
+    func getFreeTimes(weekday: String, completion: @escaping ((SuccessFailure?) -> Void))
+    func getNonFreeTimes(date: String, completion: @escaping ((SuccessFailure?) -> Void))
+    func getDoctorId()
+    func postAppointments(date: String, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void))
+    func getReservedDates(date: String, completion: @escaping ((ReservedDates?) -> Void))
     func getLastVisit(id: Int, completion: @escaping ((PatientVisitDTO?) -> Void))
+    var timeModel: [TimeModel]? { get set }
+    var patientVisit: PatientVisitDTO? { get set }
+    var nonFreeTimes: [PatientVisitDTO]? { get set }
 }
 
 class AppointmentViewModel: AppointmentViewModelProtocol {
-    let networkService: NetworkService = NetworkService()
     
-    func getVisit(id: Int, date: String, completion: @escaping ((PatientVisitDTO?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.getVisit(id: id, date: date).createURLRequest(),
-                                   successModel: PatientVisitDTO.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    var timeModel: [TimeModel]? = [TimeModel]()
+    var patientVisit: PatientVisitDTO?
+    var nonFreeTimes: [PatientVisitDTO]? = [PatientVisitDTO]()
+    
+    private let service: AppointmentServiceProtocol
+    private let userDefaults = UserDefaultsService()
+    
+    init(vm: AppointmentServiceProtocol = AppointmentService()) {
+        service = vm
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getVisit(date: String, completion: @escaping ((SuccessFailure?) -> Void)) {
+        let userId = userDefaults.getUserId()
+        service.getVisit(id: userId, date: date) { result in
+            if result != nil {
+                self.patientVisit = result
+                completion(.success)
+            } else {
+                completion(.failure)
             }
+            
         }
     }
     
-    func getFreeTimes(doctorId: Int, weekday: String, completion: @escaping (([TimeModel]?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.getFreeTimes(doctorId: doctorId, weekDay: weekday).createURLRequest(),
-                                   successModel: [TimeModel].self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    func getFreeTimes(weekday: String, completion: @escaping ((SuccessFailure?) -> Void)) {
+        let doctorId = userDefaults.getDoctorId()
+        service.getFreeTimes(doctorId: doctorId!, weekday: weekday) { result in
+            if result != nil {
+                self.timeModel = result
+                completion(.success)
+            } else {
+                completion(.failure)
             }
+            
         }
     }
     
-    func getNonFreeTimes(date: String, completion: @escaping (([PatientVisitDTO]?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.getNonFreeTimes(date: date).createURLRequest(),
-                                   successModel: [PatientVisitDTO].self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    func getNonFreeTimes(date: String, completion: @escaping ((SuccessFailure?) -> Void)) {
+        service.getNonFreeTimes(date: date) { result in
+            if result != nil {
+                self.nonFreeTimes = result
+                completion(.success)
+            } else {
+                completion(.failure)
             }
+            
         }
     }
     
-    func getDoctorId(id: Int, completion: @escaping ((DoctorDTO?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.getDoctorId(id: id).createURLRequest(),
-                                   successModel: DoctorDTO.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    func getDoctorId() {
+        let userId = userDefaults.getUserId()
+        service.getDoctorId(id: userId) { result in
+            if result != nil {
+                let id = result?.userDTO.id
+                self.userDefaults.saveDoctorId(id: id!)
             }
         }
     }
-    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.postAppointments(date: date,
-                                                                                   doctorId: doctorId,
-                                                                                   patientId: patientId,
-                                                                                   visitTime: visitTime).createURLRequest(),
-                                   successModel: PatientVisitDTO.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                print(error)
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+    func postAppointments(date: String, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void)) {
+        let doctorId = userDefaults.getDoctorId()
+        let userId = userDefaults.getUserId()
+        service.postAppointments(date: date, doctorId: doctorId!, patientId: userId, visitTime: visitTime) { result in
+            completion(result)
         }
     }
     
-    func getReservedDates(doctorId: Int, date: String, completion: @escaping ((ReservedDates?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.getReservedDates(doctorId: doctorId, startDate: date).createURLRequest(),
-                                   successModel: ReservedDates.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+    func getReservedDates(date: String, completion: @escaping ((ReservedDates?) -> Void)) {
+        let doctorId = userDefaults.getDoctorId()
+        service.getReservedDates(doctorId: doctorId!, date: date) { result in
+            completion(result)
         }
     }
     
     func getLastVisit(id: Int, completion: @escaping ((PatientVisitDTO?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.getLatestVisit(id: id).createURLRequest(),
-                                   successModel: PatientVisitDTO.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+        service.getLastVisit(id: id) { result in
+            completion(result)
         }
     }
 }

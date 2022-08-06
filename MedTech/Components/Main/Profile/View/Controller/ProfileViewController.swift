@@ -354,9 +354,8 @@ class ProfileViewController: BaseViewController {
     }
     
     func getPatient() {
-        let userId = userDefaults.getUserId()
         DispatchQueue.main.async {
-            self.viewModel.getPatient(id: userId) { [weak self] result in
+            self.viewModel.getPatient() { [weak self] result in
                 guard let strongSelf = self else {
                     return
                 }
@@ -406,20 +405,20 @@ class ProfileViewController: BaseViewController {
     }
     
     @objc func didTapLogOutButton() {
-        userDefaults.isSignedIn(signedIn: false)
-        let userId = userDefaults.getUserId()
-        let data: [String : Any] = [
-            "userId" : userId
-        ]
-        let encodedData = try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+        
         let sheet = UIAlertController(title: "Выйти", message: "Вы уверены что вы хотите выйти из аккаунта?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "Отменить", style: .destructive, handler: { _ in
             self.dismiss(animated: true)
         }))
         sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { _ in
-            self.viewModel.logOut(data: encodedData!) { result in
-                let vc = LoginViewController()
-                self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
+            self.viewModel.logOut() { result in
+                if result == .success {
+                    let vc = LoginViewController()
+                    self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    self.dismiss(animated: true)
+                }
+                
             }
             
         }))
@@ -595,13 +594,13 @@ extension ProfileViewController: URLSessionDownloadDelegate {
         
         do {
             try FileManager.default.copyItem(at: location, to: destinationPath)
-            print("Your file is here:", destinationPath)
             let shareSheet = UIActivityViewController(activityItems: [destinationPath], applicationActivities: nil)
             DispatchQueue.main.async {
                 self.present(shareSheet, animated: true)
                 self.view.hideToastActivity()
             }
         } catch let error {
+            self.view.hideToastActivity()
             print("Copy Error: \(error.localizedDescription)")
         }
     }

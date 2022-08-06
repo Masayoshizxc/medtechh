@@ -55,7 +55,7 @@ class WeekTableViewCell: UITableViewCell {
         let imageURL = URL(string: image!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com"))
         imageView1.sd_setImage(with: imageURL)
         title.text = titleLabel
-        weekDescription.text =  description
+        weekDescription.text = description
     }
     
     func setUpConstraints() {

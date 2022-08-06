@@ -7,20 +7,25 @@
 
 import UIKit
 
-class CodeViewController: UIViewController {
+class CodeViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
-
+    private let forgotViewModel: ForgotPasswordViewModelProtocol
     private let viewModel: CodeViewModelProtocol
 
-    init(vm: CodeViewModelProtocol = CodeViewModel()) {
+    init(vm: CodeViewModelProtocol = CodeViewModel(), fvm: ForgotPasswordViewModelProtocol = ForgotPasswordViewModel()) {
         viewModel = vm
+        forgotViewModel = fvm
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    var email = ""
+    var time = 60
+    var timer = Timer()
     
     let firstLabel: UILabel = {
         let label = UILabel()
@@ -31,9 +36,9 @@ class CodeViewController: UIViewController {
         return label
     }()
     
-    let secondLabel: UILabel = {
+    lazy var secondLabel: UILabel = {
         let label = UILabel()
-        label.text = "6-значный код был отправлен на вашу электронную почту example@gmail.com"
+        label.text = "6-значный код был отправлен на вашу электронную почту \(email)"
         label.font = Fonts.SFProText.medium.font(size: 16)
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -97,7 +102,7 @@ class CodeViewController: UIViewController {
     
     private lazy var resendButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Отправить повторно", for: .normal)
+        button.setTitle("Отправить повторно 60", for: .normal)
         button.titleLabel?.font = Fonts.SFProText.medium.font(size: 16)
         button.setTitleColor(UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1), for: .normal)
         button.addTarget(self, action: #selector(didTapResend), for: .touchUpInside)
@@ -107,12 +112,8 @@ class CodeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        backButton.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        
         
         codeField1.delegate = self
         codeField2.delegate = self
@@ -122,9 +123,26 @@ class CodeViewController: UIViewController {
         codeField6.delegate = self
         codeField1.becomeFirstResponder()
         
+        resendButton.isEnabled = false
         
         view.addSubviews(firstLabel, secondLabel, stackView, enterButton, resendButton)
         setUpConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+    }
+    
+    @objc func update() {
+        time -= 1
+        resendButton.setTitle("Отправить повторно \(time)", for: .normal)
+        if time == 0 {
+            timer.invalidate()
+            resendButton.setTitle("Отправить повторно", for: .normal)
+            resendButton.isEnabled = true
+            resendButton.setTitleColor(UIColor(named: "Violet"), for: .normal)
+        }
     }
     
     @objc func didTapEnter() {
@@ -133,11 +151,11 @@ class CodeViewController: UIViewController {
 //            print("Text Field is empty")
 //            return
 //        }
-let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.text! + codeField5.text! + codeField6.text!
-//        guard !code.isEmpty else {
-//            print("Code is empty")
-//            return
-//        }
+        let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.text! + codeField5.text! + codeField6.text!
+        guard !code.isEmpty else {
+            print("Code is empty")
+            return
+        }
         print(code)
         viewModel.enterCode(code: code) { [weak self] result in
             print("Code is: \(String(describing: result))")
@@ -170,6 +188,32 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
     
     @objc func didTapResend() {
         print("Resend Tapped!")
+        view.makeToastActivity(.center)
+        forgotViewModel.forgotPassword(email: email) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            if result?.errors == nil {
+                DispatchQueue.main.async {
+                    strongSelf.view.hideToastActivity()
+                    let sheet = UIAlertController(title: "Успешно", message: "На вашу почту отправлен код.", preferredStyle: .alert)
+                    sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
+                        strongSelf.time = 60
+                        strongSelf.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(strongSelf.update), userInfo: nil, repeats: true)
+                        strongSelf.dismiss(animated: true)
+                    }))
+                    strongSelf.present(sheet, animated: true)
+                }
+            } else {
+                strongSelf.view.hideToastActivity()
+                strongSelf.codeField1.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                strongSelf.codeField2.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                strongSelf.codeField3.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                strongSelf.codeField4.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                strongSelf.codeField5.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                strongSelf.codeField6.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+            }
+        }
     }
     
     func setUpConstraints() {
@@ -208,7 +252,6 @@ let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.t
 extension CodeViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         let text = textField.text
-        print(text?.count)
         if text?.count == 1 {
             switch textField {
             case codeField1:

@@ -16,7 +16,7 @@ class AppointmentViewController: BaseViewController {
         viewModel = vm
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -149,15 +149,15 @@ class AppointmentViewController: BaseViewController {
         stack.alignment = .fill
         stack.distribution = .fillEqually
         [monday,
-        tuesday,
-        wendnesday,
-        thursday,
-        friday,
-        saturday,
-        sunday].forEach { stack.addArrangedSubview($0) }
+         tuesday,
+         wendnesday,
+         thursday,
+         friday,
+         saturday,
+         sunday].forEach { stack.addArrangedSubview($0) }
         return stack
     }()
-
+    
     private lazy var sosButton4 : UIButton = {
         let button = UIButton()
         button.setTitle("SOS", for: .normal)
@@ -207,18 +207,17 @@ class AppointmentViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         title = "Запись"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: callButton)
         
-        getDoctorId()
-                
+        viewModel.getDoctorId()
+        
         collectionViewA.backgroundColor = .white
         collectionViewA.isScrollEnabled = false
         collectionViewA.delegate = self
         collectionViewA.dataSource = self
-                
+        
         collectionViewB.backgroundColor = .white
         collectionViewB.isScrollEnabled = false
         collectionViewB.delegate = self
@@ -262,23 +261,14 @@ class AppointmentViewController: BaseViewController {
     }
     
     private func callNumber(phoneNumber:String) {
-      if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
-        let application:UIApplication = UIApplication.shared
-        if (application.canOpenURL(phoneCallURL)) {
-            application.open(phoneCallURL, options: [:], completionHandler: nil)
-        }
-      }
-    }
-    
-    func getDoctorId() {
-        let userId = userDefaults.getUserId()
-        viewModel.getDoctorId(id: userId) { [weak self] rslt in
-            if rslt != nil {
-                let id = rslt?.userDTO.id
-                self?.userDefaults.saveDoctorId(id: id!)
+        if let phoneCallURL = URL(string: "tel://\(phoneNumber)") {
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
     }
+    
     
     func setMonthView() {
         days.removeAll()
@@ -309,7 +299,7 @@ class AppointmentViewController: BaseViewController {
         }
         
         monthLabel.text = CalendarHelper().monthString(date: selectedDate).capitalized
-            + " " + CalendarHelper().yearString(date: selectedDate)
+        + " " + CalendarHelper().yearString(date: selectedDate)
         collectionViewA.reloadData()
     }
     
@@ -341,9 +331,7 @@ class AppointmentViewController: BaseViewController {
             self.dismiss(animated: true)
         }))
         sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { [weak self] _ in
-            let doctorId = self?.userDefaults.getDoctorId()
-            let userId = self?.userDefaults.getUserId()
-            self?.viewModel.postAppointments(date: date, doctorId: doctorId!, patientId: userId!, visitTime: time) { result in
+            self?.viewModel.postAppointments(date: date, visitTime: time) { result in
                 guard let strongSelf = self else {
                     return
                 }
@@ -430,7 +418,6 @@ class AppointmentViewController: BaseViewController {
             make.centerX.equalToSuperview()
             make.left.right.equalTo(collectionViewA).inset(20)
             make.height.equalTo(264)
-            //make.width.equalTo(336)
         }
         
     }
@@ -438,15 +425,19 @@ class AppointmentViewController: BaseViewController {
 
 extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == collectionViewA {
+        switch collectionView {
+        case collectionViewA:
             return days.count
-        } else {
+        case collectionViewB:
             return freeTimes.count
+        default:
+            return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == collectionViewA {
+        switch collectionView {
+        case collectionViewA:
             let cell = collectionView.getReuseCell(CalendarCollectionViewCell.self, indexPath: indexPath)
             cell.getData(string: days[indexPath.row].date)
             let dateFormatter = DateFormatter()
@@ -465,7 +456,7 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                 let doctorId = userDefaults.getDoctorId()
                 if doctorId != nil {
                     DispatchQueue.main.async {
-                        self.viewModel.getReservedDates(doctorId: doctorId!, date: "\(monthYear)-01") { result in
+                        self.viewModel.getReservedDates(date: "\(monthYear)-01") { result in
                             for res in result!.reservedDates! {
                                 if date == res {
                                     cell.changeColorToGrey()
@@ -494,7 +485,7 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
             }
             cell.layer.cornerRadius = cell.frame.width / 2
             return cell
-        } else {
+        case collectionViewB:
             let cell = collectionView.getReuseCell(TimeCollectionViewCell.self, indexPath: indexPath)
             cell.getData(string: freeTimes[indexPath.row].time)
             if freeTimes[indexPath.row].isSelected == true {
@@ -507,26 +498,24 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
             }
             cell.layer.cornerRadius = 16
             return cell
+        default:
+            let cell = collectionView.getReuseCell(UICollectionViewCell.self, indexPath: indexPath)
+            return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == collectionViewA {
+        switch collectionView {
+        case collectionViewA:
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             let monthYear = dateFormatter.string(from: selectedDate)
-            //dateFormatter.dateFormat = "MM"
-            //let month = dateFormatter.string(from: selectedDate)
-            //let currentMonth = dateFormatter.string(from: Date())
-            //dateFormatter.dateFormat = "dd"
-            //let currentDay = dateFormatter.string(from: selectedDate)
             let day = days[indexPath.row].date
             let cell = collectionView.cellForItem(at: indexPath) as! CalendarCollectionViewCell
             if day != ""  {
                 scrollView.isScrollEnabled = true
                 let dayString = day.count < 2 ? "0\(day)" : day
                 let date = "\(monthYear)-\(dayString)"
-                let userId = userDefaults.getUserId()
                 self.userDefaults.saveDate(date: date)
                 freeTimes.removeAll()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -534,26 +523,28 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                 dateFormatter.dateFormat = "ee"
                 let langStr = Locale.current.languageCode
                 let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
-                viewModel.getVisit(id: userId, date: date) { [weak self] result in
+                viewModel.getVisit(date: date) { [weak self] result in
                     guard let strongSelf = self else {
                         return
                     }
-                    if (result?.doctorDTO?.id) != nil {
+                    let patientVisit = strongSelf.viewModel.patientVisit
+                    if result == .success {
                         strongSelf.appointmentView.isHidden = false
                         strongSelf.timeLabel.isHidden = true
                         strongSelf.collectionViewB.isHidden = true
-                        strongSelf.appointmentView.getData(model: result!)
+                        strongSelf.appointmentView.getData(model: patientVisit!)
                     } else {
-                        let doctorId = strongSelf.userDefaults.getDoctorId()
-                        strongSelf.viewModel.getFreeTimes(doctorId: doctorId!, weekday: String(dateStr)) { success in
-                            if !success!.isEmpty {
+                        strongSelf.viewModel.getFreeTimes(weekday: String(dateStr)) { rslt in
+                            let freeModel = strongSelf.viewModel.timeModel
+                            if rslt == .success {
                                 strongSelf.viewModel.getNonFreeTimes(date: date) { res in
                                     strongSelf.freeTimes.removeAll()
-                                    for i in 0...success!.count - 1 {
-                                        let time = success![i].scheduleStartTime
-                                        if !res!.isEmpty {
-                                            for j in 0...res!.count - 1 {
-                                                let nonFreeTime = res![j].visitStartTime
+                                    let nonFree = strongSelf.viewModel.nonFreeTimes
+                                    for i in 0..<freeModel!.count {
+                                        let time = freeModel![i].scheduleStartTime
+                                        if res == .success {
+                                            for j in 0..<nonFree!.count {
+                                                let nonFreeTime = nonFree![j].visitStartTime
                                                 if time != nonFreeTime {
                                                     let timee = time?.dropLast(3)
                                                     strongSelf.freeTimes.append(Time(time: String(timee!)))
@@ -583,23 +574,28 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                 days[indexPath.row].isSelected = true
                 collectionViewA.reloadData()
             }
-        } else {
+        case collectionViewB:
             appointButton.isHidden = false
             let time = freeTimes[indexPath.row].time
             self.userDefaults.saveTime(time: time)
             freeTimes[indexPath.row].isSelected = true
             collectionViewB.reloadData()
+        default:
+            break
         }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == collectionViewA {
+        switch collectionView {
+        case collectionViewA:
             let width = (collectionViewA.frame.size.width - 20) / 8
             return CGSize(width: width, height: width)
-        } else {
+        case collectionViewB:
             return CGSize(width: 65, height: 44)
+        default:
+            return CGSize(width: 50, height: 50)
         }
     }
-        
+    
 }

@@ -10,6 +10,7 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     static let reuseID = "CollectionViewCell"
+    let shape = CAShapeLayer()
     
     let mainImageView : UIImageView = {
         let imageView = UIImageView()
@@ -103,6 +104,29 @@ class CollectionViewCell: UICollectionViewCell {
         numbersOfWeeks.text = String(text)
         numbersOfWeeks.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         self.mainImageView.backgroundColor = .white
+    }
+    
+    func addProgressBar(strokeEnd: CGFloat) {
+        let circlePath = UIBezierPath(arcCenter: center,
+                                      radius: frame.width / 2 - 1,
+                                      startAngle: -(.pi / 2),
+                                      endAngle: .pi * 2,
+                                      clockwise: true)
+        
+        
+//        let trackShape = CAShapeLayer()
+//        trackShape.path = circlePath.cgPath
+//        trackShape.fillColor = UIColor.clear.cgColor
+//        trackShape.strokeColor = UIColor(red: 0.973, green: 0.898, blue: 0.898, alpha: 1).cgColor
+//        trackShape.lineWidth = 2
+//        layer.addSublayer(trackShape)
+        
+        shape.path = circlePath.cgPath
+        shape.lineWidth = 2
+        shape.strokeColor = UIColor(red: 1, green: 0.714, blue: 0.71, alpha: 1).cgColor
+        shape.strokeEnd = strokeEnd
+        shape.fillColor = UIColor.clear.cgColor
+        layer.addSublayer(shape)
     }
 }
 

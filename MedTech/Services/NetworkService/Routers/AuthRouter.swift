@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthRouter: BaseRouter {
+enum AuthRouter: BaseRouterLogin {
     case signIn(data: Data)
     case logout(data: Data)
     case refreshToken

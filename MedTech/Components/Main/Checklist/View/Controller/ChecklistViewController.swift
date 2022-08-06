@@ -11,7 +11,8 @@ class ChecklistViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
     var model = [Checklist]()
-    var checklist = [ChecklistModel]()
+    var appointments = ["Первичный осмотр -", "Второй осмотр -", "Третий осмотр -", "Четвертый осмотр -", "Пятый осмотр -",
+                        "Шестой осмотр -", "Седьмой осмотр -", "Восьмой осмотр -", "Девятый осмотр -", "Десятый осмотр -"]
     
     private let viewModel: ChecklistViewModelProtocol
     
@@ -24,11 +25,13 @@ class ChecklistViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(ChecklistTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorColor = UIColor.clear
         tableView.backgroundColor = .white
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
     
@@ -47,14 +50,12 @@ class ChecklistViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Чеклист"
-        let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton4)
         
-        getChecklists()
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        getChecklists()
                         
         view.addSubview(tableView)
     }
@@ -64,13 +65,25 @@ class ChecklistViewController: BaseViewController {
         tableView.frame = view.bounds
     }
     
-    func getChecklists() {
-        let userId = userDefaults.getUserId()
-        viewModel.getChecklists(id: userId) { result in
-            self.checklist = result!
-            let dateVisit = result![0].patientVisitDTO!.dateVisit
-            self.model.append(Checklist(first: "Первичный осмотр -", second: dateVisit!))
+    @objc func didPullRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.getChecklists()
             self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    func getChecklists() {
+        viewModel.getChecklists { result in
+            if result == .success {
+                for i in 0..<self.viewModel.model.count {
+                    let dateVisit = self.viewModel.model[i].patientVisitDTO!.dateVisit
+                    self.model.append(Checklist(first: self.appointments[i], second: dateVisit!))
+                }
+                self.tableView.reloadData()
+            } else {
+                print("Error")
+            }
         }
     }
     
@@ -116,7 +129,7 @@ extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = CategoriesViewController()
         vc.title = model[indexPath.row].first.replacingOccurrences(of: "-", with: "")
-        vc.checklist = checklist[indexPath.row]
+        vc.checklist = viewModel.model[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
         

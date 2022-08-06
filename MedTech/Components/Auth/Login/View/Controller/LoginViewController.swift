@@ -134,15 +134,18 @@ class LoginViewController: BaseViewController {
                 guard let strongSelf = self else {
                     return
                 }
-                if result != nil {
-                    let isPatient = result?.roles.contains("ROLE_PATIENT")
+                let model = strongSelf.viewModel.model
+                
+                if result == .success {
+                    print()
+                    let isPatient = model?.roles.contains("ROLE_PATIENT")
                     if isPatient! {
-                        let userData = result!
+                        let userData = model!
                         strongSelf.userDefaults.saveUserId(id: userData.id)
-                        strongSelf.userDefaults.saveRefreshToken(name: result?.refreshToken)
-                        strongSelf.userDefaults.saveAccessToken(name: result?.token)
+                        strongSelf.userDefaults.saveRefreshToken(name: model?.refreshToken)
+                        strongSelf.userDefaults.saveAccessToken(name: model?.token)
                         strongSelf.userDefaults.isSignedIn(signedIn: true)
-                        if result?.pwdChangeRequired ?? false {
+                        if model?.pwdChangeRequired ?? false {
                             let vc = NewPasswordViewController()
                             strongSelf.navigationController?.pushViewController(vc, animated: true)
                         } else {
@@ -270,24 +273,5 @@ extension UIView {
     }
 }
 
-extension NSObject {
-    @objc var screenWidth: CGFloat {
-        UIScreen.main.bounds.width
-    }
-    @objc var screenHeight: CGFloat {
-        UIScreen.main.bounds.height
-    }
-    
-    func widthComputed(_ value: CGFloat) -> CGFloat {
-        screenWidth * value / 390
-    }
-    
-    func heightComputed(_ value: CGFloat) -> CGFloat {
-        screenHeight * value / 844
-    }
-    
-    var tabbarHeight: CGFloat {
-        UITabBarController().tabBar.frame.height
-    }
-}
+
 

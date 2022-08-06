@@ -9,17 +9,17 @@ import Foundation
 
 enum ProfileRouter: BaseRouter {
     case getPatient(id: Int)
-    case addImage(id: Int, image: Data)
-    case changeImage(id: Int, image: Data)
+    case addImage(id: Int, image: Data, boundary: String)
+    case changeImage(id: Int, image: Data, boundary: String)
     case changeAddressAndPhone(id: Int, phone: String, address: String)
 
     var path: String {
         switch self {
         case let .getPatient(id):
             return "/api/v1/patients/\(id)"
-        case let .addImage(id, _):
+        case let .addImage(id, _, _):
             return "/api/v1/patients/img/\(id)"
-        case let .changeImage(id, _):
+        case let .changeImage(id, _, _):
             return "/api/v1/patients/img/\(id)"
         case let .changeAddressAndPhone(id, _, _):
             return "/api/v1/patients/edit/\(id)"
@@ -59,9 +59,9 @@ enum ProfileRouter: BaseRouter {
         switch self {
         case .getPatient:
             return nil
-        case let .addImage(_, image):
+        case let .addImage(_, image, _):
             return image
-        case let .changeImage(_, image):
+        case let .changeImage(_, image, _):
             return image
         case .changeAddressAndPhone:
             return nil
@@ -72,13 +72,10 @@ enum ProfileRouter: BaseRouter {
         switch self {
         case .getPatient:
             return nil
-        case .addImage:
-            return [
-                HttpHeader(field: "Content-Type", value: "multipart/form-data"),
-                HttpHeader(field: "Content-Type", value: "image/jpeg")
-            ]
-        case .changeImage:
-            return [HttpHeader(field: "Content-Type", value: "multipart/form-data")]
+        case let .addImage(_, _, boundary):
+            return [HttpHeader(field: "Content-Type", value: "multipart/form-data; boundary=\(boundary)")]
+        case let .changeImage(_, _, boundary):
+            return [HttpHeader(field: "Content-Type", value: "multipart/form-data; boundary=\(boundary)")]
         case .changeAddressAndPhone:
             return nil
         }

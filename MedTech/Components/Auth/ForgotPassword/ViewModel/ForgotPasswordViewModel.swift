@@ -14,28 +14,20 @@ protocol ForgotPasswordViewModelProtocol {
 class ForgotPasswordViewModel: ForgotPasswordViewModelProtocol {
     let networkService: NetworkService = NetworkService()
     
+    private let service: ForgotPasswordServiceProtocol
+    private let userDefaults = UserDefaultsService()
+    
+    init(vm: ForgotPasswordServiceProtocol = ForgotPasswordService()) {
+        service = vm
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func forgotPassword(email: String, completion: @escaping ((FailureModel?) -> Void)) {
-        networkService.sendRequest(urlRequest: ForgotPasswordRouter.forgotPassword(email: email).createURLRequest(),
-                                   successModel: FailureModel.self) { result in
-            switch result {
-            case .success(let model):
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+        service.forgotPassword(email: email) { result in
+            completion(result)
         }
     }
 }

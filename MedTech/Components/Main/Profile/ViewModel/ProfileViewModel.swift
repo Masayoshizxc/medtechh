@@ -7,145 +7,75 @@
 
 import Foundation
 
+enum SuccessFailure {
+    case success
+    case failure
+}
+
 protocol ProfileViewModelProtocol {
-    func logOut(data: Data, completion: @escaping ((FailureModel?) -> Void))
-    func getPatient(id: Int, completion: @escaping ((Patient?) -> Void))
+    func logOut(completion: @escaping ((SuccessFailure?) -> Void))
+    func getPatient(completion: @escaping ((Patient?) -> Void))
     func getAddressAndPhone(id: Int, address: String, phone: String, completion: @escaping ((Patient?) -> Void))
-    func addImage(id: Int, image: Data, completion: @escaping ((Patient?) -> Void))
-    func changeImage(id: Int, image: Data, completion: @escaping ((Patient?) -> Void))
+    func addImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void))
+    func changeImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void))
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
     let networkService: NetworkService = NetworkService()
     
-    func logOut(data: Data, completion: @escaping ((FailureModel?) -> Void)) {
-        networkService.sendRequest(urlRequest: AuthRouter.logout(data: data).createURLRequest(),
-                                   successModel: FailureModel.self) { result in
-            switch result {
-            case .success(let model):
-                
-                //print(model)
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
-        }
+    private let service: ProfileServiceProtocol
+    private let userDefaults = UserDefaultsService()
+    var model = [Patient]()
+    
+    init(vm: ProfileServiceProtocol = ProfileService()) {
+        service = vm
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func getPatient(id: Int, completion: @escaping ((Patient?) -> Void)) {
-        networkService.sendRequest(urlRequest: ProfileRouter.getPatient(id: id).createURLRequest(),
-                                   successModel: Patient.self) { result in
-            switch result {
-            case .success(let model):
-                //print(model)
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
+    func logOut(completion: @escaping ((SuccessFailure?) -> Void)) {
+        userDefaults.isSignedIn(signedIn: false)
+        let userId = userDefaults.getUserId()
+        let data: [String : Any] = [
+            "userId" : userId
+        ]
+        let encodedData = (try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)) ?? nil
+        service.logOut(data: encodedData!) { result in
+            if result != nil {
+                completion(.success)
+            } else {
+                completion(.failure)
             }
+            
+        }
+        
+    }
+    
+    func getPatient(completion: @escaping ((Patient?) -> Void)) {
+        let userId = userDefaults.getUserId()
+        
+        service.getPatient(id: userId) { result in
+            completion(result)
         }
     }
     
     func getAddressAndPhone(id: Int, address: String, phone: String, completion: @escaping ((Patient?) -> Void)) {
-        networkService.sendRequest(urlRequest: ProfileRouter.changeAddressAndPhone(id: id, phone: phone, address: address).createURLRequest(),
-                                   successModel: Patient.self) { result in
-            switch result {
-            case .success(let model):
-                //print(model)
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+        service.getAddressAndPhone(id: id, address: address, phone: phone) { result in
+            completion(result)
         }
     }
     
-    func addImage(id: Int, image: Data, completion: @escaping ((Patient?) -> Void)) {
-        networkService.sendRequest(urlRequest: ProfileRouter.addImage(id: id, image: image).createURLRequest(),
-                                   successModel: Patient.self) { result in
-            switch result {
-            case .success(let model):
-                //print(model)
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+    func addImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void)) {
+        service.addImage(id: id, image: image, boundary: boundary) { result in
+            completion(result)
         }
     }
     
-    func changeImage(id: Int, image: Data, completion: @escaping ((Patient?) -> Void)) {
-        networkService.sendRequest(urlRequest: ProfileRouter.changeImage(id: id, image: image).createURLRequest(),
-                                   successModel: Patient.self) { result in
-            switch result {
-            case .success(let model):
-                //print(model)
-                completion(model)
-            case .badRequest(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .failure(let error):
-                completion(nil)
-                debugPrint(#function, error)
-//            case .forbidden(let error):
-//                completion(nil)
-//                debugPrint(#function, error)
-            case .unauthorized(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            case .notFound(let error):
-                completion(nil)
-                debugPrint(#function, error)
-            }
+    func changeImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void)) {
+        service.changeImage(id: id, image: image, boundary: boundary) { result in
+            completion(result)
         }
     }
 }

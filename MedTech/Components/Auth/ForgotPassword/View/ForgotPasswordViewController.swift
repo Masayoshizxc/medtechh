@@ -89,6 +89,7 @@ class ForgotPasswordViewController: BaseViewController {
                     let sheet = UIAlertController(title: "Успешно", message: "На вашу почту отправлен код.", preferredStyle: .alert)
                     sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
                         let vc = CodeViewController()
+                        vc.email = email
                         strongSelf.navigationController?.pushViewController(vc, animated: true)
                         strongSelf.dismiss(animated: true)
                     }))
