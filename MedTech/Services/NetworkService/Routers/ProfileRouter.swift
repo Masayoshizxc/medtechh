@@ -11,7 +11,7 @@ enum ProfileRouter: BaseRouter {
     case getPatient(id: Int)
     case addImage(id: Int, image: Data, boundary: String)
     case changeImage(id: Int, image: Data, boundary: String)
-    case changeAddressAndPhone(id: Int, phone: String, address: String)
+    case changeAddressAndPhone(id: Int, data: Data)
 
     var path: String {
         switch self {
@@ -21,7 +21,7 @@ enum ProfileRouter: BaseRouter {
             return "/api/v1/patients/img/\(id)"
         case let .changeImage(id, _, _):
             return "/api/v1/patients/img/\(id)"
-        case let .changeAddressAndPhone(id, _, _):
+        case let .changeAddressAndPhone(id, _):
             return "/api/v1/patients/edit/\(id)"
         }
     }
@@ -34,11 +34,8 @@ enum ProfileRouter: BaseRouter {
             return nil
         case .changeImage:
             return nil
-        case let .changeAddressAndPhone(_, phone, address):
-            return [
-                URLQueryItem(name: "address", value: address),
-                URLQueryItem(name: "phoneNumber", value: phone)
-            ]
+        case .changeAddressAndPhone:
+            return nil
         }
     }
 
@@ -63,8 +60,8 @@ enum ProfileRouter: BaseRouter {
             return image
         case let .changeImage(_, image, _):
             return image
-        case .changeAddressAndPhone:
-            return nil
+        case let .changeAddressAndPhone(_ , data):
+            return data
         }
     }
 

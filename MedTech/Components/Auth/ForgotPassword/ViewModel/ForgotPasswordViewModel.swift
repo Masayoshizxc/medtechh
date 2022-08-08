@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ForgotPasswordViewModelProtocol {
-    func forgotPassword(email: String, completion: @escaping ((FailureModel?) -> Void))
+    func forgotPassword(email: String, completion: @escaping ((SuccessFailure?) -> Void))
 }
 
 class ForgotPasswordViewModel: ForgotPasswordViewModelProtocol {
@@ -25,9 +25,19 @@ class ForgotPasswordViewModel: ForgotPasswordViewModelProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func forgotPassword(email: String, completion: @escaping ((FailureModel?) -> Void)) {
+    func forgotPassword(email: String, completion: @escaping ((SuccessFailure?) -> Void)) {
         service.forgotPassword(email: email) { result in
-            completion(result)
+            guard self.validateEmail(enteredEmail: email), result != nil else {
+                completion(.failure)
+                return
+            }
+            completion(.success)
         }
+    }
+    
+    func validateEmail(enteredEmail: String) -> Bool {
+        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: enteredEmail)
     }
 }

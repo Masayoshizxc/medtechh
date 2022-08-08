@@ -171,11 +171,10 @@ class EditProfileViewController: BaseViewController {
         userNumber.text = user?.phoneNumber
         userBirth.text = user?.dob
         userAddress.text = user?.address
-        guard model?.imageUrl != nil else {
+        guard let imageUrl = model?.imageUrl else {
             return
         }
-        let imageURL = model?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
-        guard let image = URL(string: imageURL!) else {
+        guard let image = URL(string: imageUrl) else {
             print("There is no image")
             return
         }
@@ -195,11 +194,14 @@ class EditProfileViewController: BaseViewController {
         guard let address = userAddress.text, let number = userNumber.text else {
             return
         }
-        let userId = userDefaults.getUserId()
-        viewModel.getAddressAndPhone(id: userId, address: address, phone: number) { result in
-            DispatchQueue.main.async {
-                self.userAddress.text = result?.userDTO?.address
-                self.userNumber.text = result?.userDTO?.phoneNumber
+        viewModel.getAddressAndPhone(address: address, phone: number) { result in
+            switch result {
+            case .success:
+                print("Address and phone changed succesfully!!!")
+            case .failure:
+                print("There was an error with changing")
+            default:
+                break
             }
         }
         
@@ -222,7 +224,6 @@ class EditProfileViewController: BaseViewController {
     }
     
     func uploadImage(paramName: String, fileName: String, image: UIImage) {
-        //https://medtech-team5.herokuapp.com/api/v1/patients/img/4
         let url = URL(string: "https://medtech-team5.herokuapp.com/api/v1/patients/img/3")
                 
         let session = URLSession.shared
@@ -244,7 +245,7 @@ class EditProfileViewController: BaseViewController {
                     print(json)
                 }
             } else {
-                print(error)
+                print(error as Any)
             }
         }).resume()
         

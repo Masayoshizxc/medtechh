@@ -126,7 +126,7 @@ class AppointmentView: UIView {
     }
     
     func getData(model: PatientVisitDTO) {
-        let urlString = model.doctorDTO?.imageUrl?.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
+        let urlString = model.doctorDTO?.imageUrl
         
         let image = URL(string: urlString ?? "")
         doctorImageView.sd_setImage(with: image)

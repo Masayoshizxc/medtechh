@@ -28,6 +28,8 @@
 		A91DF793286371B400C79BDF /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91DF792286371B400C79BDF /* PasswordTextField.swift */; };
 		A91DF7952863726200C79BDF /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91DF7942863726200C79BDF /* LoginButton.swift */; };
 		A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91DF796286374A600C79BDF /* BaseViewController.swift */; };
+		A92A34A028A1579900E94018 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92A349F28A1579900E94018 /* Notifications.swift */; };
+		A92A34A228A157FB00E94018 /* NotificationsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92A34A128A157FB00E94018 /* NotificationsRouter.swift */; };
 		A932C4502899907000682C1C /* ChecklistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C44F2899907000682C1C /* ChecklistModel.swift */; };
 		A932C4522899917700682C1C /* ChecklistRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C4512899917700682C1C /* ChecklistRouter.swift */; };
 		A932C4552899920300682C1C /* ChecklistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C4542899920300682C1C /* ChecklistViewModel.swift */; };
@@ -129,6 +131,8 @@
 		A91DF792286371B400C79BDF /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		A91DF7942863726200C79BDF /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		A91DF796286374A600C79BDF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		A92A349F28A1579900E94018 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		A92A34A128A157FB00E94018 /* NotificationsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRouter.swift; sourceTree = "<group>"; };
 		A932C44F2899907000682C1C /* ChecklistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistModel.swift; sourceTree = "<group>"; };
 		A932C4512899917700682C1C /* ChecklistRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistRouter.swift; sourceTree = "<group>"; };
 		A932C4542899920300682C1C /* ChecklistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewModel.swift; sourceTree = "<group>"; };
@@ -275,8 +279,8 @@
 			isa = PBXGroup;
 			children = (
 				A95CC27F289E4557008A1FEC /* Service */,
-				A93D2EBD2875662F00DEE1BF /* ViewModel */,
 				A9875E17289A844300A2987E /* View */,
+				A93D2EBD2875662F00DEE1BF /* ViewModel */,
 			);
 			path = ForgotPassword;
 			sourceTree = "<group>";
@@ -339,8 +343,7 @@
 		A91DF78E28636F1700C79BDF /* Notificatioin */ = {
 			isa = PBXGroup;
 			children = (
-				AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */,
-				AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */,
+				A95CC285289FE275008A1FEC /* View */,
 			);
 			path = Notificatioin;
 			sourceTree = "<group>";
@@ -514,6 +517,23 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		A95CC285289FE275008A1FEC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */,
+				A95CC286289FE27C008A1FEC /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A95CC286289FE27C008A1FEC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		A95E5C0328756DCE00F7D575 /* EnterCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +567,7 @@
 			children = (
 				A971FB83287D6A1600CC5E30 /* WeekModel.swift */,
 				A9192F9728825FDB00EC5F19 /* Clinic.swift */,
+				A92A349F28A1579900E94018 /* Notifications.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -746,6 +767,7 @@
 				A9192F992882600B00EC5F19 /* ClinicRouter.swift */,
 				A97F4A452882A36000FEEBA9 /* ProfileRouter.swift */,
 				A932C4512899917700682C1C /* ChecklistRouter.swift */,
+				A92A34A128A157FB00E94018 /* NotificationsRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -1077,6 +1099,7 @@
 				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
 				A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */,
 				A9DDAA79287495DB00FB0257 /* SignInViewModel.swift in Sources */,
+				A92A34A028A1579900E94018 /* Notifications.swift in Sources */,
 				A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */,
 				A95E5C0528756E2B00F7D575 /* CodeViewController.swift in Sources */,
 				A9DDAA702874946200FB0257 /* HttpHeader.swift in Sources */,
@@ -1131,6 +1154,7 @@
 				A9EF509B287AAD85005DF870 /* ChecklistTableViewCell.swift in Sources */,
 				A979965E2845FEAE00454CEF /* SceneDelegate.swift in Sources */,
 				A9192F9A2882600B00EC5F19 /* ClinicRouter.swift in Sources */,
+				A92A34A228A157FB00E94018 /* NotificationsRouter.swift in Sources */,
 				A9EF50A9287AD7EE005DF870 /* HideButton.swift in Sources */,
 				A970D74C28871F32003B22FD /* ReservedDates.swift in Sources */,
 				A932C4592899973400682C1C /* UltReportViewController.swift in Sources */,

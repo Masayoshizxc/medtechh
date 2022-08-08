@@ -9,6 +9,7 @@ import UIKit
 
 class QuestionAnswerViewController: BaseViewController {
         
+    var id: Int?
     private let viewModel: ChecklistViewModelProtocol
     
     init(vm: ChecklistViewModelProtocol = ChecklistViewModel()) {
@@ -23,7 +24,14 @@ class QuestionAnswerViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getAnswers(id: 2, completion: { result in
-            print(result)
+            switch result {
+            case .success:
+                print(self.viewModel.answers as Any)
+            case .failure:
+                print("There was an error with downloading answers!")
+            default:
+                break
+            }
         })
     }
 

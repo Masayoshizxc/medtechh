@@ -80,9 +80,9 @@ class HomeViewController: BaseViewController {
     
     lazy var notificationsButton : UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(systemName: "bell.badge"), for: .normal)
+        button.setBackgroundImage(Icons.notification.image, for: .normal)
         button.tintColor = UIColor(named: "Violet")
-        button.frame = CGRect(x: 0, y: 0, width: 220, height: 220)
+        button.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         button.addTarget(self, action: #selector(didTapNotificationsButton), for: .touchUpInside)
         return button
     }()
@@ -121,13 +121,6 @@ class HomeViewController: BaseViewController {
         return vieww
     }()
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if !viewModel.model!.isEmpty {
-            collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Главная"
@@ -139,13 +132,33 @@ class HomeViewController: BaseViewController {
             self.getAllWeeks()
             self.viewModel.getClinic()
         }
-        
-        showBadge(withCount: 5)
+        showBadge(withCount: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getLastVisit()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !viewModel.model!.isEmpty {
+            collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
+        }
+        
+        viewModel.getNotifications { result in
+            switch result {
+            case .success:
+                guard let notfCount = UserDefaultsService.shared.getNotificationCount() else {
+                    self.showBadge(withCount: self.viewModel.notifications!.count)
+                    return
+                }
+                let count = self.viewModel.notifications!.count - notfCount
+                self.showBadge(withCount: count)
+            case .failure:
+                print("There was a problem with downloading Notifications")
+            }
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -253,37 +266,41 @@ class HomeViewController: BaseViewController {
     @objc func didTapNotificationsButton(){
         let loadVC = NotificationsViewController()
         loadVC.modalPresentationStyle = .fullScreen
+        guard let model = viewModel.notifications else {
+            return
+        }
+        loadVC.model = model
         self.present(loadVC, animated: true, completion: nil)
     }
     
     
-    let badgeSize: CGFloat = 13
+    let badgeSize: CGFloat = 12
     let badgeTag = 9830384
     
     func badgeLabel(withCount count: Int) -> UILabel {
         let badgeCount = UILabel(frame: CGRect(x: 0, y: 0, width: badgeSize, height: badgeSize))
         badgeCount.translatesAutoresizingMaskIntoConstraints = false
         badgeCount.tag = badgeTag
-        badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
+        badgeCount.layer.cornerRadius = badgeCount.bounds.size.width / 2
         badgeCount.textAlignment = .center
         badgeCount.layer.masksToBounds = true
         badgeCount.textColor = .white
-        badgeCount.font = badgeCount.font.withSize(12)
+        badgeCount.font = badgeCount.font.withSize(11)
         badgeCount.backgroundColor = UIColor(red: 255/255, green: 182/255, blue: 181/255, alpha: 1)
         badgeCount.text = String(count)
         return badgeCount
     }
     
     func showBadge(withCount count: Int) {
+//        guard count > 0 else {
+//            return
+//        }
         let badge = badgeLabel(withCount: count)
         notificationsButton.addSubview(badge)
         
         NSLayoutConstraint.activate([
-            notificationsButton.widthAnchor.constraint(equalToConstant: 25),
-            notificationsButton.heightAnchor.constraint(equalToConstant: 25),
-            
-            badge.leftAnchor.constraint(equalTo: notificationsButton.leftAnchor, constant: 14),
-            badge.topAnchor.constraint(equalTo: notificationsButton.topAnchor, constant: -4),
+            badge.leftAnchor.constraint(equalTo: notificationsButton.leftAnchor, constant: 13),
+            badge.topAnchor.constraint(equalTo: notificationsButton.topAnchor, constant: -2),
             badge.widthAnchor.constraint(equalToConstant: badgeSize),
             badge.heightAnchor.constraint(equalToConstant: badgeSize)
         ])
@@ -295,7 +312,7 @@ class HomeViewController: BaseViewController {
     
     func setUpConstraints() {
         notificationsButton.snp.makeConstraints{make in
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(25)
         }
         remindButton.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()

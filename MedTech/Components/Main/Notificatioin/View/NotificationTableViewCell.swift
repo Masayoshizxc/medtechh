@@ -30,7 +30,8 @@ class NotificationTableViewCell: UITableViewCell {
     }()
     var photo : UIImageView = {
         let img = UIImageView()
-        img.layer.cornerRadius = 25
+        img.clipsToBounds = true
+        img.layer.cornerRadius = 30
         img.backgroundColor = .yellow
         img.translatesAutoresizingMaskIntoConstraints = false
         img.image = UIImage(named: "doctor")
@@ -54,6 +55,21 @@ class NotificationTableViewCell: UITableViewCell {
                                 dateTime)
     }
     
+    func getData(model: Notifications) {
+        name.text = model.header!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        let dateDate = dateFormatter.date(from:model.dateCreated!)
+        dateFormatter.dateFormat = "EEEE, d MMMM в HH:mm"
+        dateFormatter.locale = Locale(identifier: "ru")
+        let dateStr = dateFormatter.string(from: dateDate!)
+        dateTime.text = dateStr.capitalizingFirstLetter()
+        guard let url = URL(string: (model.patient?.doctorDTO?.imageUrl)!) else {
+            return
+        }
+        photo.sd_setImage(with: url)
+    }
+    
     func setUpConstraints(){
         name.snp.makeConstraints{make in
             make.left.equalToSuperview()
@@ -67,7 +83,7 @@ class NotificationTableViewCell: UITableViewCell {
         photo.snp.makeConstraints{make in
             make.top.equalToSuperview()
             make.right.equalToSuperview()
-            make.width.height.equalTo(50)
+            make.width.height.equalTo(60)
         }
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -76,4 +92,14 @@ class NotificationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
 }

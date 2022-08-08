@@ -12,7 +12,7 @@ protocol AppointmentServiceProtocol {
     func getFreeTimes(doctorId: Int, weekday: String, completion: @escaping (([TimeModel]?) -> Void))
     func getNonFreeTimes(date: String, completion: @escaping (([PatientVisitDTO]?) -> Void))
     func getDoctorId(id: Int, completion: @escaping ((DoctorDTO?) -> Void))
-    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void))
+    func postAppointments(data: Data, completion: @escaping ((PatientVisitDTO?) -> Void))
     func getReservedDates(doctorId: Int, date: String, completion: @escaping ((ReservedDates?) -> Void))
     func getLastVisit(id: Int, completion: @escaping ((PatientVisitDTO?) -> Void))
 }
@@ -107,11 +107,8 @@ class AppointmentService: AppointmentServiceProtocol {
             }
         }
     }
-    func postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String, completion: @escaping ((PatientVisitDTO?) -> Void)) {
-        networkService.sendRequest(urlRequest: AppointmentsRouter.postAppointments(date: date,
-                                                                                   doctorId: doctorId,
-                                                                                   patientId: patientId,
-                                                                                   visitTime: visitTime).createURLRequest(),
+    func postAppointments(data: Data, completion: @escaping ((PatientVisitDTO?) -> Void)) {
+        networkService.sendRequest(urlRequest: AppointmentsRouter.postAppointments(data: data).createURLRequest(),
                                                                                    successModel: PatientVisitDTO.self) { result in
             switch result {
             case .success(let model):

@@ -14,10 +14,12 @@ enum SuccessFailure {
 
 protocol ProfileViewModelProtocol {
     func logOut(completion: @escaping ((SuccessFailure?) -> Void))
-    func getPatient(completion: @escaping ((Patient?) -> Void))
-    func getAddressAndPhone(id: Int, address: String, phone: String, completion: @escaping ((Patient?) -> Void))
+    func getPatient(completion: @escaping ((SuccessFailure?) -> Void))
+    func getAddressAndPhone(address: String, phone: String, completion: @escaping ((SuccessFailure?) -> Void))
     func addImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void))
     func changeImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void))
+    
+    var patient: Patient? { get set }
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
@@ -26,6 +28,7 @@ class ProfileViewModel: ProfileViewModelProtocol {
     private let service: ProfileServiceProtocol
     private let userDefaults = UserDefaultsService()
     var model = [Patient]()
+    var patient: Patient?
     
     init(vm: ProfileServiceProtocol = ProfileService()) {
         service = vm
@@ -53,17 +56,35 @@ class ProfileViewModel: ProfileViewModelProtocol {
         
     }
     
-    func getPatient(completion: @escaping ((Patient?) -> Void)) {
+    func getPatient(completion: @escaping ((SuccessFailure?) -> Void)) {
         let userId = userDefaults.getUserId()
-        
         service.getPatient(id: userId) { result in
-            completion(result)
+            guard let result = result else {
+                completion(.failure)
+                return
+            }
+            self.patient = result
+            completion(.success)
         }
     }
     
-    func getAddressAndPhone(id: Int, address: String, phone: String, completion: @escaping ((Patient?) -> Void)) {
-        service.getAddressAndPhone(id: id, address: address, phone: phone) { result in
-            completion(result)
+    func getAddressAndPhone(address: String, phone: String, completion: @escaping ((SuccessFailure?) -> Void)) {
+        let userId = userDefaults.getUserId()
+        let data: [String : Any] = [
+            "address" : address,
+            "phoneNumber" : phone
+        ]
+        let encodedData = (try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)) ?? nil
+        guard let encodedData = encodedData else {
+            completion(.failure)
+            return
+        }
+        service.getAddressAndPhone(id: userId, data: encodedData) { result in
+            guard result != nil else {
+                completion(.failure)
+                return
+            }
+            completion(.success)
         }
     }
     

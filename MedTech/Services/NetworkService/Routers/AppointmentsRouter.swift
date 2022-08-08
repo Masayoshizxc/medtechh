@@ -12,7 +12,7 @@ enum AppointmentsRouter: BaseRouter {
     case getFreeTimes(doctorId: Int, weekDay: String)
     case getNonFreeTimes(date: String)
     case getDoctorId(id: Int)
-    case postAppointments(date: String, doctorId: Int, patientId: Int, visitTime: String)
+    case postAppointments(data: Data)
     case getReservedDates(doctorId: Int, startDate: String)
     case getLatestVisit(id: Int)
     
@@ -46,13 +46,8 @@ enum AppointmentsRouter: BaseRouter {
             return [URLQueryItem(name: "date", value: date)]
         case .getDoctorId:
             return nil
-        case let .postAppointments(date, doctorId, patientId, visitTime):
-            return [
-                URLQueryItem(name: "dateVisit", value: date),
-                URLQueryItem(name: "doctorId", value: String(doctorId)),
-                URLQueryItem(name: "patientId", value: String(patientId)),
-                URLQueryItem(name: "visitStartTime", value: visitTime),
-            ]
+        case .postAppointments:
+            return nil
         case let .getReservedDates(_, startDate):
             return [URLQueryItem(name: "startDate", value: startDate)]
         case .getLatestVisit:
@@ -89,8 +84,8 @@ enum AppointmentsRouter: BaseRouter {
             return nil
         case .getDoctorId:
             return nil
-        case .postAppointments:
-            return nil
+        case let .postAppointments(data):
+            return data
         case .getReservedDates:
             return nil
         case .getLatestVisit:

@@ -8,10 +8,14 @@
 import Foundation
 
 protocol CodeViewModelProtocol {
-    func enterCode(code: String, completion: @escaping ((CodeModel?) -> Void))
+    func enterCode(code: String, completion: @escaping ((SuccessFailure?) -> Void))
+    var code: CodeModel? { get set }
 }
 
 class CodeViewModel: CodeViewModelProtocol {
+    
+    var code: CodeModel?
+    
     let networkService: NetworkService = NetworkService()
     
     private let service: CodeServiceProtocol
@@ -25,9 +29,14 @@ class CodeViewModel: CodeViewModelProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func enterCode(code: String, completion: @escaping ((CodeModel?) -> Void)) {
+    func enterCode(code: String, completion: @escaping ((SuccessFailure?) -> Void)) {
         service.enterCode(code: code) { result in
-            completion(result)
+            guard result?.id != nil else {
+                completion(.failure)
+                return
+            }
+            self.code = result
+            completion(.success)
         }
     }
 }

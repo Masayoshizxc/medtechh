@@ -74,9 +74,15 @@ class PasswordViewController: BaseViewController {
             print("New password are not the same")
             return
         }
-        let userId = userDefaults.getUserId()
-        viewModel.changePassword(id: userId, oldPassword: old, newPassword: new1) { result in
-            print(result)
+        viewModel.changePassword(oldPassword: old, newPassword: new1) { result in
+            switch result {
+            case .success:
+                self.navigationController?.popToRootViewController(animated: true)
+            case .failure:
+                print("There was a problem with changing the password")
+            default:
+                break
+            }
         }
     }
     

@@ -8,9 +8,7 @@
 import UIKit
 
 class NewPasswordViewController: BaseViewController {
-    
-    let userDefaults = UserDefaultsService()
-    
+        
     private let viewModel: NewPasswordViewModelProtocol
 
     init(vm: NewPasswordViewModelProtocol = NewPasswordViewModel()) {
@@ -69,11 +67,6 @@ class NewPasswordViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        backButton.tintColor = UIColor(named: "Violet")
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        
         view.addSubviews(
             label,
             passwordField,
@@ -108,16 +101,15 @@ class NewPasswordViewController: BaseViewController {
             print("passwords are not the save")
             return
         }
-        
-        let userId = userDefaults.getUserId()
-        
-        viewModel.changePassword(id: userId, oldPassword: nil, newPassword: password) { [weak self] result in
+                
+        viewModel.changePassword(oldPassword: nil, newPassword: password) { [weak self] result in
             print("New password result: \(String(describing: result))")
             guard let strongSelf = self else {
                 return
             }
             strongSelf.view.makeToastActivity(.center)
-            if result != nil {
+            switch result {
+            case .success:
                 let sheet = UIAlertController(title: "Успешно", message: "Пароль успешно изменён !", preferredStyle: .alert)
                 sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
                     if strongSelf.isForgetPassword {
@@ -130,10 +122,12 @@ class NewPasswordViewController: BaseViewController {
                     strongSelf.dismiss(animated: true)
                 }))
                 strongSelf.present(sheet, animated: true)
-            } else {
+            case .failure:
                 strongSelf.view.hideToastActivity()
                 strongSelf.passwordField.layer.borderColor = UIColor.red.cgColor
                 strongSelf.confirmPasswordField.layer.borderColor = UIColor.red.cgColor
+            default:
+                break
             }
         }
         

@@ -10,12 +10,16 @@ import Foundation
 protocol HomeViewModelProtocol {
     func getClinic()
     func getAllWeeks(completion: @escaping ((SuccessFailure) -> Void))
+    func getNotifications(completion: @escaping ((SuccessFailure) -> Void))
+    
     var model: [WeekModel]? {get set}
+    var notifications: [Notifications]? { get set }
 }
 
 class HomeViewModel: HomeViewModelProtocol {
     
     var model: [WeekModel]? = [WeekModel]()
+    var notifications: [Notifications]?
 
     private let service: HomeServiceProtocol
     private let userDefaults = UserDefaultsService()
@@ -47,6 +51,18 @@ class HomeViewModel: HomeViewModelProtocol {
                 completion(.failure)
             }
             
+        }
+    }
+    
+    func getNotifications(completion: @escaping ((SuccessFailure) -> Void)) {
+        let userId = UserDefaultsService.shared.getUserId()
+        service.getNotifications(id: userId) { result in
+            guard let result = result else {
+                completion(.failure)
+                return
+            }
+            self.notifications = result
+            completion(.success)
         }
     }
 

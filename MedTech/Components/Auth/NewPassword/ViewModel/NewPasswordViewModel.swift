@@ -8,13 +8,12 @@
 import Foundation
 
 protocol NewPasswordViewModelProtocol {
-    func changePassword(id: Int, oldPassword: String?, newPassword: String, completion: @escaping ((FailureModel?) -> Void))
+    func changePassword(oldPassword: String?, newPassword: String, completion: @escaping ((SuccessFailure?) -> Void))
 }
 
 class NewPasswordViewModel: NewPasswordViewModelProtocol {
     
     private let service: NewPasswordServiceProtocol
-    private let userDefaults = UserDefaultsService()
     
     init(vm: NewPasswordServiceProtocol = NewPasswordService()) {
         service = vm
@@ -24,9 +23,14 @@ class NewPasswordViewModel: NewPasswordViewModelProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func changePassword(id: Int, oldPassword: String?, newPassword: String, completion: @escaping ((FailureModel?) -> Void)) {
-        service.changePassword(id: id, oldPassword: oldPassword, newPassword: newPassword) { result in
-            completion(result)
+    func changePassword(oldPassword: String?, newPassword: String, completion: @escaping ((SuccessFailure?) -> Void)) {
+        let userId = UserDefaultsService.shared.getUserId()
+        service.changePassword(id: userId, oldPassword: oldPassword, newPassword: newPassword) { result in
+            guard result != nil else {
+                completion(.failure)
+                return
+            }
+            completion(.success)
         }
     }
 }

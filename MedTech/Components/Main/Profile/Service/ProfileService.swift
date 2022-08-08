@@ -10,7 +10,7 @@ import Foundation
 protocol ProfileServiceProtocol {
     func logOut(data: Data, completion: @escaping ((FailureModel?) -> Void))
     func getPatient(id: Int, completion: @escaping ((Patient?) -> Void))
-    func getAddressAndPhone(id: Int, address: String, phone: String, completion: @escaping ((Patient?) -> Void))
+    func getAddressAndPhone(id: Int, data: Data, completion: @escaping ((Patient?) -> Void))
     func addImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void))
     func changeImage(id: Int, image: Data, boundary: String, completion: @escaping ((Patient?) -> Void))
 }
@@ -62,8 +62,8 @@ class ProfileService: ProfileServiceProtocol {
         }
     }
     
-    func getAddressAndPhone(id: Int, address: String, phone: String, completion: @escaping ((Patient?) -> Void)) {
-        networkService.sendRequest(urlRequest: ProfileRouter.changeAddressAndPhone(id: id, phone: phone, address: address).createURLRequest(),
+    func getAddressAndPhone(id: Int, data: Data, completion: @escaping ((Patient?) -> Void)) {
+        networkService.sendRequest(urlRequest: ProfileRouter.changeAddressAndPhone(id: id, data: data).createURLRequest(),
                                    successModel: Patient.self) { result in
             switch result {
             case .success(let model):

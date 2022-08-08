@@ -10,7 +10,7 @@ import SnapKit
 
 class NotificationsViewController: BaseViewController {
 
-    var count = [1]
+    var model = [Notifications]()
     var tableView = UITableView()
 
     private lazy var exitButton : UIButton = {
@@ -24,7 +24,6 @@ class NotificationsViewController: BaseViewController {
         let title = UILabel()
         title.text = "Уведомления"
         title.textColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
-//    background: rgba(92, 72, 106, 1);
         title.font = .boldSystemFont(ofSize: 29)
         return title
     }()
@@ -36,6 +35,11 @@ class NotificationsViewController: BaseViewController {
         setUpTableView()
         setUpConstraints()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UserDefaultsService.shared.saveNotificationCount(count: model.count)
+    }
     func setUpSubviews(){
         view.addSubviews(exitButton,
                          titleForPage,
@@ -44,7 +48,6 @@ class NotificationsViewController: BaseViewController {
     func setUpTableView(){
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.backgroundColor = .yellow
         tableView.register(NotificationTableViewCell.self, forCellReuseIdentifier: NotificationTableViewCell.ID)
     }
     
@@ -79,15 +82,15 @@ class NotificationsViewController: BaseViewController {
 extension NotificationsViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.rowHeight = 100
-        return count.count
+        return model.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.ID,for: indexPath)
-//        cell.textLabel?.text = "Hello"
+        let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.ID,for: indexPath) as! NotificationTableViewCell
         cell.clipsToBounds = true
         cell.layer.cornerRadius = 5
+        cell.getData(model: model[indexPath.row])
         return cell
         
     }

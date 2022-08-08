@@ -52,7 +52,7 @@ class LoginViewController: BaseViewController {
     
     let emailField: EmailTextField = {
         let field = EmailTextField()
-        field.attributedPlaceholder = (NSAttributedString(string: "Электронная почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]) as Any as! NSAttributedString)
+        field.attributedPlaceholder = (NSAttributedString(string: "Электронная почта", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")!]))
         field.returnKeyType = .continue
         return field
     }()
@@ -118,68 +118,41 @@ class LoginViewController: BaseViewController {
               !password.isEmpty else {
             alertIcon.isHidden = false
             alertLabel.isHidden = false
-            alertLabel.text = "Enter email or password"
+            alertLabel.text = "Введите email или пароль"
             emailField.layer.borderColor = UIColor.red.cgColor
             passwordField.layer.borderColor = UIColor.red.cgColor
             return
         }
         view.makeToastActivity(.center)
-        if validateEmail(enteredEmail: email) {
-            let parameters: [String : Any] = [
-                "email" : email,
-                "password" : password
-            ]
-            let data = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            viewModel.signIn(data: data!) { [weak self] result in
-                guard let strongSelf = self else {
-                    return
-                }
-                let model = strongSelf.viewModel.model
-                
-                if result == .success {
-                    print()
-                    let isPatient = model?.roles.contains("ROLE_PATIENT")
-                    if isPatient! {
-                        let userData = model!
-                        strongSelf.userDefaults.saveUserId(id: userData.id)
-                        strongSelf.userDefaults.saveRefreshToken(name: model?.refreshToken)
-                        strongSelf.userDefaults.saveAccessToken(name: model?.token)
-                        strongSelf.userDefaults.isSignedIn(signedIn: true)
-                        if model?.pwdChangeRequired ?? false {
-                            let vc = NewPasswordViewController()
-                            strongSelf.navigationController?.pushViewController(vc, animated: true)
-                        } else {
-                            let vc = TabBarViewController()
-                            strongSelf.navigationController?.pushViewController(vc, animated: true)
-                        }
-                    } else {
-                        strongSelf.view.hideToastActivity()
-                        strongSelf.alertIcon.isHidden = false
-                        strongSelf.alertLabel.isHidden = false
-                        strongSelf.alertLabel.text = "Неверный email или пароль"
-                        strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
-                        strongSelf.passwordField.layer.borderColor = UIColor.red.cgColor
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        strongSelf.view.hideToastActivity()
-                        strongSelf.alertIcon.isHidden = false
-                        strongSelf.alertLabel.isHidden = false
-                        strongSelf.alertLabel.text = "Неверный email или пароль"
-                        strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
-                        strongSelf.passwordField.layer.borderColor = UIColor.red.cgColor
-                    }
-                }
-                
+        viewModel.signIn(email: email, password: password) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            guard let model = strongSelf.viewModel.model else {
+                return
             }
             
-        } else {
-            view.hideToastActivity()
-            alertIcon.isHidden = false
-            alertLabel.isHidden = false
-            alertLabel.text = "Wrong email"
-            emailField.layer.borderColor = UIColor.red.cgColor
-            passwordField.layer.borderColor = UIColor.red.cgColor
+            switch result {
+            case .success:
+                if model.pwdChangeRequired {
+                    let vc = NewPasswordViewController()
+                    strongSelf.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = TabBarViewController()
+                    strongSelf.navigationController?.pushViewController(vc, animated: true)
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    strongSelf.view.hideToastActivity()
+                    strongSelf.alertIcon.isHidden = false
+                    strongSelf.alertLabel.isHidden = false
+                    strongSelf.alertLabel.text = "Неверный email или пароль"
+                    strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
+                    strongSelf.passwordField.layer.borderColor = UIColor.red.cgColor
+                }
+            case .none:
+                break
+            }
         }
     }
     
@@ -197,12 +170,6 @@ class LoginViewController: BaseViewController {
             passwordField.isSecureTextEntry = true
         }
         isHidden = !isHidden
-    }
-    
-    func validateEmail(enteredEmail: String) -> Bool {
-        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
-        return emailPredicate.evaluate(with: enteredEmail)
     }
     
     func setUpConstraints() {

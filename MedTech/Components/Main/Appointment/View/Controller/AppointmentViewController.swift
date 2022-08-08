@@ -10,7 +10,7 @@ import Toast_Swift
 
 class AppointmentViewController: BaseViewController {
     
-    private let viewModel: AppointmentViewModelProtocol
+    private var viewModel: AppointmentViewModelProtocol
     
     init(vm: AppointmentViewModelProtocol = AppointmentViewModel()) {
         viewModel = vm
@@ -24,7 +24,7 @@ class AppointmentViewController: BaseViewController {
     let userDefaults = UserDefaultsService()
     var selectedDate = Date()
     var days = [Day]()
-    var freeTimes = [Time]()
+    let dateFormatter = DateFormatter()
     
     lazy var contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 100)
     
@@ -44,23 +44,29 @@ class AppointmentViewController: BaseViewController {
         return view
     }()
     
-    let collectionViewA: UICollectionView = {
+    private lazy var collectionViewA: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(CalendarCollectionViewCell.self)
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CalendarCollectionViewCell.self)
+        collectionView.backgroundColor = .white
+        collectionView.isScrollEnabled = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        return collectionView
     }()
     
-    let collectionViewB: UICollectionView = {
+    private lazy var collectionViewB: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.register(TimeCollectionViewCell.self)
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(TimeCollectionViewCell.self)
+        collectionView.backgroundColor = .white
+        collectionView.isScrollEnabled = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        return collectionView
     }()
-    
-    
     
     private let monthView: UIView = {
         let view = UIView()
@@ -213,16 +219,6 @@ class AppointmentViewController: BaseViewController {
         
         viewModel.getDoctorId()
         
-        collectionViewA.backgroundColor = .white
-        collectionViewA.isScrollEnabled = false
-        collectionViewA.delegate = self
-        collectionViewA.dataSource = self
-        
-        collectionViewB.backgroundColor = .white
-        collectionViewB.isScrollEnabled = false
-        collectionViewB.delegate = self
-        collectionViewB.dataSource = self
-        
         timeLabel.isHidden = true
         collectionViewB.isHidden = true
         appointButton.isHidden = true
@@ -324,21 +320,23 @@ class AppointmentViewController: BaseViewController {
     }
     
     @objc func didTapAppointButton() {
-        let date = self.userDefaults.getDate()
-        let time = self.userDefaults.getTime()
         let sheet = UIAlertController(title: "Записаться", message: "Вы уверены что вы хотите записаться?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "Отменить", style: .destructive, handler: { _ in
             self.dismiss(animated: true)
         }))
         sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { [weak self] _ in
-            self?.viewModel.postAppointments(date: date, visitTime: time) { result in
+            self?.viewModel.postAppointments() { result in
                 guard let strongSelf = self else {
                     return
                 }
-                if result != nil {
+                guard let postAppointment = strongSelf.viewModel.postAppointment else {
+                    return
+                }
+                
+                if result == .success {
                     DispatchQueue.main.async {
-                        strongSelf.view.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .bottom)
-                        strongSelf.appointmentView.getData(model: result!)
+                        strongSelf.containerView.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .top)
+                        strongSelf.appointmentView.getData(model: postAppointment)
                         strongSelf.timeLabel.isHidden = true
                         strongSelf.collectionViewB.isHidden = true
                         strongSelf.appointButton.isHidden = true
@@ -347,7 +345,7 @@ class AppointmentViewController: BaseViewController {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        strongSelf.view.makeToast("Вы не можете записаться на пройденный день!", duration: 1.5, position: .bottom)
+                        strongSelf.containerView.makeToast("Вы не можете записаться на пройденный день!", duration: 1.5, position: .top)
                         strongSelf.dismiss(animated: true)
                     }
                 }
@@ -429,7 +427,7 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
         case collectionViewA:
             return days.count
         case collectionViewB:
-            return freeTimes.count
+            return viewModel.freeTimes.count
         default:
             return 0
         }
@@ -440,58 +438,66 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
         case collectionViewA:
             let cell = collectionView.getReuseCell(CalendarCollectionViewCell.self, indexPath: indexPath)
             cell.getData(string: days[indexPath.row].date)
-            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             let monthYear = dateFormatter.string(from: selectedDate)
             let day = days[indexPath.row].date
-            if day != "" {
-                let dayString = day.count < 2 ? "0\(day)" : day
-                let date = "\(monthYear)-\(dayString)"
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let datedate = dateFormatter.date(from: date)
-                dateFormatter.dateFormat = "e"
-                let langStr = Locale.current.languageCode
-                
-                
-                let doctorId = userDefaults.getDoctorId()
-                if doctorId != nil {
-                    DispatchQueue.main.async {
-                        self.viewModel.getReservedDates(date: "\(monthYear)-01") { result in
-                            for res in result!.reservedDates! {
+            guard !day.isEmpty else {
+                cell.backgroundColor = .white
+                return cell
+            }
+            let dayString = day.count < 2 ? "0\(day)" : day
+            let date = "\(monthYear)-\(dayString)"
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let datedate = dateFormatter.date(from: date)
+            dateFormatter.dateFormat = "e"
+            let langStr = Locale.current.languageCode
+            let doctorId = userDefaults.getDoctorId()
+            if doctorId != nil {
+                DispatchQueue.main.async {
+                    self.viewModel.getReservedDates(date: "\(monthYear)-01") { result in
+                        guard let reservedDate = self.viewModel.reservedDates?.reservedDates else {
+                            return
+                        }
+                        switch result {
+                        case .success:
+                            for res in reservedDate {
                                 if date == res {
                                     cell.changeColorToGrey()
                                 }
                             }
+                        case .failure:
+                            print("Error getting reserved dates")
+                        case .none:
+                            break
                         }
                     }
                 }
-                
-                let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
-                if days[indexPath.row].isSelected == true {
-                    cell.backgroundColor = UIColor(named: "Violet")
-                    cell.changeColor()
-                    days[indexPath.row].isSelected = false
-                } else {
-                    if dateStr == 6 || dateStr == 7 {
-                        cell.backgroundColor = .white
-                        cell.changeColorToRed()
-                    } else {
-                        cell.backgroundColor = .white
-                        cell.changeColorToDefault()
-                    }
-                }
+            }
+            
+            let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
+            if days[indexPath.row].isSelected == true {
+                cell.backgroundColor = UIColor(named: "Violet")
+                cell.changeColor()
+                days[indexPath.row].isSelected = false
             } else {
-                cell.backgroundColor = .white
+                if dateStr == 6 || dateStr == 7 {
+                    cell.backgroundColor = .white
+                    cell.changeColorToRed()
+                } else {
+                    cell.backgroundColor = .white
+                    cell.changeColorToDefault()
+                }
             }
             cell.layer.cornerRadius = cell.frame.width / 2
             return cell
         case collectionViewB:
             let cell = collectionView.getReuseCell(TimeCollectionViewCell.self, indexPath: indexPath)
-            cell.getData(string: freeTimes[indexPath.row].time)
-            if freeTimes[indexPath.row].isSelected == true {
+            cell.getData(string: viewModel.freeTimes[indexPath.row].time)
+            cell.layer.borderWidth = 0.25
+            if viewModel.freeTimes[indexPath.row].isSelected == true {
                 cell.backgroundColor = UIColor(named: "Violet")
                 cell.changeColor()
-                freeTimes[indexPath.row].isSelected = false
+                viewModel.freeTimes[indexPath.row].isSelected = false
             } else {
                 cell.backgroundColor = .white
                 cell.changeColorToDefault()
@@ -507,78 +513,69 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case collectionViewA:
-            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM"
             let monthYear = dateFormatter.string(from: selectedDate)
             let day = days[indexPath.row].date
             let cell = collectionView.cellForItem(at: indexPath) as! CalendarCollectionViewCell
-            if day != ""  {
-                scrollView.isScrollEnabled = true
-                let dayString = day.count < 2 ? "0\(day)" : day
-                let date = "\(monthYear)-\(dayString)"
-                self.userDefaults.saveDate(date: date)
-                freeTimes.removeAll()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let datedate = dateFormatter.date(from: date)
-                dateFormatter.dateFormat = "ee"
-                let langStr = Locale.current.languageCode
-                let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate!))! : Int(dateFormatter.string(from: datedate!))!
-                viewModel.getVisit(date: date) { [weak self] result in
-                    guard let strongSelf = self else {
+            guard !day.isEmpty else {
+                return
+            }
+            viewModel.freeTimes.removeAll()
+            scrollView.isScrollEnabled = true
+            let dayString = day.count < 2 ? "0\(day)" : day
+            let date = "\(monthYear)-\(dayString)"
+            self.userDefaults.saveDate(date: date)
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let datedate = dateFormatter.date(from: date)
+            dateFormatter.dateFormat = "ee"
+            let langStr = Locale.current.languageCode
+            guard let datedate = datedate else {
+                return
+            }
+            let dateStr = langStr == "ru" ? Int(dateFormatter.string(from: datedate))! : Int(dateFormatter.string(from: datedate))!
+            viewModel.getVisit(date: date) { [weak self] result in
+                guard let strongSelf = self else {
+                    return
+                }
+                switch result {
+                case .success:
+                    guard let patientVisit = strongSelf.viewModel.patientVisit else {
                         return
                     }
-                    let patientVisit = strongSelf.viewModel.patientVisit
-                    if result == .success {
-                        strongSelf.appointmentView.isHidden = false
-                        strongSelf.timeLabel.isHidden = true
-                        strongSelf.collectionViewB.isHidden = true
-                        strongSelf.appointmentView.getData(model: patientVisit!)
-                    } else {
-                        strongSelf.viewModel.getFreeTimes(weekday: String(dateStr)) { rslt in
-                            let freeModel = strongSelf.viewModel.timeModel
-                            if rslt == .success {
-                                strongSelf.viewModel.getNonFreeTimes(date: date) { res in
-                                    strongSelf.freeTimes.removeAll()
-                                    let nonFree = strongSelf.viewModel.nonFreeTimes
-                                    for i in 0..<freeModel!.count {
-                                        let time = freeModel![i].scheduleStartTime
-                                        if res == .success {
-                                            for j in 0..<nonFree!.count {
-                                                let nonFreeTime = nonFree![j].visitStartTime
-                                                if time != nonFreeTime {
-                                                    let timee = time?.dropLast(3)
-                                                    strongSelf.freeTimes.append(Time(time: String(timee!)))
-                                                }
-                                            }
-                                        } else {
-                                            let timee = time?.dropLast(3)
-                                            strongSelf.freeTimes.append(Time(time: String(timee!)))
-                                        }
-                                        
-                                    }
-                                    strongSelf.appointmentView.isHidden = true
-                                    strongSelf.timeLabel.isHidden = false
-                                    strongSelf.collectionViewB.isHidden = false
-                                    strongSelf.collectionViewB.reloadData()
-                                }
-                            } else {
+                    strongSelf.appointmentView.isHidden = false
+                    strongSelf.timeLabel.isHidden = true
+                    strongSelf.collectionViewB.isHidden = true
+                    strongSelf.appointButton.isHidden = true
+                    strongSelf.appointmentView.getData(model: patientVisit)
+                case .failure:
+                    strongSelf.viewModel.getFreeTimes(weekday: String(dateStr)) { rslt in
+                        if rslt == .success {
+                            strongSelf.viewModel.getNonFreeTimes(date: date) { res in
                                 strongSelf.appointmentView.isHidden = true
-                                strongSelf.timeLabel.isHidden = true
-                                strongSelf.collectionViewB.isHidden = true
-                                strongSelf.appointButton.isHidden = true
+                                strongSelf.timeLabel.isHidden = false
+                                strongSelf.collectionViewB.isHidden = false
+                                strongSelf.appointButton.isHidden = false
+                                strongSelf.collectionViewB.reloadData()
                             }
+                        } else {
+                            strongSelf.appointmentView.isHidden = true
+                            strongSelf.timeLabel.isHidden = true
+                            strongSelf.collectionViewB.isHidden = true
+                            strongSelf.appointButton.isHidden = true
                         }
                     }
+                default:
+                    break
                 }
-                cell.backgroundColor = .white
-                days[indexPath.row].isSelected = true
-                collectionViewA.reloadData()
             }
+            cell.backgroundColor = .white
+            days[indexPath.row].isSelected = true
+            collectionViewA.reloadData()
         case collectionViewB:
             appointButton.isHidden = false
-            let time = freeTimes[indexPath.row].time
+            let time = viewModel.freeTimes[indexPath.row].time
             self.userDefaults.saveTime(time: time)
-            freeTimes[indexPath.row].isSelected = true
+            viewModel.freeTimes[indexPath.row].isSelected = true
             collectionViewB.reloadData()
         default:
             break

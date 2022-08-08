@@ -8,12 +8,7 @@
 import UIKit
 
 class ChecklistViewController: BaseViewController {
-    
-    let userDefaults = UserDefaultsService()
-    var model = [Checklist]()
-    var appointments = ["Первичный осмотр -", "Второй осмотр -", "Третий осмотр -", "Четвертый осмотр -", "Пятый осмотр -",
-                        "Шестой осмотр -", "Седьмой осмотр -", "Восьмой осмотр -", "Девятый осмотр -", "Десятый осмотр -"]
-    
+
     private let viewModel: ChecklistViewModelProtocol
     
     init(vm: ChecklistViewModelProtocol = ChecklistViewModel()) {
@@ -75,20 +70,17 @@ class ChecklistViewController: BaseViewController {
     
     func getChecklists() {
         viewModel.getChecklists { result in
-            if result == .success {
-                for i in 0..<self.viewModel.model.count {
-                    let dateVisit = self.viewModel.model[i].patientVisitDTO!.dateVisit
-                    self.model.append(Checklist(first: self.appointments[i], second: dateVisit!))
-                }
+            switch result {
+            case .success:
                 self.tableView.reloadData()
-            } else {
-                print("Error")
+            case .failure:
+                print("There was an error with uploading checklists")
             }
         }
     }
     
     @objc func didTapSosButton() {
-        let number = userDefaults.getEmergency()
+        let number = UserDefaultsService.shared.getEmergency()
         callNumber(phoneNumber: number)
     }
     
@@ -105,14 +97,14 @@ class ChecklistViewController: BaseViewController {
 
 extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.count
+        return viewModel.checklist.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChecklistTableViewCell
         cell.backgroundColor = .white
         
-        cell.setUpData(model: model[indexPath.row])
+        cell.setUpData(model: viewModel.checklist[indexPath.row])
                 
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 20.0, y: 63.0, width: cell.contentView.frame.size.width - 40, height: 1.0)
@@ -128,7 +120,7 @@ extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = CategoriesViewController()
-        vc.title = model[indexPath.row].first.replacingOccurrences(of: "-", with: "")
+        vc.title = viewModel.checklist[indexPath.row].first.replacingOccurrences(of: "-", with: "")
         vc.checklist = viewModel.model[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }

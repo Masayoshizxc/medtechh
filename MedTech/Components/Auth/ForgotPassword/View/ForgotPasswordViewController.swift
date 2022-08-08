@@ -74,45 +74,35 @@ class ForgotPasswordViewController: BaseViewController {
     @objc func didTapSendButton() {
         guard let email = emailField.text, !email.isEmpty else {
             print("Enter email")
+            emailField.layer.borderColor = UIColor.red.cgColor
             return
         }
         
         view.makeToastActivity(.center)
-        if validateEmail(enteredEmail: email) {
-            viewModel.forgotPassword(email: email) { [weak self] result in
-                guard let strongSelf = self else {
-                    return
-                }
-                print("Forgot password: \(String(describing: result))")
-                if result?.errors == nil {
-                    strongSelf.view.hideToastActivity()
-                    let sheet = UIAlertController(title: "Успешно", message: "На вашу почту отправлен код.", preferredStyle: .alert)
-                    sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
-                        let vc = CodeViewController()
-                        vc.email = email
-                        strongSelf.navigationController?.pushViewController(vc, animated: true)
-                        strongSelf.dismiss(animated: true)
-                    }))
-                    strongSelf.present(sheet, animated: true)
-                } else {
-                    strongSelf.view.hideToastActivity()
-                    strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
-                    print("There was a problem with sending code")
-                }
+        viewModel.forgotPassword(email: email) { [weak self] result in
+            guard let strongSelf = self else {
+                return
             }
-        } else {
-            view.hideToastActivity()
-            emailField.layer.borderColor = UIColor.red.cgColor
-            print("Enter proper email")
+            switch result {
+            case .success:
+                strongSelf.view.hideToastActivity()
+                let sheet = UIAlertController(title: "Успешно", message: "На вашу почту отправлен код.", preferredStyle: .alert)
+                sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
+                    let vc = CodeViewController()
+                    vc.email = email
+                    strongSelf.navigationController?.pushViewController(vc, animated: true)
+                    strongSelf.dismiss(animated: true)
+                }))
+                strongSelf.present(sheet, animated: true)
+            case .failure:
+                strongSelf.view.hideToastActivity()
+                strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
+            default:
+                break
+            }
         }
         
         
-    }
-    
-    func validateEmail(enteredEmail: String) -> Bool {
-        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
-        return emailPredicate.evaluate(with: enteredEmail)
     }
     
     func setUpConstraints() {

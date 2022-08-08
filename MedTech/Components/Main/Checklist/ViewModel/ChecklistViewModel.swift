@@ -9,15 +9,22 @@ import Foundation
 
 protocol ChecklistViewModelProtocol {
     func getChecklists(completion: @escaping ((SuccessFailure) -> Void))
-    func getAnswers(id: Int, completion: @escaping (([Answers]?) -> Void))
+    func getAnswers(id: Int, completion: @escaping ((SuccessFailure?) -> Void))
     var model: [ChecklistModel] { get set }
+    var checklist: [Checklist] { get set }
+    var answers: [Answers]? { get set }
 }
 
 class ChecklistViewModel: ChecklistViewModelProtocol {
+
+    var answers: [Answers]?
+    var model = [ChecklistModel]()
+    var checklist = [Checklist]()
+    var appointments = ["Первичный осмотр -", "Второй осмотр -", "Третий осмотр -", "Четвертый осмотр -", "Пятый осмотр -",
+                        "Шестой осмотр -", "Седьмой осмотр -", "Восьмой осмотр -", "Девятый осмотр -", "Десятый осмотр -"]
     
     private let service: ChecklistServiceProtocol
     private let userDefaults = UserDefaultsService()
-    var model = [ChecklistModel]()
     
     init(vm: ChecklistServiceProtocol = ChecklistService()) {
         service = vm
@@ -35,13 +42,22 @@ class ChecklistViewModel: ChecklistViewModelProtocol {
                 return
             }
             self.model = result
+            for i in 0..<self.model.count {
+                let dateVisit = self.model[i].patientVisitDTO!.dateVisit
+                self.checklist.append(Checklist(first: self.appointments[i], second: dateVisit!))
+            }
             completion(.success)
         }
     }
     
-    func getAnswers(id: Int, completion: @escaping (([Answers]?) -> Void)) {
+    func getAnswers(id: Int, completion: @escaping ((SuccessFailure?) -> Void)) {
         service.getAnswers(id: id) { result in
-            completion(result)
+            guard let result = result else {
+                completion(.failure)
+                return
+            }
+            self.answers = result
+            completion(.success)
         }
     }
 }

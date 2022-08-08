@@ -19,8 +19,16 @@ enum UserRouter: BaseRouter {
 
     var queryParameter: [URLQueryItem]? {
         switch self {
-        case let .changePassword(_, _, newPassword):
-            return [URLQueryItem(name: "newPassword", value: newPassword)]
+        case let .changePassword(_, oldPassword, newPassword):
+            if oldPassword != nil {
+                return [
+                    URLQueryItem(name: "oldPassword", value: oldPassword),
+                    URLQueryItem(name: "newPassword", value: newPassword)
+                ]
+            } else {
+                return [URLQueryItem(name: "newPassword", value: newPassword)]
+            }
+            
         }
     }
 

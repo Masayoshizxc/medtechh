@@ -59,26 +59,25 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout, UICollec
         switch indexPath.row {
         case 0:
             vc = QuestionAnswerViewController()
-            print(checklist?.basic_questions)
+            print(checklist?.basic_questions as Any)
         case 1:
             vc = AnalysesViewController()
-            print(checklist?.analyzes)
+            print(checklist?.analyzes as Any)
         case 2:
             vc = UltReportViewController()
-            print(checklist?.ultReport, checklist?.imageUrl)
+            print(checklist?.ultReport as Any, checklist?.imageUrl as Any)
         case 3:
             vc = DrugViewController()
-            print(checklist?.drugList)
+            print(checklist?.drugList as Any)
         case 4:
             vc = ExtraInfoViewController()
-            print(checklist?.extraInfo)
+            print(checklist?.extraInfo as Any)
         case 5:
             vc = ConclusionViewController()
-            print(checklist?.conclusion)
+            print(checklist?.conclusion as Any)
         default:
             break
         }
-        
         vc.title = model[indexPath.row].title
         navigationController?.pushViewController(vc, animated: true)
     }

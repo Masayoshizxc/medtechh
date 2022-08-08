@@ -11,9 +11,7 @@ import SnapKit
 class ProfileViewController: BaseViewController {
     
     let userDefaults = UserDefaultsService()
-    
-    var model: Patient?
-    
+        
     let tableView = UITableView()
     let shape = CAShapeLayer()
     
@@ -63,10 +61,9 @@ class ProfileViewController: BaseViewController {
     
     let profileImage : UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = imageView.frame.size.width/2
-        imageView.frame.size = CGSize(width: 75, height: 75)
-        //imageView.image = Icons.profileImage.image
-        imageView.layer.cornerRadius = 37.5
+        imageView.layer.masksToBounds = false
+        imageView.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+        //imageView.layer.cornerRadius = 37.5
         return imageView
     }()
     let trimestImage : UIImageView = {
@@ -79,6 +76,8 @@ class ProfileViewController: BaseViewController {
     }()
     private lazy var scrollView : UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         return scrollView
     }()
     
@@ -87,7 +86,6 @@ class ProfileViewController: BaseViewController {
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = UIColor(named: "Violet")
-        label.text = "14-ая\nнеделя"
         label.frame = CGRect(x: trimestImage.bounds.origin.x,
                              y: trimestImage.bounds.origin.y,
                              width: 300, height: 45)
@@ -101,7 +99,6 @@ class ProfileViewController: BaseViewController {
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = UIColor(named: "Violet")
-        label.text = "2-й\nтриместр"
         label.frame = CGRect(x: trimestImage.bounds.origin.x, y: trimestImage.bounds.origin.y, width: 300, height: 45)
         label.textAlignment = .center
         self.trimestImage.addSubview(label)
@@ -136,7 +133,6 @@ class ProfileViewController: BaseViewController {
     
     let userName : UILabel = {
         let name = UILabel()
-        name.text = "Айжамал Масыбаева Бекболсуновна"
         name.font = .boldSystemFont(ofSize: 25)
         name.textColor = UIColor(named: "Violet")
         name.numberOfLines = 0
@@ -175,7 +171,6 @@ class ProfileViewController: BaseViewController {
     
     lazy var doctorName : UILabel = {
         let label = UILabel()
-        label.text = "Хафизова Валентина Владимировна"
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         label.textAlignment = .right
@@ -196,7 +191,6 @@ class ProfileViewController: BaseViewController {
     
     let mailName : UILabel = {
         let label = UILabel()
-        label.text = "aizhamal@gmail.com"
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
@@ -215,7 +209,6 @@ class ProfileViewController: BaseViewController {
     
     let numberName : UILabel = {
         let label = UILabel()
-        label.text = "+996551552770"
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
@@ -234,7 +227,6 @@ class ProfileViewController: BaseViewController {
     
     let bDayName : UILabel = {
         let label = UILabel()
-        label.text = "28.09.2002"
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
@@ -249,7 +241,6 @@ class ProfileViewController: BaseViewController {
     
     let addressName : UILabel = {
         let label = UILabel()
-        label.text = "Ул. Юнусалиева 81"
         label.textColor = UIColor(named: "LightViolet")
         label.font = Fonts.SFProText.medium.font(size: 14)
         return label
@@ -268,9 +259,6 @@ class ProfileViewController: BaseViewController {
         addProgressBar()
         setUpScrollView()
         
-        scrollView.refreshControl = UIRefreshControl()
-        scrollView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
-        
         view.addSubviews(scrollView, sosButton)
         scrollView.addSubview(dataView)
         dataView.addSubviews(
@@ -288,14 +276,16 @@ class ProfileViewController: BaseViewController {
         trimestImage.addSubviews(weekLabel,trimestLabel)
         viewInView.addSubviews(doctorTitle,mailTitle,numberTitle,bDayTitle,addressTitle ,doctorName,mailName,numberName,bDayName,addressName)
         setUpConstraints()
+        
+        view.makeToastActivity(.center)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         getPatient()
     }
     
@@ -306,27 +296,25 @@ class ProfileViewController: BaseViewController {
                                       endAngle: .pi * 2,
                                       clockwise: true)
         
-        
         let trackShape = CAShapeLayer()
         trackShape.path = circlePath.cgPath
         trackShape.fillColor = UIColor.clear.cgColor
         trackShape.strokeColor = UIColor(named: "LightestPeach")?.cgColor
         trackShape.lineWidth = 5
         profileImage.layer.addSublayer(trackShape)
-        
+            
         shape.path = circlePath.cgPath
         shape.lineWidth = 5
         shape.strokeColor = UIColor(named: "Peach")?.cgColor
         shape.strokeEnd = 0
         shape.fillColor = UIColor.clear.cgColor
-        
         profileImage.layer.addSublayer(shape)
     }
     
     @objc func didTapDownloadButton() {
-        print("Download button tapped!!!")
         view.makeToastActivity(.center)
-        guard let url = URL(string: "https://medtech-team5.herokuapp.com/api/v1/word/4") else { return }
+        let userId = UserDefaultsService.shared.getUserId()
+        guard let url = URL(string: "https://medtech-team5.herokuapp.com/api/v1/word/\(userId)") else { return }
         let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
         let downloadTask = urlSession.downloadTask(with: url)
         downloadTask.resume()
@@ -354,53 +342,62 @@ class ProfileViewController: BaseViewController {
     }
     
     func getPatient() {
-        DispatchQueue.main.async {
-            self.viewModel.getPatient() { [weak self] result in
-                guard let strongSelf = self else {
-                    return
-                }
-                
-                strongSelf.model = result
-                
-                let user = result?.userDTO
-                let doctor = result?.doctorDTO?.userDTO
+        self.viewModel.getPatient() { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            
+            guard let patient = strongSelf.viewModel.patient else {
+                return
+            }
+
+            DispatchQueue.main.async {
+                let user = patient.userDTO
+                let doctor = patient.doctorDTO?.userDTO
                 strongSelf.userName.text = "\(user?.firstName ?? "") \(user?.lastName ?? "") \(user?.middleName ?? "")"
                 strongSelf.doctorName.text = "\(doctor?.firstName ?? "") \(doctor?.lastName ?? "") \(doctor?.middleName ?? "")"
                 strongSelf.mailName.text = user?.email
                 strongSelf.numberName.text = user?.phoneNumber
                 strongSelf.bDayName.text = user?.dob
                 strongSelf.addressName.text = user?.address
-                
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                let startOfPregancy = dateFormatter.date(from: (result?.startOfPregnancy)!)
-                let dateRangeStart = Date()
-                let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
-                let weeks = components.weekOfYear ?? 0
-                strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
-                if weeks <= 12 {
-                    strongSelf.trimestLabel.text = "1-й\nтриместр"
-                } else if weeks > 12 && weeks <= 27 {
-                    strongSelf.trimestLabel.text = "2-й\nтриместр"
-                } else if weeks > 27 && weeks <= 40{
-                    strongSelf.trimestLabel.text = "3-й\nтриместр"
-                } else {
-                    strongSelf.trimestLabel.text = "Ваша беременность закончилась"
-                }
-                
-                strongSelf.shape.strokeEnd = CGFloat(Double(weeks) / 42.0)
-                                
-                guard result?.imageUrl != nil else {
-                    self?.profileImage.image = Icons.profileImage.image
-                    return
-                }
-                let imageURL = result?.imageUrl!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com")
-                guard let image = URL(string: imageURL!) else {
-                    print("There is no image")
-                    return
-                }
-                strongSelf.profileImage.sd_setImage(with: image)
             }
+            
+            guard let startOfPregnancy = patient.startOfPregnancy else {
+                return
+            }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let startOfPregancy = dateFormatter.date(from: startOfPregnancy)
+            let dateRangeStart = Date()
+            let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
+            let weeks = components.weekOfYear ?? 0
+            
+            strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
+            if weeks <= 12 {
+                strongSelf.trimestLabel.text = "1-й\nтриместр"
+            } else if weeks > 12 && weeks <= 27 {
+                strongSelf.trimestLabel.text = "2-й\nтриместр"
+            } else if weeks > 27 && weeks <= 42{
+                strongSelf.trimestLabel.text = "3-й\nтриместр"
+            } else {
+                strongSelf.trimestLabel.text = "Ваша беременность закончилась"
+            }
+            
+            strongSelf.shape.strokeEnd = CGFloat(Double(weeks) / 42.0)
+                            
+            guard let imageUrl = patient.imageUrl else {
+                self?.profileImage.image = Icons.profileImage.image
+                strongSelf.view.hideToastActivity()
+                return
+            }
+            print(imageUrl)
+            guard let image = URL(string: imageUrl) else {
+                print("There is no image")
+                return
+            }
+            strongSelf.profileImage.sd_setImage(with: image)
+            strongSelf.view.hideToastActivity()
         }
     }
     
@@ -416,7 +413,9 @@ class ProfileViewController: BaseViewController {
                     let vc = LoginViewController()
                     self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    self.dismiss(animated: true)
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true)
+                    }
                 }
                 
             }
@@ -428,7 +427,7 @@ class ProfileViewController: BaseViewController {
     
     @objc func goToVC2() {
         let loadVC = EditProfileViewController()
-        loadVC.model = model
+        loadVC.model = viewModel.patient
         tabBarController?.navigationController?.pushViewController(loadVC, animated: true)
     }
     

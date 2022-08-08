@@ -113,8 +113,6 @@ class CodeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         codeField1.delegate = self
         codeField2.delegate = self
         codeField3.delegate = self
@@ -153,67 +151,74 @@ class CodeViewController: BaseViewController {
 //        }
         let code = codeField1.text! + codeField2.text! + codeField3.text! + codeField4.text! + codeField5.text! + codeField6.text!
         guard !code.isEmpty else {
-            print("Code is empty")
+            error()
             return
         }
-        print(code)
+        
         viewModel.enterCode(code: code) { [weak self] result in
-            print("Code is: \(String(describing: result))")
-            if result?.id != nil {
-                self?.userDefaults.saveUserId(id: result!.id!)
+            guard let strongSelf = self else {
+                return
+            }
+            guard let id = strongSelf.viewModel.code?.id else {
+                return
+            }
+            switch result {
+            case .success:
+                strongSelf.userDefaults.saveUserId(id: id)
                 let vc = NewPasswordViewController()
                 vc.isForgetPassword = true
-                self?.navigationController?.pushViewController(vc, animated: true)
-            } else {
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            case .failure:
                 DispatchQueue.main.async {
-                    self?.codeField1.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField2.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField3.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField4.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField5.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField6.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                    self?.codeField1.text = nil
-                    self?.codeField2.text = nil
-                    self?.codeField3.text = nil
-                    self?.codeField4.text = nil
-                    self?.codeField5.text = nil
-                    self?.codeField6.text = nil
-                    self?.codeField1.becomeFirstResponder()
+                    strongSelf.error()
+                    strongSelf.codeField1.text = nil
+                    strongSelf.codeField2.text = nil
+                    strongSelf.codeField3.text = nil
+                    strongSelf.codeField4.text = nil
+                    strongSelf.codeField5.text = nil
+                    strongSelf.codeField6.text = nil
+                    strongSelf.codeField1.becomeFirstResponder()
                 }
-                print("error")
+            default:
+                break
             }
-
         }
     }
     
     @objc func didTapResend() {
-        print("Resend Tapped!")
         view.makeToastActivity(.center)
         forgotViewModel.forgotPassword(email: email) { [weak self] result in
             guard let strongSelf = self else {
                 return
             }
-            if result?.errors == nil {
+            switch result {
+            case .success:
                 DispatchQueue.main.async {
                     strongSelf.view.hideToastActivity()
                     let sheet = UIAlertController(title: "Успешно", message: "На вашу почту отправлен код.", preferredStyle: .alert)
                     sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
                         strongSelf.time = 60
-                        strongSelf.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(strongSelf.update), userInfo: nil, repeats: true)
+                        strongSelf.timer = Timer.scheduledTimer(timeInterval: 1, target: strongSelf, selector: #selector(strongSelf.update), userInfo: nil, repeats: true)
                         strongSelf.dismiss(animated: true)
                     }))
                     strongSelf.present(sheet, animated: true)
                 }
-            } else {
+            case .failure:
                 strongSelf.view.hideToastActivity()
-                strongSelf.codeField1.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                strongSelf.codeField2.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                strongSelf.codeField3.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                strongSelf.codeField4.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                strongSelf.codeField5.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
-                strongSelf.codeField6.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+                strongSelf.error()
+            default:
+                break
             }
         }
+    }
+    
+    func error() {
+        codeField1.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+        codeField2.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+        codeField3.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+        codeField4.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+        codeField5.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
+        codeField6.layer.borderColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1).cgColor
     }
     
     func setUpConstraints() {

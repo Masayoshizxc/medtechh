@@ -50,6 +50,10 @@ class UserDefaultsService {
         case receptionNumber
     }
     
+    enum Notifications: String {
+        case count
+    }
+    
     private enum Authentification: String {
         case email
         case password
@@ -57,6 +61,7 @@ class UserDefaultsService {
     }
     
     private let storage: UserDefaults
+    static let shared = UserDefaultsService()
     
     required init(storage: UserDefaults = UserDefaults.standard) {
         self.storage = storage
@@ -81,37 +86,15 @@ class UserDefaultsService {
     func saveRefreshToken(name: String?) {
         storage.setValue(name, forKey: Token.refresh.rawValue)
     }
-    func saveUserUID(name: String?) {
-        storage.setValue(name, forKey: Keys.UID.rawValue)
-    }
-    func saveUserFMC(name: String?) {
-        storage.setValue(name, forKey: Keys.FMC.rawValue)
-    }
-    func savePhoneNumber(phoneNumber: String?) {
-        storage.setValue(phoneNumber, forKey: Keys.phone_number.rawValue)
-    }
-    func saveUser(name: String?) {
-        storage.setValue(name, forKey: Keys.name.rawValue)
-    }
+
     func getByKey(key: Keys) -> String {
         return storage.value(forKey: key.rawValue) as? String ?? ""
     }
     func getByKey(key: Token) -> String {
         return storage.value(forKey: key.rawValue) as? String ?? ""
     }
-    func saveCreateUser(value: String, key: CreateUser) {
-        storage.setValue(value, forKey: key.rawValue)
-    }
-    func getCreatedUserValue(byKey: CreateUser) -> String {
-        return storage.value(forKey: byKey.rawValue) as? String ?? "0"
-    }
-//    func saveCity(isBishkek: Bool) {
-//        storage.setValue(isBishkek, forKey: Keys.city.rawValue)
-//    }
+
     
-    func saveAuthority(isAdmid: Bool) {
-        storage.setValue(isAdmid, forKey: Authority.authority.rawValue)
-    }
     func saveAuth(email: String, password: String) {
         storage.setValue(email, forKey: Authentification.email.rawValue)
         storage.setValue(password, forKey: Authentification.password.rawValue)
@@ -132,13 +115,6 @@ class UserDefaultsService {
         return false
     }
     
-//    func saveUser(model: Data) {
-//        storage.setValue(model, forKey: CreateUser.user_information.rawValue)
-//    }
-//
-//    func getUser() -> Data {
-//        return storage.value(forKey: CreateUser.user_information.rawValue) as! Data
-//    }
     
     func saveUserId(id: Int) {
         storage.setValue(id, forKey: CreateUser.id.rawValue)
@@ -186,5 +162,13 @@ class UserDefaultsService {
 
     func getReception() -> String {
         return storage.value(forKey: Clinic.receptionNumber.rawValue) as! String
+    }
+    
+    func saveNotificationCount(count: Int?) {
+        storage.setValue(count, forKey: Notifications.count.rawValue)
+    }
+
+    func getNotificationCount() -> Int? {
+        return storage.value(forKey: Notifications.count.rawValue) as! Int?
     }
 }
