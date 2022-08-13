@@ -114,7 +114,6 @@ class AppointmentService: AppointmentServiceProtocol {
             case .success(let model):
                 completion(model)
             case .badRequest(let error):
-                print(error)
                 completion(nil)
                 debugPrint(#function, error)
             case .failure(let error):

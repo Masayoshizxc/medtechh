@@ -11,7 +11,6 @@ struct WeekModel : Codable {
     let id : Int
     let weekday : Int
     var weeksOfBabyDevelopmentDTOS : [WeeksOfBabyDevelopmentDTOS]?
-    var isThisWeek: Bool? = false
 
     enum CodingKeys: String, CodingKey {
 

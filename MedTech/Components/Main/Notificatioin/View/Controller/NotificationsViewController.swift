@@ -71,8 +71,8 @@ class NotificationsViewController: BaseViewController {
         }
         tableView.snp.makeConstraints{make in
             make.top.equalTo(titleForPage.snp.bottom).offset(26)
-            make.left.right.equalToSuperview().inset(27)
-            make.bottom.equalToSuperview().inset(90)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     

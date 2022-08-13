@@ -169,7 +169,12 @@ class EditProfileViewController: BaseViewController {
         userName.text = "\(user?.lastName ?? "") \(user?.firstName ?? "") \(user?.middleName ?? "")"
         userMail.text = user?.email
         userNumber.text = user?.phoneNumber
-        userBirth.text = user?.dob
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateDate = dateFormatter.date(from: (user?.dob)!)
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        let dateStr = dateFormatter.string(from: dateDate!)
+        userBirth.text = dateStr
         userAddress.text = user?.address
         guard let imageUrl = model?.imageUrl else {
             return
@@ -194,10 +199,19 @@ class EditProfileViewController: BaseViewController {
         guard let address = userAddress.text, let number = userNumber.text else {
             return
         }
+        guard address != model?.userDTO?.address || number != model?.userDTO?.phoneNumber else {
+            return
+        }
+        let sheet = UIAlertController(title: "Успешно", message: "Поля успешно изменены.", preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+            self.dismiss(animated: true)
+        }))
         viewModel.getAddressAndPhone(address: address, phone: number) { result in
             switch result {
             case .success:
                 print("Address and phone changed succesfully!!!")
+                self.present(sheet, animated: true)
             case .failure:
                 print("There was an error with changing")
             default:
@@ -206,21 +220,9 @@ class EditProfileViewController: BaseViewController {
         }
         
         if model?.imageUrl != nil {
-            //            viewModel.changeImage(id: userId, image: data, boundary: boundary) { result in
-            //                print(result)
-            //            }
             uploadImage(paramName: "image", fileName: "image.png", image: profileImage.image!)
         } else {
-            //            viewModel.addImage(id: userId, image: data, boundary: boundary) { result in
-            //                print(result)
-            //            }
         }
-        let sheet = UIAlertController(title: "Успешно", message: "Поля успешно изменены.", preferredStyle: .alert)
-        sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
-            self.navigationController?.popToRootViewController(animated: true)
-            self.dismiss(animated: true)
-        }))
-        self.present(sheet, animated: true)
     }
     
     func uploadImage(paramName: String, fileName: String, image: UIImage) {

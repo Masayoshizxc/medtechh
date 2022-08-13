@@ -47,9 +47,7 @@ class AppointmentViewController: BaseViewController {
     private lazy var collectionViewA: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CalendarCollectionViewCell.self)
-        collectionView.backgroundColor = .white
         collectionView.isScrollEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -224,6 +222,8 @@ class AppointmentViewController: BaseViewController {
         appointButton.isHidden = true
         appointmentView.isHidden = true
         
+        setSwipes()
+        
         setMonthView()
     }
     
@@ -263,6 +263,24 @@ class AppointmentViewController: BaseViewController {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    func setSwipes() {
+        let rightSwipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didTapRightArrow))
+        let leftSwipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didTapLeftArrow))
+        let rightSwipeRecognizer2 = UISwipeGestureRecognizer(target: self, action: #selector(didTapRightArrow))
+        let leftSwipeRecognizer2 = UISwipeGestureRecognizer(target: self, action: #selector(didTapLeftArrow))
+        rightSwipeRecognizer.direction = .left
+        leftSwipeRecognizer.direction = .right
+        rightSwipeRecognizer2.direction = .left
+        leftSwipeRecognizer2.direction = .right
+        collectionViewA.addGestureRecognizer(rightSwipeRecognizer)
+        collectionViewA.addGestureRecognizer(leftSwipeRecognizer)
+        monthView.addGestureRecognizer(rightSwipeRecognizer2)
+        monthView.addGestureRecognizer(leftSwipeRecognizer2)
+        
+        monthView.isUserInteractionEnabled = true
+        collectionViewA.isUserInteractionEnabled = true
     }
     
     
@@ -320,6 +338,9 @@ class AppointmentViewController: BaseViewController {
     }
     
     @objc func didTapAppointButton() {
+        guard userDefaults.getTime() != nil else {
+            return
+        }
         let sheet = UIAlertController(title: "Записаться", message: "Вы уверены что вы хотите записаться?", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "Отменить", style: .destructive, handler: { _ in
             self.dismiss(animated: true)
@@ -329,13 +350,13 @@ class AppointmentViewController: BaseViewController {
                 guard let strongSelf = self else {
                     return
                 }
-                guard let postAppointment = strongSelf.viewModel.postAppointment else {
-                    return
-                }
                 
                 if result == .success {
+                    guard let postAppointment = strongSelf.viewModel.postAppointment else {
+                        return
+                    }
                     DispatchQueue.main.async {
-                        strongSelf.containerView.makeToast("Вы успешно записались на прием!", duration: 1.5, position: .top)
+                        strongSelf.scrollView.makeToast("Вы успешно записались на прием!", point: strongSelf.collectionViewB.center, title: nil, image: nil, completion: nil)
                         strongSelf.appointmentView.getData(model: postAppointment)
                         strongSelf.timeLabel.isHidden = true
                         strongSelf.collectionViewB.isHidden = true
@@ -345,7 +366,7 @@ class AppointmentViewController: BaseViewController {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        strongSelf.containerView.makeToast("Вы не можете записаться на пройденный день!", duration: 1.5, position: .top)
+                        strongSelf.scrollView.makeToast("Вы не можете записаться на пройденный день!", point:strongSelf.collectionViewB.center, title: nil, image: nil, completion: nil)
                         strongSelf.dismiss(animated: true)
                     }
                 }
@@ -522,6 +543,7 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
             }
             viewModel.freeTimes.removeAll()
             scrollView.isScrollEnabled = true
+            self.userDefaults.saveTime(time: nil)
             let dayString = day.count < 2 ? "0\(day)" : day
             let date = "\(monthYear)-\(dayString)"
             self.userDefaults.saveDate(date: date)
@@ -551,11 +573,13 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
                     strongSelf.viewModel.getFreeTimes(weekday: String(dateStr)) { rslt in
                         if rslt == .success {
                             strongSelf.viewModel.getNonFreeTimes(date: date) { res in
-                                strongSelf.appointmentView.isHidden = true
-                                strongSelf.timeLabel.isHidden = false
-                                strongSelf.collectionViewB.isHidden = false
-                                strongSelf.appointButton.isHidden = false
-                                strongSelf.collectionViewB.reloadData()
+                                DispatchQueue.main.async {
+                                    strongSelf.appointmentView.isHidden = true
+                                    strongSelf.timeLabel.isHidden = false
+                                    strongSelf.collectionViewB.isHidden = false
+                                    strongSelf.appointButton.isHidden = false
+                                    strongSelf.collectionViewB.reloadData()
+                                }
                             }
                         } else {
                             strongSelf.appointmentView.isHidden = true

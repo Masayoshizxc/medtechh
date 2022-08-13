@@ -52,7 +52,7 @@ class WeekTableViewCell: UITableViewCell {
         guard image != nil else {
             return
         }
-        let imageURL = URL(string: image!.replacingOccurrences(of: "http://localhost:8080", with: "https://medtech-team5.herokuapp.com"))
+        let imageURL = URL(string: image!)
         imageView1.sd_setImage(with: imageURL)
         title.text = titleLabel
         weekDescription.text = description

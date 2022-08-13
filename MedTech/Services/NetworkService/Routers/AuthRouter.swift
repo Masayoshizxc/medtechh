@@ -10,7 +10,7 @@ import Foundation
 enum AuthRouter: BaseRouterLogin {
     case signIn(data: Data)
     case logout(data: Data)
-    case refreshToken
+    case refreshToken(data: Data)
     
     var path: String {
         switch self {
@@ -51,8 +51,8 @@ enum AuthRouter: BaseRouterLogin {
             return data
         case let .logout(data):
             return data
-        case .refreshToken:
-            return nil
+        case let .refreshToken(data):
+            return data
         }
     }
     

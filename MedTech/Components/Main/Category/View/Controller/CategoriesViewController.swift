@@ -32,7 +32,6 @@ class CategoriesViewController: BaseViewController {
         
         model.append(Checklists(image: Icons.file.image, title: "Обследование"))
         model.append(Checklists(image: Icons.beakers.image, title: "Назначения лабораторных исследований"))
-        model.append(Checklists(image: Icons.childObserve.image, title: "Обследование плода"))
         model.append(Checklists(image: Icons.domino.image, title: "Профилактические мероприятия"))
         model.append(Checklists(image: Icons.checkmark.image, title: "Дополнительные назначения"))
         model.append(Checklists(image: Icons.warning.image, title: "Заключение"))
@@ -64,15 +63,12 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout, UICollec
             vc = AnalysesViewController()
             print(checklist?.analyzes as Any)
         case 2:
-            vc = UltReportViewController()
-            print(checklist?.ultReport as Any, checklist?.imageUrl as Any)
-        case 3:
             vc = DrugViewController()
             print(checklist?.drugList as Any)
-        case 4:
+        case 3:
             vc = ExtraInfoViewController()
             print(checklist?.extraInfo as Any)
-        case 5:
+        case 4:
             vc = ConclusionViewController()
             print(checklist?.conclusion as Any)
         default:

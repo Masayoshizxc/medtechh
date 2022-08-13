@@ -19,7 +19,7 @@ class HomeViewController: BaseViewController {
         
     var selectedWeek = 1
     var currentWeek = 1
-    
+        
     init(vm: HomeViewModelProtocol = HomeViewModel(), vm2: AppointmentViewModelProtocol = AppointmentViewModel()) {
         viewModel = vm
         appointmentsViewModel = vm2
@@ -133,19 +133,18 @@ class HomeViewController: BaseViewController {
             self.viewModel.getClinic()
         }
         showBadge(withCount: 0)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        getLastVisit()
+        
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(didChangeWeekToLeft))
+        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(didChangeWeekToRight))
+        leftSwipeGesture.direction = .right
+        rightSwipeGesture.direction = .left
+        tableView.addGestureRecognizer(leftSwipeGesture)
+        tableView.addGestureRecognizer(rightSwipeGesture)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if !viewModel.model!.isEmpty {
-            collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
-        }
-        
+        getLastVisit()
         viewModel.getNotifications { result in
             switch result {
             case .success:
@@ -177,6 +176,27 @@ class HomeViewController: BaseViewController {
         )
     }
     
+    @objc func didChangeWeekToLeft() {
+        guard selectedWeek >= 1 else {
+            return
+        }
+        selectedWeek -= 1
+        collectionView.selectItem(at: [0, selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
+        tableView.reloadData()
+    }
+    
+    @objc func didChangeWeekToRight() {
+        guard let model = viewModel.model else {
+            return
+        }
+        guard selectedWeek < model.count - 1 else {
+            return
+        }
+        selectedWeek += 1
+        collectionView.selectItem(at: [0, selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
+        tableView.reloadData()
+    }
+    
     @objc func didPullRefresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.getLastVisit()
@@ -199,17 +219,6 @@ class HomeViewController: BaseViewController {
             if (application.canOpenURL(phoneCallURL)) {
                 application.open(phoneCallURL, options: [:], completionHandler: nil)
             }
-        }
-    }
-    
-    func sortAnArrayOfArray(_ mod: [WeekModel]) {
-        for i in 0...viewModel.model!.count - 1 {
-            let dto = viewModel.model![i].weeksOfBabyDevelopmentDTOS
-            let sortedArray = dto?.sorted(by: { itemA, itemB in
-                return itemA.id < itemB.id
-            })
-            viewModel.model![i].weeksOfBabyDevelopmentDTOS?.removeAll()
-            viewModel.model![i].weeksOfBabyDevelopmentDTOS?.append(contentsOf: sortedArray!)
         }
     }
     
@@ -242,13 +251,13 @@ class HomeViewController: BaseViewController {
             if result == .success {
                 if !strongSelf.viewModel.model!.isEmpty {
                     DispatchQueue.main.async {
-                        strongSelf.sortAnArrayOfArray(strongSelf.viewModel.model!)
                         if !strongSelf.viewModel.model!.isEmpty {
                             let size = 200 * (strongSelf.viewModel.model![strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
                             strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
                         }
                         strongSelf.scrollView.contentSize = strongSelf.contentSize
                         strongSelf.collectionView.reloadData()
+                        strongSelf.collectionView.selectItem(at: [0, strongSelf.selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
                         strongSelf.tableView.reloadData()
                     }
                 } else {
@@ -269,7 +278,7 @@ class HomeViewController: BaseViewController {
         guard let model = viewModel.notifications else {
             return
         }
-        loadVC.model = model
+        loadVC.model = model.reversed()
         self.present(loadVC, animated: true, completion: nil)
     }
     
@@ -292,9 +301,6 @@ class HomeViewController: BaseViewController {
     }
     
     func showBadge(withCount count: Int) {
-//        guard count > 0 else {
-//            return
-//        }
         let badge = badgeLabel(withCount: count)
         notificationsButton.addSubview(badge)
         
@@ -348,27 +354,22 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.getReuseCell(CollectionViewCell.self, indexPath: indexPath)
-        if currentWeek == viewModel.model![indexPath.row].weekday {
-            viewModel.model![indexPath.row].isThisWeek = true
-        }
-//        if indexPath.row == currentWeek {
-//            cell.addProgressBar()
-//        } else if indexPath.row == selectedWeek {
-//            cell.changeSelected()
-//        }
-//        if !model.isEmpty {
-//            if indexPath.row < currentWeek {
-//                cell.setBeforeDate(text: model[indexPath.row].weekday)
-//            } else {
-//                cell.fill(text: model[indexPath.row].weekday)
-//            }
-//        }
-        
-        if viewModel.model![indexPath.row].isThisWeek != false {
-            cell.addProgressBar(strokeEnd: 0.7)
+        guard let model = viewModel.model else {
+            return cell
         }
         
-        cell.fill(text: viewModel.model![indexPath.row].weekday)
+        if !model.isEmpty {
+            if indexPath.row < currentWeek {
+                cell.setBeforeDate(text: model[indexPath.row].weekday)
+            } else {
+                cell.fill(text: model[indexPath.row].weekday)
+            }
+        }
+        
+//        if viewModel.model![indexPath.row].weekday == currentWeek {
+//            cell.addProgressBar(strokeEnd: 0.7)
+//        }
+        
         return cell
     }
     
@@ -379,10 +380,9 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedWeek = viewModel.model![indexPath.row].weekday - 1
         if !viewModel.model!.isEmpty {
-            collectionView.scrollToItem(at: [0, selectedWeek], at: .centeredHorizontally, animated: true)
+            collectionView.selectItem(at: [0, selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
         }
         tableView.reloadData()
-        collectionView.reloadData()
     }
     
 }
@@ -392,7 +392,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !viewModel.model!.isEmpty {
-            print(viewModel)
             return viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS!.count
         } else {
             return 3

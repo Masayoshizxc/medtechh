@@ -75,24 +75,30 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
             guard let timeModel = self?.timeModel else {
                 return
             }
-            self?.freeTimes.removeAll()
-            let nonFree = self?.nonFreeTimes
-            for i in 0..<timeModel.count {
-                let time = timeModel[i].scheduleStartTime
-                if result == nil {
-                    self?.nonFreeTimes = result
-                    for j in 0..<nonFree!.count {
-                        let nonFreeTime = nonFree![j].visitStartTime
-                        if time != nonFreeTime {
-                            let timee = time?.dropLast(3)
-                            self?.freeTimes.append(Time(time: String(timee!)))
+            let queue = DispatchQueue.global(qos: .utility)
+            let que = DispatchQueue.global(qos: .userInteractive)
+            queue.async {
+                self?.freeTimes.removeAll()
+                let nonFree = self?.nonFreeTimes
+                for i in 0..<timeModel.count {
+                    let time = timeModel[i].scheduleStartTime
+                    if result == nil {
+                        que.async {
+                            self?.nonFreeTimes = result
+                            for j in 0..<nonFree!.count {
+                                let nonFreeTime = nonFree![j].visitStartTime
+                                if time != nonFreeTime {
+                                    let timee = time?.dropLast(3)
+                                    self?.freeTimes.append(Time(time: String(timee!)))
+                                }
+                            }
+                            completion(.success)
                         }
+                    } else {
+                        let timee = time?.dropLast(3)
+                        self?.freeTimes.append(Time(time: String(timee!)))
+                        completion(.failure)
                     }
-                    completion(.success)
-                } else {
-                    let timee = time?.dropLast(3)
-                    self?.freeTimes.append(Time(time: String(timee!)))
-                    completion(.failure)
                 }
             }
         }
@@ -112,22 +118,16 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
         let userId = userDefaults.getUserId()
         let date = self.userDefaults.getDate()
         let time = self.userDefaults.getTime()
-        guard let doctorId = doctorId else {
+        guard let doctorId = doctorId, let time = time else {
             completion(.failure)
             return
         }
-        let visitStartTime: [String: Any] = [
-            "minutes" : 13,
-            "minute": 0,
-            "nano": 0,
-            "second": 0
-            
-        ]
+
         let data: [String : Any] = [
-            "dateVisit" : date,
             "doctorId" : doctorId,
-            "patentId" : userId,
-            "visitStartTime" : visitStartTime
+            "patientId" : userId,
+            "dateVisit" : date,
+            "visitStartTime" : time
         ]
         let encodedData = (try? JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)) ?? nil
         guard let encodedData = encodedData else {

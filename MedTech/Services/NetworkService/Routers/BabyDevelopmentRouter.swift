@@ -8,13 +8,10 @@
 import Foundation
 
 enum BabyDevelopmentRouter: BaseRouter {
-    case getWeek(week: String)
     case getAllWeeks
     
     var path: String {
         switch self {
-        case let .getWeek(week):
-            return "/api/v1/weeks-of-baby-development/week/\(week)"
         case .getAllWeeks:
             return "/api/v1/weeks/all"
         }
@@ -22,8 +19,6 @@ enum BabyDevelopmentRouter: BaseRouter {
 
     var queryParameter: [URLQueryItem]? {
         switch self {
-        case.getWeek:
-            return nil
         case .getAllWeeks:
             return nil
         }
@@ -31,8 +26,6 @@ enum BabyDevelopmentRouter: BaseRouter {
 
     var method: HttpMethod {
         switch self {
-        case .getWeek:
-            return .GET
         case .getAllWeeks:
             return .GET
         }
@@ -40,8 +33,6 @@ enum BabyDevelopmentRouter: BaseRouter {
 
     var httpBody: Data? {
         switch self {
-        case .getWeek:
-            return nil
         case .getAllWeeks:
             return nil
         }
@@ -49,8 +40,6 @@ enum BabyDevelopmentRouter: BaseRouter {
 
     var httpHeader: [HttpHeader]? {
         switch self {
-        case .getWeek:
-            return nil
         case .getAllWeeks:
             return nil
         }

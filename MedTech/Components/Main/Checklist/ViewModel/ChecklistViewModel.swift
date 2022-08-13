@@ -42,6 +42,7 @@ class ChecklistViewModel: ChecklistViewModelProtocol {
                 return
             }
             self.model = result
+            self.checklist.removeAll()
             for i in 0..<self.model.count {
                 let dateVisit = self.model[i].patientVisitDTO!.dateVisit
                 self.checklist.append(Checklist(first: self.appointments[i], second: dateVisit!))

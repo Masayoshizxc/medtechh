@@ -45,8 +45,12 @@ class HomeViewModel: HomeViewModelProtocol {
     func getAllWeeks(completion: @escaping ((SuccessFailure) -> Void)) {
         service.getAllWeeks { result in
             if result != nil {
-                self.model = result
-                completion(.success)
+                let queue = DispatchQueue.global(qos: .utility)
+                queue.async {
+                    self.model = result
+                    self.sortAnArrayOfArray()
+                    completion(.success)
+                }
             } else {
                 completion(.failure)
             }
@@ -63,6 +67,17 @@ class HomeViewModel: HomeViewModelProtocol {
             }
             self.notifications = result
             completion(.success)
+        }
+    }
+    
+    func sortAnArrayOfArray() {
+        for i in 0...model!.count - 1 {
+            let dto = model![i].weeksOfBabyDevelopmentDTOS
+            let sortedArray = dto?.sorted(by: { itemA, itemB in
+                return itemA.id < itemB.id
+            })
+            model![i].weeksOfBabyDevelopmentDTOS?.removeAll()
+            model![i].weeksOfBabyDevelopmentDTOS?.append(contentsOf: sortedArray!)
         }
     }
 

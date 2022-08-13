@@ -20,12 +20,9 @@ class CollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 50.0/2.0
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = CGColor(red: 197/255, green: 197/255, blue: 197/255, alpha: 1)
-//        imageView.backgroundColor = UIColor(red: 245/255, green: 233/255, blue: 173/255, alpha: 1)
         imageView.backgroundColor = .white
         return imageView
     }()
-    
-    
     
     private let numbersOfWeeks : UILabel = {
         let numbers =  UILabel()
@@ -64,7 +61,6 @@ class CollectionViewCell: UICollectionViewCell {
             {
                 self.mainImageView.layer.borderWidth = 1
                 self.mainImageView.layer.borderColor = CGColor(red: 197/255, green: 197/255, blue: 197/255, alpha: 1)
-//                self.mainImageView.backgroundColor = .white
             }
         }
     }
@@ -76,22 +72,8 @@ class CollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func selection(bool: Bool) {
-        if bool {
-            self.mainImageView.layer.borderWidth = 2
-            self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.713, blue: 0.709, alpha: 1).cgColor
-        } else {
-            self.mainImageView.layer.borderWidth = 1
-            self.mainImageView.layer.borderColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1).cgColor
-        }
-    }
-    
-    func changeSelected() {
-        self.mainImageView.layer.borderWidth = 2
-        self.mainImageView.layer.borderColor = UIColor(red: 1, green: 0.713, blue: 0.709, alpha: 1).cgColor
-    }
-    
+
+
     func setBeforeDate(text: Int) {
         self.mainImageView.layer.borderWidth = 0
         self.mainImageView.layer.borderColor = UIColor.clear.cgColor

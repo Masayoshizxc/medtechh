@@ -358,7 +358,13 @@ class ProfileViewController: BaseViewController {
                 strongSelf.doctorName.text = "\(doctor?.firstName ?? "") \(doctor?.lastName ?? "") \(doctor?.middleName ?? "")"
                 strongSelf.mailName.text = user?.email
                 strongSelf.numberName.text = user?.phoneNumber
-                strongSelf.bDayName.text = user?.dob
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateDate = dateFormatter.date(from: (user?.dob)!)
+                dateFormatter.dateFormat = "d MMMM yyyy"
+                let dateStr = dateFormatter.string(from: dateDate!)
+                strongSelf.bDayName.text = dateStr
                 strongSelf.addressName.text = user?.address
             }
             
@@ -378,20 +384,19 @@ class ProfileViewController: BaseViewController {
                 strongSelf.trimestLabel.text = "1-й\nтриместр"
             } else if weeks > 12 && weeks <= 27 {
                 strongSelf.trimestLabel.text = "2-й\nтриместр"
-            } else if weeks > 27 && weeks <= 42{
+            } else if weeks > 27 && weeks <= 41{
                 strongSelf.trimestLabel.text = "3-й\nтриместр"
             } else {
                 strongSelf.trimestLabel.text = "Ваша беременность закончилась"
             }
             
-            strongSelf.shape.strokeEnd = CGFloat(Double(weeks) / 42.0)
+            strongSelf.shape.strokeEnd = CGFloat(Double(weeks) / 41.0)
                             
             guard let imageUrl = patient.imageUrl else {
                 self?.profileImage.image = Icons.profileImage.image
                 strongSelf.view.hideToastActivity()
                 return
             }
-            print(imageUrl)
             guard let image = URL(string: imageUrl) else {
                 print("There is no image")
                 return

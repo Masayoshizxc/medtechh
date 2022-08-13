@@ -140,12 +140,12 @@ class UserDefaultsService {
         return storage.value(forKey: CreateAppointment.appointment_date.rawValue) as! String
     }
     
-    func saveTime(time: String) {
+    func saveTime(time: String?) {
         storage.setValue(time, forKey: CreateAppointment.appointment_time.rawValue)
     }
     
-    func getTime() -> String {
-        return storage.value(forKey: CreateAppointment.appointment_time.rawValue) as! String
+    func getTime() -> String? {
+        return storage.value(forKey: CreateAppointment.appointment_time.rawValue) as! String?
     }
     
     func saveEmergency(phone: String) {

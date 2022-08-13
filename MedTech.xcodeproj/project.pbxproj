@@ -34,7 +34,6 @@
 		A932C4522899917700682C1C /* ChecklistRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C4512899917700682C1C /* ChecklistRouter.swift */; };
 		A932C4552899920300682C1C /* ChecklistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C4542899920300682C1C /* ChecklistViewModel.swift */; };
 		A932C4572899970400682C1C /* QuestionAnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C4562899970400682C1C /* QuestionAnswerViewController.swift */; };
-		A932C4592899973400682C1C /* UltReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C4582899973400682C1C /* UltReportViewController.swift */; };
 		A932C45B2899977300682C1C /* DrugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C45A2899977300682C1C /* DrugViewController.swift */; };
 		A932C45D2899978A00682C1C /* ExtraInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C45C2899978A00682C1C /* ExtraInfoViewController.swift */; };
 		A932C45F289997D500682C1C /* AnalysesViewController .swift in Sources */ = {isa = PBXBuildFile; fileRef = A932C45E289997D500682C1C /* AnalysesViewController .swift */; };
@@ -75,6 +74,8 @@
 		A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A3552F287FED5200116E7E /* AppointmentView.swift */; };
 		A9B1B3F22863639900D15021 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C491002285DD8360047A02A /* swiftgen.yml */; };
 		A9C77FC9287E9DED00AB6768 /* TimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */; };
+		A9D76DDE28A695100073294E /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D76DDD28A695100073294E /* Onboarding.swift */; };
+		A9D76DE028A696030073294E /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D76DDF28A696030073294E /* OnboardingCollectionViewCell.swift */; };
 		A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA602874946200FB0257 /* NetworkService.swift */; };
 		A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA612874946200FB0257 /* BaseRouter.swift */; };
 		A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA632874946200FB0257 /* StatusCode.swift */; };
@@ -91,6 +92,7 @@
 		A9E6C54C2878140B004FC946 /* CodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E6C54B2878140B004FC946 /* CodeModel.swift */; };
 		A9E6C5502878192E004FC946 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E6C54F2878192E004FC946 /* CategoriesViewController.swift */; };
 		A9EA7134288681F70004961B /* WeekTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EA7133288681F70004961B /* WeekTableViewCell.swift */; };
+		A9EE520628A63D660041828D /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EE520528A63D660041828D /* OnboardingViewController.swift */; };
 		A9EF509B287AAD85005DF870 /* ChecklistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF509A287AAD85005DF870 /* ChecklistTableViewCell.swift */; };
 		A9EF509E287AAF0B005DF870 /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EF509D287AAF0B005DF870 /* Checklist.swift */; };
 		A9EF50A5287AC36F005DF870 /* SF-Pro-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = A9EF50A2287AC274005DF870 /* SF-Pro-Text-Medium.otf */; };
@@ -137,7 +139,6 @@
 		A932C4512899917700682C1C /* ChecklistRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistRouter.swift; sourceTree = "<group>"; };
 		A932C4542899920300682C1C /* ChecklistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewModel.swift; sourceTree = "<group>"; };
 		A932C4562899970400682C1C /* QuestionAnswerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionAnswerViewController.swift; sourceTree = "<group>"; };
-		A932C4582899973400682C1C /* UltReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltReportViewController.swift; sourceTree = "<group>"; };
 		A932C45A2899977300682C1C /* DrugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugViewController.swift; sourceTree = "<group>"; };
 		A932C45C2899978A00682C1C /* ExtraInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraInfoViewController.swift; sourceTree = "<group>"; };
 		A932C45E289997D500682C1C /* AnalysesViewController .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalysesViewController .swift"; sourceTree = "<group>"; };
@@ -179,6 +180,8 @@
 		A9A35526287F040B00116E7E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		A9A3552F287FED5200116E7E /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
 		A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCollectionViewCell.swift; sourceTree = "<group>"; };
+		A9D76DDD28A695100073294E /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
+		A9D76DDF28A696030073294E /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9DDAA602874946200FB0257 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A9DDAA612874946200FB0257 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
 		A9DDAA632874946200FB0257 /* StatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCode.swift; sourceTree = "<group>"; };
@@ -195,6 +198,7 @@
 		A9E6C54B2878140B004FC946 /* CodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeModel.swift; sourceTree = "<group>"; };
 		A9E6C54F2878192E004FC946 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		A9EA7133288681F70004961B /* WeekTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekTableViewCell.swift; sourceTree = "<group>"; };
+		A9EE520528A63D660041828D /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		A9EF509A287AAD85005DF870 /* ChecklistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistTableViewCell.swift; sourceTree = "<group>"; };
 		A9EF509D287AAF0B005DF870 /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		A9EF50A2287AC274005DF870 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				A91DF78F28636F7C00C79BDF /* Reusable */,
+				A9EE520028A63D380041828D /* Onboarding */,
 				A9B1B3F328636BBE00D15021 /* Auth */,
 				A9B1B3F528636BFC00D15021 /* Main */,
 				A9B1B3F428636BD300D15021 /* TabBar */,
@@ -376,7 +381,6 @@
 			children = (
 				A932C4562899970400682C1C /* QuestionAnswerViewController.swift */,
 				A932C45E289997D500682C1C /* AnalysesViewController .swift */,
-				A932C4582899973400682C1C /* UltReportViewController.swift */,
 				A932C45A2899977300682C1C /* DrugViewController.swift */,
 				A932C45C2899978A00682C1C /* ExtraInfoViewController.swift */,
 				A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */,
@@ -861,6 +865,40 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		A9EE520028A63D380041828D /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				A9EE520228A63D480041828D /* Model */,
+				A9EE520128A63D440041828D /* View */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		A9EE520128A63D440041828D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A9D76DDF28A696030073294E /* OnboardingCollectionViewCell.swift */,
+				A9EE520328A63D4F0041828D /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A9EE520228A63D480041828D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A9D76DDD28A695100073294E /* Onboarding.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A9EE520328A63D4F0041828D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A9EE520528A63D660041828D /* OnboardingViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		A9EF5097287AAD5B005DF870 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1092,12 +1130,15 @@
 				A9017882284A6CDB00FFFBA2 /* AppointmentViewController.swift in Sources */,
 				A9A35527287F040B00116E7E /* Time.swift in Sources */,
 				A989B28C289132620034B92B /* PasswordViewController.swift in Sources */,
+				A9D76DE028A696030073294E /* OnboardingCollectionViewCell.swift in Sources */,
 				A932C4552899920300682C1C /* ChecklistViewModel.swift in Sources */,
 				A95CC270289D91C2008A1FEC /* Extension + CollectionView.swift in Sources */,
 				A95CC276289D9F40008A1FEC /* ChecklistService.swift in Sources */,
 				A9DDAA7B2874A29700FB0257 /* AuthRouter.swift in Sources */,
+				A9EE520628A63D660041828D /* OnboardingViewController.swift in Sources */,
 				AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */,
 				A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */,
+				A9D76DDE28A695100073294E /* Onboarding.swift in Sources */,
 				A9DDAA79287495DB00FB0257 /* SignInViewModel.swift in Sources */,
 				A92A34A028A1579900E94018 /* Notifications.swift in Sources */,
 				A9017884284A6CEC00FFFBA2 /* ChecklistViewController.swift in Sources */,
@@ -1157,7 +1198,6 @@
 				A92A34A228A157FB00E94018 /* NotificationsRouter.swift in Sources */,
 				A9EF50A9287AD7EE005DF870 /* HideButton.swift in Sources */,
 				A970D74C28871F32003B22FD /* ReservedDates.swift in Sources */,
-				A932C4592899973400682C1C /* UltReportViewController.swift in Sources */,
 				A97F4A442882A29D00FEEBA9 /* Patient.swift in Sources */,
 				A9FFEE472896B342000B295A /* ChecklistCollectionViewCell.swift in Sources */,
 			);

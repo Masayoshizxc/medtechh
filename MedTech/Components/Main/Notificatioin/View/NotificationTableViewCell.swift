@@ -40,7 +40,6 @@ class NotificationTableViewCell: UITableViewCell {
     }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        contentView.backgroundColor = .systemPurple
         contentView.frame.size.height = heightForRaw
         setUpSubviews()
         setUpConstraints()
@@ -72,17 +71,17 @@ class NotificationTableViewCell: UITableViewCell {
     
     func setUpConstraints(){
         name.snp.makeConstraints{make in
-            make.left.equalToSuperview()
+            make.top.equalToSuperview().inset(10)
+            make.left.equalToSuperview().inset(15)
             make.right.equalToSuperview().inset(61)
-            
         }
         dateTime.snp.makeConstraints{make in
-            make.left.equalToSuperview()
+            make.left.equalToSuperview().inset(15)
             make.bottom.equalToSuperview().inset(10)
         }
         photo.snp.makeConstraints{make in
-            make.top.equalToSuperview()
-            make.right.equalToSuperview()
+            make.top.equalToSuperview().inset(15)
+            make.right.equalToSuperview().inset(15)
             make.width.height.equalTo(60)
         }
     }
