@@ -12,8 +12,13 @@ class CategoriesViewController: BaseViewController {
     var model = [Checklists]()
     var checklist: ChecklistModel?
     
-    let collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
+        let screenWidth = view.frame.size.width - 64
         let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: screenWidth/2, height: 200)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(ChecklistCollectionViewCell.self)
@@ -26,8 +31,10 @@ class CategoriesViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
+        
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(27)
+            make.left.right.bottom.equalToSuperview().inset(27)
         }
         
         model.append(Checklists(image: Icons.file.image, title: "Обследование"))
@@ -54,33 +61,40 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var vc = UIViewController()
         switch indexPath.row {
         case 0:
-            vc = QuestionAnswerViewController()
-            print(checklist?.basic_questions as Any)
+            let vc = QuestionAnswerViewController()
+            vc.title = model[indexPath.row].title
+            vc.checklist = checklist
+            navigationController?.pushViewController(vc, animated: true)
         case 1:
-            vc = AnalysesViewController()
+            let vc = AnalysesViewController()
+            vc.title = model[indexPath.row].title
             print(checklist?.analyzes as Any)
+            navigationController?.pushViewController(vc, animated: true)
         case 2:
-            vc = DrugViewController()
+            let vc = DrugViewController()
+            vc.title = model[indexPath.row].title
             print(checklist?.drugList as Any)
+            navigationController?.pushViewController(vc, animated: true)
         case 3:
-            vc = ExtraInfoViewController()
-            print(checklist?.extraInfo as Any)
+            let vc = ExtraInfoViewController()
+            vc.title = model[indexPath.row].title
+            vc.checklist = checklist
+            navigationController?.pushViewController(vc, animated: true)
         case 4:
-            vc = ConclusionViewController()
-            print(checklist?.conclusion as Any)
+            let vc = ConclusionViewController()
+            vc.title = model[indexPath.row].title
+            vc.checklist = checklist
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
-        vc.title = model[indexPath.row].title
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: widthComputed(160), height: 200)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: widthComputed(160), height: 200)
+//    }
         
 }

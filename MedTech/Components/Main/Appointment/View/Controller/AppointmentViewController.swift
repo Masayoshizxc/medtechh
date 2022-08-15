@@ -25,6 +25,7 @@ class AppointmentViewController: BaseViewController {
     var selectedDate = Date()
     var days = [Day]()
     let dateFormatter = DateFormatter()
+    var nextDate: String?
     
     lazy var contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 100)
     
@@ -102,6 +103,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Пн"
         label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
         return label
     }()
     
@@ -109,6 +111,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Вт"
         label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
         return label
     }()
     
@@ -116,6 +119,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Ср"
         label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
         return label
     }()
     
@@ -123,6 +127,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Чт"
         label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
         return label
     }()
     
@@ -130,6 +135,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Пт"
         label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
         return label
     }()
     
@@ -137,6 +143,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Сб"
         label.textColor = .red
+        label.textAlignment = .center
         return label
     }()
     
@@ -144,6 +151,7 @@ class AppointmentViewController: BaseViewController {
         let label = UILabel()
         label.text = "Вс"
         label.textColor = .red
+        label.textAlignment = .center
         return label
     }()
     
@@ -346,6 +354,7 @@ class AppointmentViewController: BaseViewController {
             self.dismiss(animated: true)
         }))
         sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { [weak self] _ in
+            self?.containerView.makeToastActivity((self?.view.center)!)
             self?.viewModel.postAppointments() { result in
                 guard let strongSelf = self else {
                     return
@@ -358,6 +367,7 @@ class AppointmentViewController: BaseViewController {
                     DispatchQueue.main.async {
                         strongSelf.scrollView.makeToast("Вы успешно записались на прием!", point: strongSelf.collectionViewB.center, title: nil, image: nil, completion: nil)
                         strongSelf.appointmentView.getData(model: postAppointment)
+                        strongSelf.containerView.hideToastActivity()
                         strongSelf.timeLabel.isHidden = true
                         strongSelf.collectionViewB.isHidden = true
                         strongSelf.appointButton.isHidden = true
@@ -380,7 +390,8 @@ class AppointmentViewController: BaseViewController {
         monthView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(30)
             make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            //make.width.equalTo(336)
+            make.left.right.equalTo(collectionViewA)
             make.height.equalTo(44)
         }
         monthLabel.snp.makeConstraints { make in
@@ -389,27 +400,28 @@ class AppointmentViewController: BaseViewController {
         
         leftArrow.snp.makeConstraints { make in
             make.centerY.equalTo(monthView.snp.centerY)
-            make.right.equalTo(monthView.snp.left).offset(40)
+            make.right.equalTo(monthView.snp.left).offset(38)
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
         
         rightArrow.snp.makeConstraints { make in
             make.centerY.equalTo(monthView.snp.centerY)
-            make.left.equalTo(monthView.snp.right).offset(-40)
+            make.left.equalTo(monthView.snp.right).offset(-38)
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
         
         stackView.snp.makeConstraints { make in
             make.top.equalTo(monthView.snp.bottom).offset(30)
-            make.centerX.equalToSuperview().offset(20)
-            make.width.equalToSuperview().offset(-5)
+            //make.centerX.equalToSuperview().offset(20)
+            make.left.right.equalToSuperview().inset(17)
+            //make.width.equalToSuperview().offset(-5)
         }
         
         collectionViewA.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom).offset(10)
-            make.left.right.equalToSuperview().inset(6)
+            make.left.right.equalToSuperview().inset(17)
             make.height.equalTo(300)
         }
         
@@ -433,10 +445,10 @@ class AppointmentViewController: BaseViewController {
         }
         
         appointmentView.snp.makeConstraints { make in
-            make.top.equalTo(collectionViewA.snp.bottom).offset(30)
+            make.top.equalTo(collectionViewA.snp.bottom).offset(42)
             make.centerX.equalToSuperview()
-            make.left.right.equalTo(collectionViewA).inset(20)
-            make.height.equalTo(264)
+            make.left.right.equalTo(collectionViewA)
+            make.height.equalTo(heightComputed(254))
         }
         
     }
@@ -468,6 +480,11 @@ extension AppointmentViewController: UICollectionViewDelegateFlowLayout, UIColle
             }
             let dayString = day.count < 2 ? "0\(day)" : day
             let date = "\(monthYear)-\(dayString)"
+            
+            if date == nextDate {
+                print("Hey Hey")
+            }
+            
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let datedate = dateFormatter.date(from: date)
             dateFormatter.dateFormat = "e"

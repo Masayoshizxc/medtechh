@@ -60,7 +60,10 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
     func getFreeTimes(weekday: String, completion: @escaping ((SuccessFailure?) -> Void)) {
         let doctorId = userDefaults.getDoctorId()
         service.getFreeTimes(doctorId: doctorId!, weekday: weekday) { result in
-            if result != nil {
+            guard let result = result else {
+                return
+            }
+            if !result.isEmpty {
                 self.timeModel = result
                 completion(.success)
             } else {
@@ -73,8 +76,10 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
     func getNonFreeTimes(date: String, completion: @escaping ((SuccessFailure?) -> Void)) {
         service.getNonFreeTimes(date: date) { [weak self] result in
             guard let timeModel = self?.timeModel else {
+                completion(.failure)
                 return
             }
+            
             let queue = DispatchQueue.global(qos: .utility)
             let que = DispatchQueue.global(qos: .userInteractive)
             queue.async {

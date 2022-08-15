@@ -73,7 +73,7 @@ class WeekTableViewCell: UITableViewCell {
         
         weekDescription.snp.makeConstraints { make in
             make.top.equalTo(imageView1.snp.bottom).offset(20)
-            make.left.right.equalToSuperview().inset(10)
+            make.left.right.equalToSuperview().inset(27)
             make.bottom.equalToSuperview().offset(-30)
         }
     }

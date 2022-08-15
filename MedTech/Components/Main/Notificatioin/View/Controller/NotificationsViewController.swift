@@ -81,7 +81,7 @@ class NotificationsViewController: BaseViewController {
 
 extension NotificationsViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableView.rowHeight = 100
+        tableView.rowHeight = 140
         return model.count
     }
     

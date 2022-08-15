@@ -9,8 +9,8 @@ import UIKit
 
 class QuestionAnswerViewController: BaseViewController {
         
-    var id: Int?
     private let viewModel: ChecklistViewModelProtocol
+    var checklist: ChecklistModel?
     
     init(vm: ChecklistViewModelProtocol = ChecklistViewModel()) {
         viewModel = vm
@@ -23,9 +23,15 @@ class QuestionAnswerViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.getAnswers(id: 2, completion: { result in
+        
+        guard let checklist = checklist, let id = checklist.id else {
+            return
+        }
+
+        viewModel.getAnswers(id: id, completion: { result in
             switch result {
             case .success:
+                print(checklist.basic_questions)
                 print(self.viewModel.answers as Any)
             case .failure:
                 print("There was an error with downloading answers!")
