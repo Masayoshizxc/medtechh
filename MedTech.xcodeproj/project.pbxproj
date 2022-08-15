@@ -105,9 +105,11 @@
 		A9FFEE492896B5FD000B295A /* Checklists.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE482896B5FD000B295A /* Checklists.swift */; };
 		A9FFEE4F2896B9DF000B295A /* ConclusionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
+		AE635B6928AA59400086AC09 /* DrugTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE635B6828AA59400086AC09 /* DrugTableViewCell.swift */; };
 		AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
 		AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */; };
+		AEFBCA6B28A917F50008D6EE /* QuestionsAnswersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFBCA6A28A917F50008D6EE /* QuestionsAnswersCell.swift */; };
 		AEFD2AFB2859F6CD001A6E25 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -211,9 +213,11 @@
 		A9FFEE482896B5FD000B295A /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
 		A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConclusionViewController.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		AE635B6828AA59400086AC09 /* DrugTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugTableViewCell.swift; sourceTree = "<group>"; };
 		AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		AEFBCA6A28A917F50008D6EE /* QuestionsAnswersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsAnswersCell.swift; sourceTree = "<group>"; };
 		AEFD2AFA2859F6CD001A6E25 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		DEA5521CA48D1D08D2359AB0 /* Pods_MedTech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MedTech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E5CA0CA06792244DEBB4F7 /* Pods-MedTech.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedTech.release.xcconfig"; path = "Target Support Files/Pods-MedTech/Pods-MedTech.release.xcconfig"; sourceTree = "<group>"; };
@@ -392,6 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */,
+				AE635B6828AA59400086AC09 /* DrugTableViewCell.swift */,
+				AEFBCA6A28A917F50008D6EE /* QuestionsAnswersCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1120,6 +1126,7 @@
 				A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */,
 				A95CC281289E4567008A1FEC /* ForgotPasswordService.swift in Sources */,
 				A906FE6628806A7900FF3E92 /* AppointmentsRouter.swift in Sources */,
+				AE635B6928AA59400086AC09 /* DrugTableViewCell.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
 				A932C4502899907000682C1C /* ChecklistModel.swift in Sources */,
 				A95CC26B289D88D0008A1FEC /* Extension + ScreenSize.swift in Sources */,
@@ -1188,6 +1195,7 @@
 				A906FE6928806B5A00FF3E92 /* AppoitmentViewModel.swift in Sources */,
 				A95CC26E289D8C29008A1FEC /* HomeService.swift in Sources */,
 				A9017886284A6CF700FFFBA2 /* ProfileViewController.swift in Sources */,
+				AEFBCA6B28A917F50008D6EE /* QuestionsAnswersCell.swift in Sources */,
 				A93D2EBC28755D5600DEE1BF /* ForgotPassword.swift in Sources */,
 				A9DDAA6F2874946200FB0257 /* HttpMethod.swift in Sources */,
 				A9E6C5502878192E004FC946 /* CategoriesViewController.swift in Sources */,
@@ -1343,7 +1351,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V3G3959732;
+				DEVELOPMENT_TEAM = 7K5H82MGKM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MedTech/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to take a photo";
@@ -1354,7 +1362,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1390,7 +1398,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
