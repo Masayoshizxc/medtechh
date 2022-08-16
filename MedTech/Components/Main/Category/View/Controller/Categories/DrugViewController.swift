@@ -37,36 +37,21 @@ class DrugViewController: BaseViewController {
     private lazy var titleFor : UILabel = {
         let l = UILabel()
         l.numberOfLines = 0
-        l.text = "Особенности организма пациентки"
-        l.font = .boldSystemFont(ofSize: 19)
-        l.textColor = UIColor(named: "Violet")
-        return l
-    }()
-    private lazy var textAboutPatient : UILabel = {
-        let l = UILabel()
-        l.numberOfLines = 0
-        l.text = "Resäsamma astrogisk.Vir or safelogi. Kompetensväxling lyr anteledes, rens respektive ding. Pretähur vanade sedan åsiktskorridor och bemise mide. Astrona polynår. Trafävis osade, eftersom poskap att oktig."
-        l.textColor = UIColor(named: "Violet")
-        l.font = .systemFont(ofSize: 14)
-        
-        return l
-    }()
-    private lazy var titleFor1 : UILabel = {
-        let l = UILabel()
-        l.numberOfLines = 0
         l.text = "Медикаменты"
         l.textColor = UIColor(named: "Violet")
-        l.font = .systemFont(ofSize: 16)
+        l.font = .boldSystemFont(ofSize: 16)
         
         return l
     }()
-    private lazy var tableView : UITableView = {
-        let t = UITableView()
-        t.register(DrugTableViewCell.self, forCellReuseIdentifier: DrugTableViewCell.reuseIdentifier)
-        t.delegate = self
-        t.dataSource = self
-        t.backgroundColor = .purple
-        return t
+    private lazy var collectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(DrugCollectionViewCell.self, forCellWithReuseIdentifier: DrugCollectionViewCell.reuseID)
+        cv.delegate = self
+        cv.dataSource = self
+        
+        return cv
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,9 +65,7 @@ class DrugViewController: BaseViewController {
                          doctorName,
                          doctorPos,
                          titleFor,
-                         textAboutPatient,
-                         titleFor1,
-                         tableView)
+                         collectionView)
     }
     
     func setUpConstraints(){
@@ -104,35 +87,32 @@ class DrugViewController: BaseViewController {
         }
         titleFor.snp.makeConstraints{make in
             make.top.equalTo(doctorImage.snp.bottom).offset(29)
-            make.left.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(27)
             
         }
-        textAboutPatient.snp.makeConstraints{make in
+        
+        
+        collectionView.snp.makeConstraints{make in
             make.top.equalTo(titleFor.snp.bottom).offset(14)
             make.left.right.equalToSuperview().inset(27)
-            
+            make.bottom.equalToSuperview().inset(90)
         }
-        titleFor1.snp.makeConstraints{make in
-            make.top.equalTo(textAboutPatient.snp.bottom).offset(14)
-            make.left.right.equalToSuperview().inset(27)
-            
-        }
-        tableView.snp.makeConstraints{make in
-            make.top.equalTo(titleFor1.snp.bottom).offset(14)
-            make.left.right.equalToSuperview().inset(27)
-        }
+        
     }
 }
 
-extension DrugViewController : UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension DrugViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DrugTableViewCell.reuseIdentifier, for: indexPath)
-        cell.backgroundColor = .systemPink
-        cell.textLabel?.text = "Hello Kitty"
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DrugCollectionViewCell.reuseID, for: indexPath)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.size.width-54, height: 67)
     }
     
     

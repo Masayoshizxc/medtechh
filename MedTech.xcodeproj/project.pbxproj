@@ -104,8 +104,9 @@
 		A9FFEE472896B342000B295A /* ChecklistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */; };
 		A9FFEE492896B5FD000B295A /* Checklists.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE482896B5FD000B295A /* Checklists.swift */; };
 		A9FFEE4F2896B9DF000B295A /* ConclusionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */; };
+		AE3FCE3A28AB89F400C2F072 /* DrugCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */; };
+		AE3FCE3C28AB99A100C2F072 /* AnalysesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
-		AE635B6928AA59400086AC09 /* DrugTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE635B6828AA59400086AC09 /* DrugTableViewCell.swift */; };
 		AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */; };
 		AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */; };
 		AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */; };
@@ -212,8 +213,9 @@
 		A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9FFEE482896B5FD000B295A /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
 		A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConclusionViewController.swift; sourceTree = "<group>"; };
+		AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugCollectionViewCell.swift; sourceTree = "<group>"; };
+		AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysesCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
-		AE635B6828AA59400086AC09 /* DrugTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugTableViewCell.swift; sourceTree = "<group>"; };
 		AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		AEBD46C3285C7E6D00298A53 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		AEF72028288E7CCA00EE548B /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
@@ -396,7 +398,8 @@
 			isa = PBXGroup;
 			children = (
 				A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */,
-				AE635B6828AA59400086AC09 /* DrugTableViewCell.swift */,
+				AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */,
+				AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */,
 				AEFBCA6A28A917F50008D6EE /* QuestionsAnswersCell.swift */,
 			);
 			path = Cell;
@@ -1117,6 +1120,7 @@
 				A95CC279289E2D55008A1FEC /* ProfileService.swift in Sources */,
 				A9F2BEAB287B232800AA83A4 /* CalendarCollectionViewCell.swift in Sources */,
 				A9017888284A6D2300FFFBA2 /* TabBarViewController.swift in Sources */,
+				AE3FCE3C28AB99A100C2F072 /* AnalysesCollectionViewCell.swift in Sources */,
 				A932C4522899917700682C1C /* ChecklistRouter.swift in Sources */,
 				A9EA7134288681F70004961B /* WeekTableViewCell.swift in Sources */,
 				A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */,
@@ -1126,9 +1130,9 @@
 				A9A35530287FED5200116E7E /* AppointmentView.swift in Sources */,
 				A95CC281289E4567008A1FEC /* ForgotPasswordService.swift in Sources */,
 				A906FE6628806A7900FF3E92 /* AppointmentsRouter.swift in Sources */,
-				AE635B6928AA59400086AC09 /* DrugTableViewCell.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
 				A932C4502899907000682C1C /* ChecklistModel.swift in Sources */,
+				AE3FCE3A28AB89F400C2F072 /* DrugCollectionViewCell.swift in Sources */,
 				A95CC26B289D88D0008A1FEC /* Extension + ScreenSize.swift in Sources */,
 				A9192F9C28826EAB00EC5F19 /* ProfileView.swift in Sources */,
 				A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */,
