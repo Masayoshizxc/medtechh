@@ -76,6 +76,7 @@
 		A9C77FC9287E9DED00AB6768 /* TimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */; };
 		A9D76DDE28A695100073294E /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D76DDD28A695100073294E /* Onboarding.swift */; };
 		A9D76DE028A696030073294E /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D76DDF28A696030073294E /* OnboardingCollectionViewCell.swift */; };
+		A9D7CE2528AAB807001618ED /* ExtraInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7CE2428AAB807001618ED /* ExtraInfoTableViewCell.swift */; };
 		A9DDAA6A2874946200FB0257 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA602874946200FB0257 /* NetworkService.swift */; };
 		A9DDAA6B2874946200FB0257 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA612874946200FB0257 /* BaseRouter.swift */; };
 		A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DDAA632874946200FB0257 /* StatusCode.swift */; };
@@ -185,6 +186,7 @@
 		A9C77FC8287E9DEC00AB6768 /* TimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9D76DDD28A695100073294E /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		A9D76DDF28A696030073294E /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		A9D7CE2428AAB807001618ED /* ExtraInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraInfoTableViewCell.swift; sourceTree = "<group>"; };
 		A9DDAA602874946200FB0257 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A9DDAA612874946200FB0257 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
 		A9DDAA632874946200FB0257 /* StatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCode.swift; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 				A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */,
 				AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */,
 				AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */,
+				A9D7CE2428AAB807001618ED /* ExtraInfoTableViewCell.swift */,
 				AEFBCA6A28A917F50008D6EE /* QuestionsAnswersCell.swift */,
 			);
 			path = Cell;
@@ -1162,6 +1165,7 @@
 				A95CC284289E45D7008A1FEC /* CodeService.swift in Sources */,
 				AEBD46C4285C7E6D00298A53 /* NotificationsViewController.swift in Sources */,
 				A932C45B2899977300682C1C /* DrugViewController.swift in Sources */,
+				A9D7CE2528AAB807001618ED /* ExtraInfoTableViewCell.swift in Sources */,
 				A932C45F289997D500682C1C /* AnalysesViewController .swift in Sources */,
 				A9DDAA7E2874A2C600FB0257 /* UserRouter.swift in Sources */,
 				A9DDAA6C2874946200FB0257 /* StatusCode.swift in Sources */,
@@ -1355,7 +1359,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7K5H82MGKM;
+				DEVELOPMENT_TEAM = V3G3959732;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MedTech/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to take a photo";

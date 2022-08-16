@@ -11,6 +11,8 @@ protocol HomeViewModelProtocol {
     func getClinic()
     func getAllWeeks(completion: @escaping ((SuccessFailure) -> Void))
     func getNotifications(completion: @escaping ((SuccessFailure) -> Void))
+    func deleteAllNotifications()
+    func deleteNotificationsById(id: Int)
     
     var model: [WeekModel]? {get set}
     var notifications: [Notifications]? { get set }
@@ -67,6 +69,19 @@ class HomeViewModel: HomeViewModelProtocol {
             }
             self.notifications = result
             completion(.success)
+        }
+    }
+    
+    func deleteAllNotifications() {
+        let userId = UserDefaultsService.shared.getUserId()
+        service.deleteAllNotifications(patientId: userId) { result in
+            print(result)
+        }
+    }
+    
+    func deleteNotificationsById(id: Int) {
+        service.deleteNotificationsById(id: id) { result in
+            print(result)
         }
     }
     

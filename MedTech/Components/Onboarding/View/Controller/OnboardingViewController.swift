@@ -11,6 +11,17 @@ class OnboardingViewController: BaseViewController {
     
     var onboarding = [Onboarding]()
     
+    var currentPage = 0 {
+        didSet {
+            pageController.currentPage = currentPage
+            if currentPage == onboarding.count - 1 {
+                nextButton.isHidden = false
+            } else {
+                nextButton.isHidden = true
+            }
+        }
+    }
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -37,7 +48,15 @@ class OnboardingViewController: BaseViewController {
         pageController.pageIndicatorTintColor = UIColor(red: 0.933, green: 0.941, blue: 0.957, alpha: 1)
         return pageController
     }()
-
+    
+    private lazy var nextButton: LoginButton = {
+        let button = LoginButton()
+        button.setTitle("Начать", for: .normal)
+        button.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
+        button.backgroundColor = UIColor(named: "Violet")
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,10 +64,16 @@ class OnboardingViewController: BaseViewController {
         collectionView.dataSource = self
                 
         navigationController?.navigationBar.isHidden = true
+        nextButton.isHidden = true
+        
+        pageController.isUserInteractionEnabled = false
+        
         view.addSubviews(
             collectionView,
             pageController,
-            skipButton)
+            skipButton,
+            nextButton
+        )
         
         onboarding.append(Onboarding(image: Icons.onboarding1.image, title: "Индикатор прогресса", description: "Наблюдайте за прогрессом вашей беременности благодаря нашей инновационной функции прогресс бара"))
         onboarding.append(Onboarding(image: Icons.onboarding2.image, title: "Кнопка “SOS”", description: "В экстренном случае вы можете использовать кнопку “SOS” для экстренной медицинской помощи"))
@@ -59,14 +84,18 @@ class OnboardingViewController: BaseViewController {
     }
     
     @objc func didTapSkipButton() {
-        navigationController?.pushViewController(TabBarViewController(), animated: true)
+        navigationController?.pushViewController(LoginViewController(), animated: true)
+    }
+    
+    @objc func didTapNextButton() {
+        navigationController?.pushViewController(LoginViewController(), animated: true)
     }
     
     func setUpConstraints() {
         
         skipButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(64)
-            make.right.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(27)
             make.width.equalTo(150)
             make.height.equalTo(40)
         }
@@ -81,7 +110,13 @@ class OnboardingViewController: BaseViewController {
             make.width.equalTo(140)
             make.height.equalTo(70)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-30)
+            make.bottom.equalToSuperview().offset(heightComputed(-60))
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).inset(heightComputed(60))
+            make.left.right.equalToSuperview().inset(27)
+            make.height.equalTo(40)
         }
     }
     
@@ -102,6 +137,11 @@ extension OnboardingViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.size.width - 10, height: 600)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let width = scrollView.frame.size.width - 10
+        currentPage = Int(scrollView.contentOffset.x / width)
     }
     
 }

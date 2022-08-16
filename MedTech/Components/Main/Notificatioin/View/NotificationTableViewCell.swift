@@ -14,18 +14,16 @@ class NotificationTableViewCell: UITableViewCell {
     var name : UILabel = {
         let name = UILabel()
         name.text = "Хафизова Валентина Владимировна отправила вам сообщение"
-        name.font = UIFont(name: "SFProText-Medium", size: 16)
-
-        name.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
+        name.font = Fonts.SFProText.medium.font(size: 16)
+        name.textColor = UIColor(named: "Violet")
         name.numberOfLines = 0
-//        name.textColor = .systemPurple
         return name
     }()
     var dateTime : UILabel = {
         let label = UILabel()
         label.text = "Понедельник, 23 июля в 11:15"
         label.textColor = UIColor(red: 0.627, green: 0.588, blue: 0.655, alpha: 1)
-        label.font = .systemFont(ofSize: 17)
+        label.font = Fonts.SFProText.regular.font(size: 14)
         return label
     }()
     var photo : UIImageView = {
@@ -38,6 +36,7 @@ class NotificationTableViewCell: UITableViewCell {
         return img
         
     }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.frame.size.height = heightForRaw
@@ -55,7 +54,7 @@ class NotificationTableViewCell: UITableViewCell {
     }
     
     func getData(model: Notifications) {
-        name.text = model.header!
+        name.text = "\(model.header!)\n\(model.message!.replacingOccurrences(of: "<br>", with: "\n"))"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         let dateDate = dateFormatter.date(from:model.dateCreated!)
@@ -73,7 +72,7 @@ class NotificationTableViewCell: UITableViewCell {
         name.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(15)
-            make.right.equalToSuperview().inset(61)
+            make.right.equalTo(photo.snp.left).offset(5)
         }
         dateTime.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(15)
@@ -88,7 +87,6 @@ class NotificationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
 }

@@ -162,20 +162,18 @@ class NewPasswordViewController: BaseViewController {
             make.bottom.equalTo(passwordField.snp.top).offset(-90)
         }
         passwordField.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.bottom.equalTo(confirmPasswordField.snp.top).offset(-20)
-            make.width.equalTo(320)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         confirmPasswordField.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalTo(320)
+            make.centerY.equalToSuperview()
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         loginButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.top.equalTo(confirmPasswordField.snp.bottom).offset(40)
-            make.width.equalTo(320)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         hideButton1.snp.makeConstraints { make in

@@ -301,7 +301,13 @@ class HomeViewController: BaseViewController {
     }
     
     func showBadge(withCount count: Int) {
-        let badge = badgeLabel(withCount: count)
+        let badge = badgeLabel(withCount: 0)
+        if count >= 0 {
+            badge.text = String(count)
+        } else {
+            badge.text = "0"
+        }
+        
         notificationsButton.addSubview(badge)
         
         NSLayoutConstraint.activate([
@@ -313,6 +319,8 @@ class HomeViewController: BaseViewController {
     }
     
     @objc func didTapRemindButton() {
+        let vc = AppointmentViewController()
+        vc.nextDate = "2022-08-31"
         tabBarController?.selectedIndex = 1
     }
     
@@ -321,16 +329,14 @@ class HomeViewController: BaseViewController {
             make.width.height.equalTo(25)
         }
         remindButton.snp.makeConstraints{ make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(20)
-            make.width.equalTo(336)
+            make.top.equalToSuperview().inset(32)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(44)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(remindButton.snp.top).inset(60)
-            make.left.equalToSuperview().offset(7)
-            make.right.equalToSuperview().inset(7)
+            make.top.equalTo(remindButton.snp.bottom).inset(-32)
+            make.left.right.equalToSuperview().inset(7)
             make.height.equalTo(50)
         }
         

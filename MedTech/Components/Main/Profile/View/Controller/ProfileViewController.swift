@@ -379,16 +379,19 @@ class ProfileViewController: BaseViewController {
             let components = Calendar.current.dateComponents([.weekOfYear], from: startOfPregancy!, to: dateRangeStart)
             let weeks = components.weekOfYear ?? 0
             
-            strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
-            if weeks <= 12 {
-                strongSelf.trimestLabel.text = "1-й\nтриместр"
-            } else if weeks > 12 && weeks <= 27 {
-                strongSelf.trimestLabel.text = "2-й\nтриместр"
-            } else if weeks > 27 && weeks <= 41{
-                strongSelf.trimestLabel.text = "3-й\nтриместр"
-            } else {
-                strongSelf.trimestLabel.text = "Ваша беременность закончилась"
+            DispatchQueue.main.async {
+                strongSelf.weekLabel.text = "\(weeks)-я\n неделя"
+                if weeks <= 12 {
+                    strongSelf.trimestLabel.text = "1-й\nтриместр"
+                } else if weeks > 12 && weeks <= 27 {
+                    strongSelf.trimestLabel.text = "2-й\nтриместр"
+                } else if weeks > 27 && weeks <= 41{
+                    strongSelf.trimestLabel.text = "3-й\nтриместр"
+                } else {
+                    strongSelf.trimestLabel.text = "Ваша беременность закончилась"
+                }
             }
+            
             
             strongSelf.shape.strokeEnd = CGFloat(Double(weeks) / 41.0)
                             
@@ -402,7 +405,9 @@ class ProfileViewController: BaseViewController {
                 return
             }
             strongSelf.profileImage.sd_setImage(with: image)
-            strongSelf.view.hideToastActivity()
+            DispatchQueue.main.async {
+                strongSelf.view.hideToastActivity()
+            }
         }
     }
     
@@ -495,7 +500,7 @@ class ProfileViewController: BaseViewController {
         userName.snp.makeConstraints{make in
             make.centerY.equalTo(profileImage)
             make.left.equalTo(profileImage.snp.right).offset(30)
-            make.width.equalTo(230)
+            make.right.equalToSuperview().inset(27)
         }
         dataView.snp.makeConstraints{make in
             make.width.equalTo(view.frame.size.width)

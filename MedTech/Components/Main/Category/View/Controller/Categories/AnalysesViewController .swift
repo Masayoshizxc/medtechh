@@ -9,30 +9,29 @@ import UIKit
 import SnapKit
 
 class AnalysesViewController: BaseViewController {
-    private lazy var doctorImage : UIImageView = {
-        let img = UIImageView()
-        img.image = UIImage(named: "doctor")
-        img.layer.cornerRadius = img.frame.size.width/2
-        
-        return img
+    var checklist: ChecklistModel?
+    
+    private let doctorImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Icons.doctor.image
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 30
+        return imageView
     }()
-    private lazy var doctorName : UILabel = {
-        let l = UILabel()
-        l.numberOfLines = 0
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = .boldSystemFont(ofSize: 16)
-        l.text = "Хафизова Валентина Владимировна"
-        l.textColor = UIColor(named: "Violet")
-        return l
+    
+    private let doctorName: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = UIColor(named: "Violet")
+        label.font = Fonts.SFProText.medium.font(size: 16)
+        return label
     }()
-    private lazy var doctorPos : UILabel = {
-        let l = UILabel()
-        l.numberOfLines = 0
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.text = "Гинеколог"
-        l.textColor = UIColor(named: "LightViolet")
-        l.font = .systemFont(ofSize: 14)
-        return l
+    
+    private let doctorJob : UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "LightViolet")
+        label.font = Fonts.SFProText.regular.font(size: 14)
+        return label
     }()
     private lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -43,39 +42,56 @@ class AnalysesViewController: BaseViewController {
         cv.dataSource = self
         return cv
     }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setData()
         setUpSubviews()
         setUpConstraints()
-        
     }
     
     func setUpSubviews(){
         view.addSubviews(doctorImage,
                          doctorName,
-                         doctorPos,
+                         doctorJob,
                          collectionView)
     }
     
+    func setData() {
+        guard let checklist = checklist else {
+            return
+        }
+        let doctor = checklist.patientVisitDTO?.doctorDTO
+        doctorName.text = "\(doctor!.userDTO.lastName) \(doctor!.userDTO.firstName) \(doctor!.userDTO.middleName)"
+        doctorJob.text = doctor?.profession
+        guard let imageUrl = checklist.patientVisitDTO?.doctorDTO?.imageUrl else {
+            return
+        }
+        doctorImage.sd_setImage(with: URL(string: imageUrl))
+    }
+    
     func setUpConstraints(){
-        doctorImage.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(113)
+        doctorImage.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(27)
+            make.top.equalToSuperview().inset(113)
             make.width.height.equalTo(60)
         }
-        doctorName.snp.makeConstraints{make in
-            make.top.equalToSuperview().inset(115)
-            make.left.equalTo(doctorImage.snp.right).offset(18)
-            make.right.equalToSuperview().inset(27)
-            make.height.equalTo(38)
+        
+        doctorName.snp.makeConstraints { make in
+            make.left.equalTo(doctorImage.snp.right).inset(-18)
+            make.top.equalToSuperview().inset(113)
+            make.right.equalToSuperview()
         }
-        doctorPos.snp.makeConstraints{make in
+        
+        doctorJob.snp.makeConstraints { make in
+            make.left.equalTo(doctorImage.snp.right).inset(-18)
             make.top.equalTo(doctorName.snp.bottom)
-            make.left.equalTo(doctorImage.snp.right).offset(18)
-            make.height.equalTo(18)
+            make.right.equalToSuperview()
         }
+        
         collectionView.snp.makeConstraints{make in
-            make.top.equalTo(doctorPos.snp.bottom).offset(35)
+            make.top.equalTo(doctorJob.snp.bottom).offset(35)
             make.left.right.equalToSuperview().inset(27)
             make.bottom.equalToSuperview().inset(90)
         }

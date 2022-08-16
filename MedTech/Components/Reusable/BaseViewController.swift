@@ -21,6 +21,10 @@ class BaseViewController: UIViewController {
         backButton.tintColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         
+        if #available(iOS 11.0, *) {
+            navigationController?.additionalSafeAreaInsets.top = 7
+        }
+        
         view.backgroundColor = .white
     }
     
