@@ -129,8 +129,6 @@ class ConclusionViewController: BaseViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(17.5)
             make.left.equalTo(icon.snp.right).offset(11)
             make.right.equalToSuperview().inset(27)
-            make.width.equalTo(304)
-            make.height.equalTo(30)
         }
     }
 }

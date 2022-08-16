@@ -70,12 +70,12 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout, UICollec
         case 1:
             let vc = AnalysesViewController()
             vc.title = model[indexPath.row].title
-            print(checklist?.analyzes as Any)
+            vc.checklist = checklist
             navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = DrugViewController()
             vc.title = model[indexPath.row].title
-            print(checklist?.drugList as Any)
+            vc.checklist = checklist
             navigationController?.pushViewController(vc, animated: true)
         case 3:
             let vc = ExtraInfoViewController()

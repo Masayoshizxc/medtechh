@@ -38,7 +38,6 @@ class ChecklistViewController: BaseViewController {
         button.backgroundColor = UIColor(named: "Peach")
         button.frame = CGRect(x: 0, y: 0, width: 65, height: 44)
         button.addTarget(self, action: #selector(didTapSosButton), for: .touchUpInside)
-        
         return button
     }()
 
@@ -51,7 +50,7 @@ class ChecklistViewController: BaseViewController {
         tableView.refreshControl?.addTarget(self, action: #selector(didPullRefresh), for: .valueChanged)
         
         getChecklists()
-                        
+
         view.addSubview(tableView)
     }
     
@@ -125,4 +124,12 @@ extension ChecklistViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(vc, animated: true)
     }
         
+}
+
+
+class CustomNavigationBar: UINavigationBar {
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let newSize :CGSize = CGSize(width: self.frame.size.width,height: 84)
+        return newSize
+    }
 }

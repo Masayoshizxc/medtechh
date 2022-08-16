@@ -233,16 +233,15 @@ class CodeViewController: BaseViewController {
             make.width.equalTo(301)
         }
         stackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().dividedBy(1.2)
-            make.width.equalToSuperview().dividedBy(1.2)
+            make.left.right.equalToSuperview().inset(30)
             make.height.equalTo(50)
         }
         
         enterButton.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom).offset(100)
             make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(60)
         }
         

@@ -26,6 +26,7 @@ internal enum Icons {
   internal static let calendarWhite = ImageAsset(name: "calendarWhite")
   internal static let call = ImageAsset(name: "call")
   internal static let callWhite = ImageAsset(name: "callWhite")
+  internal static let checkQuestion = ImageAsset(name: "checkQuestion")
   internal static let checkmark = ImageAsset(name: "checkmark")
   internal static let childObserve = ImageAsset(name: "childObserve")
   internal static let conclusion = ImageAsset(name: "conclusion")

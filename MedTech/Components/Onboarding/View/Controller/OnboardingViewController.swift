@@ -84,11 +84,11 @@ class OnboardingViewController: BaseViewController {
     }
     
     @objc func didTapSkipButton() {
-        navigationController?.pushViewController(TabBarViewController(), animated: true)
+        navigationController?.pushViewController(LoginViewController(), animated: true)
     }
     
     @objc func didTapNextButton() {
-        navigationController?.pushViewController(TabBarViewController(), animated: true)
+        navigationController?.pushViewController(LoginViewController(), animated: true)
     }
     
     func setUpConstraints() {
@@ -115,8 +115,7 @@ class OnboardingViewController: BaseViewController {
         
         nextButton.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).inset(heightComputed(60))
-            make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(40)
         }
     }

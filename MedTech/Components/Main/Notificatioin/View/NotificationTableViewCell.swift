@@ -36,6 +36,7 @@ class NotificationTableViewCell: UITableViewCell {
         return img
         
     }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.frame.size.height = heightForRaw
@@ -86,7 +87,6 @@ class NotificationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
 }

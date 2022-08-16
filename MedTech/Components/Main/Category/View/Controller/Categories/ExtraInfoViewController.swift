@@ -40,6 +40,7 @@ class ExtraInfoViewController: BaseViewController {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorColor = UIColor.clear
         tableView.register(ExtraInfoTableViewCell.self, forCellReuseIdentifier: "cell")
         return tableView
     }()

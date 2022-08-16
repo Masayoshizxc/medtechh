@@ -11,6 +11,8 @@ protocol HomeServiceProtocol {
     func getClinic(completion: @escaping ((Clinic?) -> Void))
     func getAllWeeks(completion: @escaping (([WeekModel]?) -> Void))
     func getNotifications(id: Int, completion: @escaping (([Notifications]?) -> Void))
+    func deleteAllNotifications(patientId: Int, completion: @escaping (([Notifications]?) -> Void))
+    func deleteNotificationsById(id: Int, completion: @escaping (([Notifications]?) -> Void))
 }
 
 class HomeService: HomeServiceProtocol {
@@ -62,6 +64,50 @@ class HomeService: HomeServiceProtocol {
     
     func getNotifications(id: Int, completion: @escaping (([Notifications]?) -> Void)) {
         networkService.sendRequest(urlRequest: NotificationsRouter.getNotifications(id: id).createURLRequest(),
+                                   successModel: [Notifications].self) { result in
+            switch result {
+            case .success(let model):
+                completion(model)
+            case .badRequest(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .failure(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .unauthorized(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .notFound(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            }
+        }
+    }
+    
+    func deleteAllNotifications(patientId: Int, completion: @escaping (([Notifications]?) -> Void)) {
+        networkService.sendRequest(urlRequest: NotificationsRouter.deleteAll(userId: patientId).createURLRequest(),
+                                   successModel: [Notifications].self) { result in
+            switch result {
+            case .success(let model):
+                completion(model)
+            case .badRequest(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .failure(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .unauthorized(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            case .notFound(let error):
+                completion(nil)
+                debugPrint(#function, error)
+            }
+        }
+    }
+    
+    func deleteNotificationsById(id: Int, completion: @escaping (([Notifications]?) -> Void)) {
+        networkService.sendRequest(urlRequest: NotificationsRouter.deleteById(id: id).createURLRequest(),
                                    successModel: [Notifications].self) { result in
             switch result {
             case .success(let model):

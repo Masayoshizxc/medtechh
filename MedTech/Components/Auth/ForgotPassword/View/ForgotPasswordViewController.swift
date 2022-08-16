@@ -56,12 +56,13 @@ class ForgotPasswordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.isHidden = false
         emailField.delegate = self
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
         view.addSubviews(
             firstLabel,
             secondLabel,
@@ -95,7 +96,9 @@ class ForgotPasswordViewController: BaseViewController {
                 }))
                 strongSelf.present(sheet, animated: true)
             case .failure:
-                strongSelf.view.hideToastActivity()
+                DispatchQueue.main.async {
+                    strongSelf.view.hideToastActivity()
+                }
                 strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
             default:
                 break
@@ -116,14 +119,13 @@ class ForgotPasswordViewController: BaseViewController {
             make.width.equalTo(292)
         }
         emailField.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.equalTo(320)
+            make.centerY.equalToSuperview()
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         sendButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.top.equalTo(emailField.snp.bottom).offset(60)
-            make.width.equalTo(320)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
     }

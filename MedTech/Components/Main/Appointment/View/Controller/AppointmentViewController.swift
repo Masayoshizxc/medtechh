@@ -254,6 +254,7 @@ class AppointmentViewController: BaseViewController {
         setUpConstraints()
     }
     
+    
     @objc func didTapSosButton() {
         let number = userDefaults.getEmergency()
         callNumber(phoneNumber: number)
@@ -400,14 +401,14 @@ class AppointmentViewController: BaseViewController {
         
         leftArrow.snp.makeConstraints { make in
             make.centerY.equalTo(monthView.snp.centerY)
-            make.right.equalTo(monthView.snp.left).offset(38)
+            make.left.equalTo(monthView).inset(35)
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
         
         rightArrow.snp.makeConstraints { make in
             make.centerY.equalTo(monthView.snp.centerY)
-            make.left.equalTo(monthView.snp.right).offset(-38)
+            make.right.equalTo(monthView).inset(35)
             make.height.equalTo(25)
             make.width.equalTo(25)
         }
@@ -448,7 +449,7 @@ class AppointmentViewController: BaseViewController {
             make.top.equalTo(collectionViewA.snp.bottom).offset(42)
             make.centerX.equalToSuperview()
             make.left.right.equalTo(collectionViewA)
-            make.height.equalTo(heightComputed(254))
+            make.height.equalTo(254)
         }
         
     }

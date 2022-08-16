@@ -301,7 +301,13 @@ class HomeViewController: BaseViewController {
     }
     
     func showBadge(withCount count: Int) {
-        let badge = badgeLabel(withCount: count)
+        let badge = badgeLabel(withCount: 0)
+        if count >= 0 {
+            badge.text = String(count)
+        } else {
+            badge.text = "0"
+        }
+        
         notificationsButton.addSubview(badge)
         
         NSLayoutConstraint.activate([
