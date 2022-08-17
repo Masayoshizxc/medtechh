@@ -41,7 +41,7 @@ class NotificationsViewController: BaseViewController {
     
     private lazy var deleteAllButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Delete All", for: .normal)
+        button.setTitle("Стереть все", for: .normal)
         button.addTarget(self, action: #selector(didTapDeleteAll), for: .touchUpInside)
         button.setTitleColor(UIColor(named: "Violet"), for: .normal)
         button.titleLabel?.font = Fonts.SFProText.semibold.font(size: 14)

@@ -101,10 +101,14 @@ class AnalysesViewController: BaseViewController {
 
 extension AnalysesViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return (checklist?.analyzes!.count)!
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnalysesCollectionViewCell.reuseID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnalysesCollectionViewCell.reuseID, for: indexPath) as! AnalysesCollectionViewCell
+        guard let analyzes = checklist?.analyzes else {
+            return cell
+        }
+        cell.setUpData(model: analyzes[indexPath.row])
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

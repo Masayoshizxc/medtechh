@@ -36,6 +36,14 @@ class ExtraInfoViewController: BaseViewController {
         return label
     }()
     
+    private let label : UILabel = {
+        let label = UILabel()
+        label.text = "Дополнительные назначения"
+        label.textColor = UIColor(named: "Violet")
+        label.font = Fonts.SFProText.semibold.font(size: 16)
+        return label
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self

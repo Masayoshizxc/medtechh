@@ -39,6 +39,10 @@ class AnalysesCollectionViewCell: UICollectionViewCell {
                                 analImage)
     }
     
+    func setUpData(model: Analyzes) {
+        analName.text = model.analysisString
+    }
+    
     
     func setUpConstraints(){
         contentView.layer.cornerRadius = 16

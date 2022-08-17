@@ -16,7 +16,7 @@ class CategoriesViewController: BaseViewController {
         let screenWidth = view.frame.size.width - 64
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 16
+        layout.minimumLineSpacing = 8
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: screenWidth/2, height: 200)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -30,11 +30,12 @@ class CategoriesViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
+        
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(27)
-            make.left.right.bottom.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(27)
         }
         
         model.append(Checklists(image: Icons.file.image, title: "Обследование"))

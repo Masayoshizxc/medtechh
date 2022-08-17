@@ -172,6 +172,7 @@ class ProfileViewController: BaseViewController {
     lazy var doctorName : UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "LightViolet")
+        label.text = "Mas"
         label.font = Fonts.SFProText.medium.font(size: 14)
         label.textAlignment = .right
         label.numberOfLines = 0
@@ -477,7 +478,7 @@ class ProfileViewController: BaseViewController {
             make.left.equalToSuperview().inset(40)
         }
         trimestLabel.snp.makeConstraints{make in
-            make.centerY.equalTo(trimestImage)
+            make.top.equalTo(weekLabel.snp.top)
             make.right.equalToSuperview().inset(40)
         }
         downloadButton.snp.makeConstraints{make in
@@ -527,7 +528,7 @@ class ProfileViewController: BaseViewController {
         }
         
         mailTitle.snp.makeConstraints{make in
-            make.top.equalTo(doctorTitle.snp.bottom).offset(31)
+            make.top.equalTo(doctorTitle.snp.bottom).offset(35)
             make.left.equalToSuperview()
         }
         

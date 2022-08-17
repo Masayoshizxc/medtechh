@@ -86,21 +86,18 @@ class EditProfileViewController: BaseViewController {
     
     let userName : UILabel = {
         let label = UILabel()
-        label.text = "Масыбаева Айжамал Айдаровна"
         label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
         return label
     }()
     let userMail : UILabel = {
         let label = UILabel()
-        label.text = "aizhamal@gmail.com"
         label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
         return label
     }()
     lazy var userNumber : UITextField = {
         let label = UITextField()
-        label.text = "+996551552770"
         label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
         label.keyboardType = .namePhonePad
@@ -112,14 +109,12 @@ class EditProfileViewController: BaseViewController {
     }()
     let userBirth : UILabel = {
         let label = UILabel()
-        label.text = "28.09.1999"
         label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
         return label
     }()
     lazy var userAddress : UITextField = {
         let label = UITextField()
-        label.text = "Ул. Юнусалиева 81"
         label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
         let bottomBorder = CALayer()
@@ -164,14 +159,22 @@ class EditProfileViewController: BaseViewController {
         setUpConstraints()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        title = ""
+    }
+    
     func setUpData() {
         let user = model?.userDTO
         userName.text = "\(user?.lastName ?? "") \(user?.firstName ?? "") \(user?.middleName ?? "")"
         userMail.text = user?.email
         userNumber.text = user?.phoneNumber
+        guard let dob = user?.dob else {
+            return
+        }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateDate = dateFormatter.date(from: (user?.dob)!)
+        let dateDate = dateFormatter.date(from: dob)
         dateFormatter.dateFormat = "d MMMM yyyy"
         let dateStr = dateFormatter.string(from: dateDate!)
         userBirth.text = dateStr
@@ -204,7 +207,7 @@ class EditProfileViewController: BaseViewController {
         }
         let sheet = UIAlertController(title: "Успешно", message: "Поля успешно изменены.", preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "ОК", style: .default, handler: { _ in
-            self.navigationController?.popToRootViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true)
         }))
         viewModel.getAddressAndPhone(address: address, phone: number) { result in
@@ -257,7 +260,7 @@ class EditProfileViewController: BaseViewController {
         
         profileImage.snp.makeConstraints{make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(90)
+            make.top.equalToSuperview().inset(120)
             make.width.height.equalTo(90)
         }
         changeImageButton.snp.makeConstraints{make in
@@ -268,7 +271,6 @@ class EditProfileViewController: BaseViewController {
         placeUserName.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(profileImage.snp.bottom).offset(32)
-            
         }
         userName.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)
@@ -283,27 +285,29 @@ class EditProfileViewController: BaseViewController {
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(placeUserMail.snp.bottom).offset(16)
         }
-        placeUserNumber.snp.makeConstraints{make in
+        
+        placeUserBirth.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)
             make.top.equalTo(userMail.snp.bottom).offset(27)
+        }
+        userBirth.snp.makeConstraints{make in
+            make.left.equalToSuperview().inset(27)
+            make.top.equalTo(placeUserBirth.snp.bottom).offset(16)
+        }
+        
+        placeUserNumber.snp.makeConstraints{make in
+            make.left.equalToSuperview().inset(27)
+            make.top.equalTo(userBirth.snp.bottom).offset(27)
             
         }
         userNumber.snp.makeConstraints{make in
             make.left.right.equalToSuperview().inset(27)
             make.top.equalTo(placeUserNumber.snp.bottom).offset(16)
         }
-        placeUserBirth.snp.makeConstraints{make in
-            make.left.equalToSuperview().inset(27)
-            make.top.equalTo(userNumber.snp.bottom).offset(27)
-            
-        }
-        userBirth.snp.makeConstraints{make in
-            make.left.equalToSuperview().inset(27)
-            make.top.equalTo(placeUserBirth.snp.bottom).offset(16)
-        }
+        
         placeUserAddress.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)
-            make.top.equalTo(userBirth.snp.bottom).offset(27)
+            make.top.equalTo(userNumber.snp.bottom).offset(27)
             
         }
         userAddress.snp.makeConstraints{make in

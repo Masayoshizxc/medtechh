@@ -54,6 +54,10 @@ class DrugCollectionViewCell: UICollectionViewCell {
                                 drugDes)
     }
     
+    func setUpData(model: String) {
+        drugName.text = model
+    }
+    
     
     func setUpConstraints(){
         contentView.layer.cornerRadius = 16

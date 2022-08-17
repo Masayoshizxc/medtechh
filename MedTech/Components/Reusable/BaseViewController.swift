@@ -12,6 +12,7 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         let textAttributes = [NSAttributedString.Key.font: Fonts.SFProText.semibold.font(size: 20), NSAttributedString.Key.foregroundColor: UIColor(named: "Violet")]
         navigationController?.navigationBar.titleTextAttributes = textAttributes as [NSAttributedString.Key : Any]
         AppUtility.lockOrientation(.portrait)
@@ -22,10 +23,8 @@ class BaseViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         
         if #available(iOS 11.0, *) {
-            navigationController?.additionalSafeAreaInsets.top = 7
+            navigationController?.additionalSafeAreaInsets.top = 15
         }
-        
-        view.backgroundColor = .white
     }
     
 }

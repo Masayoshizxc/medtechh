@@ -11,6 +11,7 @@ import SnapKit
 class DrugViewController: BaseViewController {
     
     var checklist: ChecklistModel?
+    var drugsList = [String]()
     
     private let doctorImage: UIImageView = {
         let imageView = UIImageView()
@@ -77,7 +78,9 @@ class DrugViewController: BaseViewController {
         let doctor = checklist.patientVisitDTO?.doctorDTO
         doctorName.text = "\(doctor!.userDTO.lastName) \(doctor!.userDTO.firstName) \(doctor!.userDTO.middleName)"
         doctorJob.text = doctor?.profession
-        print(drugs.split(separator: ","))
+        for i in drugs.split(separator: ",") {
+            drugsList.append(String(i))
+        }
         guard let imageUrl = checklist.patientVisitDTO?.doctorDTO?.imageUrl else {
             return
         }
@@ -121,16 +124,17 @@ class DrugViewController: BaseViewController {
 
 extension DrugViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return drugsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DrugCollectionViewCell.reuseID, for: indexPath)
+        let cell = collectionView.getReuseCell(DrugCollectionViewCell.self, indexPath: indexPath)
+        cell.setUpData(model: drugsList[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.size.width-54, height: 67)
+        return CGSize(width: collectionView.frame.size.width, height: 67)
     }
     
     

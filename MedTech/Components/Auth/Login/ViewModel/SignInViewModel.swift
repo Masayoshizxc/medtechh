@@ -56,6 +56,7 @@ class SignInViewModel: SignInViewModelProtocol {
                     self.userDefaults.isSignedIn(signedIn: true)
                     completion(.success)
                 case false:
+                    completion(.failure)
                     break
                 default:
                     break

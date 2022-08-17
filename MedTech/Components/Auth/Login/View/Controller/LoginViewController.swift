@@ -90,7 +90,7 @@ class LoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        
+    
         view.addSubviews(
             alertIcon,
             alertLabel,
@@ -129,6 +129,14 @@ class LoginViewController: BaseViewController {
                 return
             }
             guard let model = strongSelf.viewModel.model else {
+                DispatchQueue.main.async {
+                    strongSelf.view.hideToastActivity()
+                    strongSelf.alertIcon.isHidden = false
+                    strongSelf.alertLabel.isHidden = false
+                    strongSelf.alertLabel.text = "Неверный email или пароль"
+                    strongSelf.emailField.layer.borderColor = UIColor.red.cgColor
+                    strongSelf.passwordField.layer.borderColor = UIColor.red.cgColor
+                }
                 return
             }
             

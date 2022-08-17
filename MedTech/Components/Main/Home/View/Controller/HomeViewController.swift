@@ -124,6 +124,7 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Главная"
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: notificationsButton)
         
@@ -253,6 +254,7 @@ class HomeViewController: BaseViewController {
                     DispatchQueue.main.async {
                         if !strongSelf.viewModel.model!.isEmpty {
                             let size = 200 * (strongSelf.viewModel.model![strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
+                            print(size)
                             strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
                         }
                         strongSelf.scrollView.contentSize = strongSelf.contentSize
@@ -408,9 +410,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "homePageCell", for: indexPath) as! WeekTableViewCell
         if !viewModel.model!.isEmpty{
             let data = viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS![indexPath.row]
-            cell.setUpData(titleLabel: data.header!, image: data.imageUrl!, description: data.description!)
+            guard let imageUrl = data.imageUrl else {
+                return cell
+            }
+            cell.setUpData(titleLabel: data.header!, image: imageUrl, description: data.description!)
         }
         return cell
     }
     
+}
+
+extension UINavigationController {
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let height = CGFloat(50)
+        navigationBar.frame = CGRect(x: 0, y: heightComputed(43), width: view.frame.width, height: height)
+    }
 }

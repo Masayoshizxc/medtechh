@@ -44,8 +44,13 @@ class ChecklistViewModel: ChecklistViewModelProtocol {
             self.model = result
             self.checklist.removeAll()
             for i in 0..<self.model.count {
-                let dateVisit = self.model[i].patientVisitDTO!.dateVisit
-                self.checklist.append(Checklist(first: self.appointments[i], second: dateVisit!))
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateDate = dateFormatter.date(from: self.model[i].patientVisitDTO!.dateVisit!)
+                dateFormatter.dateFormat = "d MMMM yyyy"
+                let dateStr = dateFormatter.string(from: dateDate!)
+                //let dateVisit = self.model[i].patientVisitDTO!.dateVisit
+                self.checklist.append(Checklist(first: self.appointments[i], second: dateStr))
             }
             completion(.success)
         }
