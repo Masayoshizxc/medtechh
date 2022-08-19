@@ -42,6 +42,7 @@
 		A93D2EBC28755D5600DEE1BF /* ForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = A93D2EBB28755D5600DEE1BF /* ForgotPassword.swift */; };
 		A9486B46285CE66500E54DAC /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9486B45285CE66500E54DAC /* ForgotPasswordViewController.swift */; };
 		A9486B48285CE69200E54DAC /* NewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9486B47285CE69200E54DAC /* NewPasswordViewController.swift */; };
+		A9540CF528AE3D85003E1AC0 /* Drugs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9540CF428AE3D85003E1AC0 /* Drugs.swift */; };
 		A95CC268289D871D008A1FEC /* SignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95CC267289D871D008A1FEC /* SignInService.swift */; };
 		A95CC26B289D88D0008A1FEC /* Extension + ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95CC26A289D88D0008A1FEC /* Extension + ScreenSize.swift */; };
 		A95CC26E289D8C29008A1FEC /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95CC26D289D8C28008A1FEC /* HomeService.swift */; };
@@ -105,7 +106,7 @@
 		A9FFEE472896B342000B295A /* ChecklistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */; };
 		A9FFEE492896B5FD000B295A /* Checklists.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE482896B5FD000B295A /* Checklists.swift */; };
 		A9FFEE4F2896B9DF000B295A /* ConclusionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */; };
-		AE3FCE3A28AB89F400C2F072 /* DrugCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */; };
+		AE3FCE3A28AB89F400C2F072 /* DrugTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FCE3928AB89F400C2F072 /* DrugTableViewCell.swift */; };
 		AE3FCE3C28AB99A100C2F072 /* AnalysesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */; };
 		AE5045FA2859F3D40047CA62 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5045F92859F3D40047CA62 /* AppUtility.swift */; };
 		AE7EAEA32881D3AF003A01EB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */; };
@@ -151,6 +152,7 @@
 		A93D2EBB28755D5600DEE1BF /* ForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassword.swift; sourceTree = "<group>"; };
 		A9486B45285CE66500E54DAC /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		A9486B47285CE69200E54DAC /* NewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordViewController.swift; sourceTree = "<group>"; };
+		A9540CF428AE3D85003E1AC0 /* Drugs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drugs.swift; sourceTree = "<group>"; };
 		A95CC267289D871D008A1FEC /* SignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInService.swift; sourceTree = "<group>"; };
 		A95CC26A289D88D0008A1FEC /* Extension + ScreenSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + ScreenSize.swift"; sourceTree = "<group>"; };
 		A95CC26D289D8C28008A1FEC /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
@@ -215,7 +217,7 @@
 		A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9FFEE482896B5FD000B295A /* Checklists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklists.swift; sourceTree = "<group>"; };
 		A9FFEE4E2896B9DF000B295A /* ConclusionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConclusionViewController.swift; sourceTree = "<group>"; };
-		AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugCollectionViewCell.swift; sourceTree = "<group>"; };
+		AE3FCE3928AB89F400C2F072 /* DrugTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrugTableViewCell.swift; sourceTree = "<group>"; };
 		AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysesCollectionViewCell.swift; sourceTree = "<group>"; };
 		AE5045F92859F3D40047CA62 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		AE7EAEA22881D3AF003A01EB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				A932C4542899920300682C1C /* ChecklistViewModel.swift */,
+				A932C44F2899907000682C1C /* ChecklistModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -401,7 +404,7 @@
 			children = (
 				A9FFEE462896B342000B295A /* ChecklistCollectionViewCell.swift */,
 				AE3FCE3B28AB99A100C2F072 /* AnalysesCollectionViewCell.swift */,
-				AE3FCE3928AB89F400C2F072 /* DrugCollectionViewCell.swift */,
+				AE3FCE3928AB89F400C2F072 /* DrugTableViewCell.swift */,
 				A9D7CE2428AAB807001618ED /* ExtraInfoTableViewCell.swift */,
 				AEFBCA6A28A917F50008D6EE /* QuestionsAnswersCell.swift */,
 			);
@@ -941,7 +944,7 @@
 			isa = PBXGroup;
 			children = (
 				A9FFEE482896B5FD000B295A /* Checklists.swift */,
-				A932C44F2899907000682C1C /* ChecklistModel.swift */,
+				A9540CF428AE3D85003E1AC0 /* Drugs.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1135,7 +1138,7 @@
 				A906FE6628806A7900FF3E92 /* AppointmentsRouter.swift in Sources */,
 				A93D2EBA28754EBD00DEE1BF /* NewPasswordViewModel.swift in Sources */,
 				A932C4502899907000682C1C /* ChecklistModel.swift in Sources */,
-				AE3FCE3A28AB89F400C2F072 /* DrugCollectionViewCell.swift in Sources */,
+				AE3FCE3A28AB89F400C2F072 /* DrugTableViewCell.swift in Sources */,
 				A95CC26B289D88D0008A1FEC /* Extension + ScreenSize.swift in Sources */,
 				A9192F9C28826EAB00EC5F19 /* ProfileView.swift in Sources */,
 				A91DF797286374A600C79BDF /* BaseViewController.swift in Sources */,
@@ -1176,6 +1179,7 @@
 				A9875E16289A7B0200A2987E /* Answers.swift in Sources */,
 				A97F4A462882A36000FEEBA9 /* ProfileRouter.swift in Sources */,
 				AEF72029288E7CCA00EE548B /* NotificationTableViewCell.swift in Sources */,
+				A9540CF528AE3D85003E1AC0 /* Drugs.swift in Sources */,
 				A971FB7F287D690800CC5E30 /* BabyDevelopmentRouter.swift in Sources */,
 				A9DDAA752874953600FB0257 /* SignIn.swift in Sources */,
 				A9F2BEA9287B20FF00AA83A4 /* CalendarHelper.swift in Sources */,

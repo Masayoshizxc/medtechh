@@ -36,6 +36,7 @@ class CategoriesViewController: BaseViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(27)
             make.left.right.equalToSuperview().inset(27)
+            make.bottom.equalToSuperview()
         }
         
         model.append(Checklists(image: Icons.file.image, title: "Обследование"))

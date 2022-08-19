@@ -83,8 +83,28 @@ class NotificationsViewController: BaseViewController {
     }
     
     @objc func didTapDeleteAll() {
-        viewModel.deleteAllNotifications()
-        tableView.reloadData()
+        guard model.count > 0 else {
+            return
+        }
+        let sheet = UIAlertController(title: "Стереть все", message: "Вы хотите стереть все?", preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "Отменить", style: .destructive, handler: { _ in
+            self.dismiss(animated: true)
+        }))
+        sheet.addAction(UIAlertAction(title: "Да", style: .default, handler: { _ in
+            self.viewModel.deleteAllNotifications()
+            self.viewModel.getNotifications { result in
+                print(result)
+                switch result {
+                case .success:
+                    self.model = self.viewModel.notifications!
+                    self.tableView.reloadData()
+                case .failure:
+                    print("There was an error with getting notifications")
+                }
+            }
+            
+        }))
+        present(sheet, animated: true)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

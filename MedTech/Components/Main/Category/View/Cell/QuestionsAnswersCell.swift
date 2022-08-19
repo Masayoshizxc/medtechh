@@ -47,8 +47,7 @@ class QuestionsAnswersCell: UICollectionViewCell {
 
     override init(frame: CGRect){
         super.init(frame: frame)
-        
-
+        button.isHidden = true
         setUpSubviews()
         setUpConstraints()
     }
@@ -69,6 +68,7 @@ class QuestionsAnswersCell: UICollectionViewCell {
         guard let status = answer.answerStatus else {
             return
         }
+        button.isHidden = false
         if status {
             button.text = "Да"
             button.backgroundColor = UIColor(named: "Violet")

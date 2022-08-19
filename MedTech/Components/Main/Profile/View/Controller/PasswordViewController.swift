@@ -17,32 +17,41 @@ class PasswordViewController: BaseViewController {
         viewModel = vm
         super.init(nibName: nil, bundle: nil)
     }
-
+    
+    let label: UILabel = {
+        let label = UILabel()
+        label.text = "Изменение старого пароля"
+        label.font = Fonts.SFProText.semibold.font(size: 24)
+        label.textColor = UIColor(named: "Violet")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private let oldPassword: PasswordTextField = {
         let field = PasswordTextField()
-        field.placeholder = "Old password"
+        field.placeholder = "Старый пароль"
         return field
     }()
     
     private let newPassword1: PasswordTextField = {
         let field = PasswordTextField()
-        field.placeholder = "New password"
+        field.placeholder = "Новый пароль"
         return field
     }()
     
     private let newPassword2: PasswordTextField = {
         let field = PasswordTextField()
-        field.placeholder = "New password again"
+        field.placeholder = "Повторите пароль"
         return field
     }()
     
     private lazy var confirmButton: LoginButton = {
         let button = LoginButton()
-        button.setTitle("Confirm", for: .normal)
+        button.setTitle("Сохранить пароль", for: .normal)
         button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
         return button
     }()
@@ -51,6 +60,7 @@ class PasswordViewController: BaseViewController {
         super.viewDidLoad()
         
         view.addSubviews(
+            label,
             oldPassword,
             newPassword1,
             newPassword2,
@@ -87,30 +97,36 @@ class PasswordViewController: BaseViewController {
     }
     
     func setUpConstraints() {
+        
+        label.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(oldPassword.snp.top).offset(-100)
+        }
+        
         oldPassword.snp.makeConstraints { make in
             make.bottom.equalTo(newPassword1.snp.top).offset(-40)
             make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         
         newPassword1.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         
         newPassword2.snp.makeConstraints { make in
             make.top.equalTo(newPassword1.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
         
         confirmButton.snp.makeConstraints { make in
             make.top.equalTo(newPassword2.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
         }
     }

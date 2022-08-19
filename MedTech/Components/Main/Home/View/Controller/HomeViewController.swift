@@ -73,8 +73,6 @@ class HomeViewController: BaseViewController {
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 600
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 600
         return tableView
     }()
     
@@ -183,6 +181,7 @@ class HomeViewController: BaseViewController {
         }
         selectedWeek -= 1
         collectionView.selectItem(at: [0, selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
+        resize()
         tableView.reloadData()
     }
     
@@ -195,6 +194,7 @@ class HomeViewController: BaseViewController {
         }
         selectedWeek += 1
         collectionView.selectItem(at: [0, selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
+        resize()
         tableView.reloadData()
     }
     
@@ -251,26 +251,35 @@ class HomeViewController: BaseViewController {
             }
             if result == .success {
                 if !strongSelf.viewModel.model!.isEmpty {
-                    DispatchQueue.main.async {
-                        if !strongSelf.viewModel.model!.isEmpty {
-                            let size = 200 * (strongSelf.viewModel.model![strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
-                            print(size)
-                            strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
-                        }
-                        strongSelf.scrollView.contentSize = strongSelf.contentSize
-                        strongSelf.collectionView.reloadData()
-                        strongSelf.collectionView.selectItem(at: [0, strongSelf.selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
-                        strongSelf.tableView.reloadData()
-                    }
+                    strongSelf.resize()
                 } else {
                     strongSelf.collectionView.reloadData()
                     strongSelf.tableView.reloadData()
-
                 }
             } else {
                 print("There was an error with downloading")
             }
             
+        }
+    }
+    
+    func resize() {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            if !strongSelf.viewModel.model!.isEmpty {
+                let size = 350 * (strongSelf.viewModel.model![strongSelf.selectedWeek].weeksOfBabyDevelopmentDTOS!.count)
+                strongSelf.contentSize = CGSize(width: strongSelf.view.frame.width, height: strongSelf.view.frame.height + CGFloat(size))
+            }
+            strongSelf.scrollView.contentSize = strongSelf.contentSize
+            strongSelf.containerView.frame.size = strongSelf.contentSize
+            strongSelf.collectionView.reloadData()
+            strongSelf.collectionView.selectItem(at: [0, strongSelf.selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
+            strongSelf.tableView.snp.updateConstraints { make in
+                make.bottom.equalToSuperview()
+            }
+            strongSelf.tableView.reloadData()
         }
     }
     
@@ -346,7 +355,8 @@ class HomeViewController: BaseViewController {
             make.top.equalTo(collectionView.snp.bottom).offset(30)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.height.equalTo(1000)
+            make.bottom.equalToSuperview()
+            //make.height.equalTo(1200)
         }
     }
 }
@@ -389,6 +399,7 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
         selectedWeek = viewModel.model![indexPath.row].weekday - 1
         if !viewModel.model!.isEmpty {
             collectionView.selectItem(at: [0, selectedWeek], animated: true, scrollPosition: .centeredHorizontally)
+            resize()
         }
         tableView.reloadData()
     }
@@ -400,15 +411,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !viewModel.model!.isEmpty {
-            return viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS!.count
+            if viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS!.count == 0 {
+                return 1
+            } else {
+                return viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS!.count
+            }
         } else {
-            return 3
+            return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "homePageCell", for: indexPath) as! WeekTableViewCell
         if !viewModel.model!.isEmpty{
+            guard viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS?.count != 0 else {
+                cell.setUpData(titleLabel: nil, image: nil, description: nil)
+                return cell
+            }
             let data = viewModel.model![selectedWeek].weeksOfBabyDevelopmentDTOS![indexPath.row]
             guard let imageUrl = data.imageUrl else {
                 return cell

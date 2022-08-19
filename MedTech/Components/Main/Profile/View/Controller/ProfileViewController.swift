@@ -84,7 +84,7 @@ class ProfileViewController: BaseViewController {
     private lazy var weekLabel : UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 24)
+        label.font = Fonts.SFProText.semibold.font(size: 24)
         label.textColor = UIColor(named: "Violet")
         label.frame = CGRect(x: trimestImage.bounds.origin.x,
                              y: trimestImage.bounds.origin.y,
@@ -97,7 +97,7 @@ class ProfileViewController: BaseViewController {
     private lazy var trimestLabel : UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = .boldSystemFont(ofSize: 24)
+        label.font = Fonts.SFProText.semibold.font(size: 24)
         label.textColor = UIColor(named: "Violet")
         label.frame = CGRect(x: trimestImage.bounds.origin.x, y: trimestImage.bounds.origin.y, width: 300, height: 45)
         label.textAlignment = .center
@@ -172,7 +172,6 @@ class ProfileViewController: BaseViewController {
     lazy var doctorName : UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "LightViolet")
-        label.text = "Mas"
         label.font = Fonts.SFProText.medium.font(size: 14)
         label.textAlignment = .right
         label.numberOfLines = 0
@@ -423,6 +422,7 @@ class ProfileViewController: BaseViewController {
                 if result == .success {
                     let vc = LoginViewController()
                     self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
+                    UserDefaultsService.shared.isSignedIn(signedIn: false)
                 } else {
                     DispatchQueue.main.async {
                         self.dismiss(animated: true)
@@ -476,10 +476,15 @@ class ProfileViewController: BaseViewController {
         weekLabel.snp.makeConstraints{make in
             make.centerY.equalTo(trimestImage)
             make.left.equalToSuperview().inset(40)
+//            make.height.equalTo(58)
+//            make.width.equalTo(123)
         }
         trimestLabel.snp.makeConstraints{make in
-            make.top.equalTo(weekLabel.snp.top)
+            make.centerY.equalTo(trimestImage)
             make.right.equalToSuperview().inset(40)
+//            make.height.equalTo(58)
+//            make.width.equalTo(123)
+            
         }
         downloadButton.snp.makeConstraints{make in
             make.top.equalTo(trimestImage.snp.bottom).offset(30)
@@ -533,7 +538,7 @@ class ProfileViewController: BaseViewController {
         }
         
         mailName.snp.makeConstraints{make in
-            make.top.equalTo(mailTitle.snp.top)
+            make.centerY.equalTo(mailTitle.snp.centerY)
             make.right.equalToSuperview()
             make.left.equalTo(mailTitle.snp.right).offset(10)
         }

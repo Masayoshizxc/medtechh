@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SDWebImage
+import Kingfisher
 
 class WeekTableViewCell: UITableViewCell {
     let title : UILabel = {
@@ -23,6 +23,7 @@ class WeekTableViewCell: UITableViewCell {
         image.frame.size = CGSize(width: 230, height: 204)
         image.layer.cornerRadius = image.frame.size.width/2
         image.contentMode = .scaleAspectFit
+        //image.sizeToFit()
         return image
     }()
     
@@ -48,15 +49,42 @@ class WeekTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpData(titleLabel: String, image: String?, description: String) {
-        guard image != nil else {
-            return
-        }
-        let imageURL = URL(string: image!)
-        imageView1.sd_setImage(with: imageURL)
+    func setUpData(titleLabel: String?, image: String?, description: String?) {
         title.text = titleLabel
         weekDescription.text = description
+        guard image != nil else {
+            title.text = ""
+            weekDescription.text = ""
+            imageView1.image = Icons.nocontent.image
+            return
+        }
+        imageView1.snp.remakeConstraints { make in
+            make.top.equalTo(title.snp.bottom).offset(30)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(weekDescription.snp.top).offset(-30)
+            make.width.equalTo(widthComputed(230))
+            make.height.equalTo(heightComputed(214))
+        }
+        
+        let imageURL = URL(string: image!)
+        imageView1.kf.setImage(with: imageURL)
     }
+    
+//    func downloadImage(from url: URL) {
+//        getData(from: url) { data, response, error in
+//            guard let data = data, error == nil else { return }
+//            print(response?.suggestedFilename ?? url.lastPathComponent)
+//
+//            DispatchQueue.main.async() { [weak self] in
+//                self?.imageView1.image = UIImage(data: data)
+//            }
+//        }
+//    }
+//
+//    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+//        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+//    }
+    
     
     func setUpConstraints() {
         title.snp.makeConstraints { make in
@@ -69,10 +97,11 @@ class WeekTableViewCell: UITableViewCell {
             make.left.right.equalToSuperview()
             make.width.equalTo(widthComputed(230))
             make.height.equalTo(heightComputed(214))
+            make.bottom.equalTo(weekDescription.snp.top).offset(-10)
         }
         
         weekDescription.snp.makeConstraints { make in
-            make.top.equalTo(imageView1.snp.bottom).offset(20)
+           // make.top.equalTo(imageView1.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(27)
             make.bottom.equalToSuperview().offset(-30)
         }

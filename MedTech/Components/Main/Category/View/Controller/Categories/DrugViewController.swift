@@ -42,21 +42,24 @@ class DrugViewController: BaseViewController {
         l.text = "Медикаменты"
         l.textColor = UIColor(named: "Violet")
         l.font = .boldSystemFont(ofSize: 16)
-        
         return l
     }()
-    private lazy var collectionView : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(DrugCollectionViewCell.self, forCellWithReuseIdentifier: DrugCollectionViewCell.reuseID)
-        cv.delegate = self
-        cv.dataSource = self
-        
-        return cv
+    private lazy var tableView : UITableView = {
+        let tableView = UITableView()
+        tableView.register(DrugTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.allowsSelection = false
+        tableView.showsVerticalScrollIndicator = false
+        return tableView
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 140
+        tableView.separatorColor = .clear
+                
         setUpSubviews()
         setUpConstraints()
         setData()
@@ -67,18 +70,18 @@ class DrugViewController: BaseViewController {
                          doctorName,
                          doctorJob,
                          titleFor,
-                         collectionView)
+                         tableView)
     }
     
     func setData() {
         guard let checklist = checklist,
-              let drugs = checklist.drugList?.replacingOccurrences(of: " ", with: "") else {
+              let drugs = checklist.drugList else {
             return
         }
         let doctor = checklist.patientVisitDTO?.doctorDTO
         doctorName.text = "\(doctor!.userDTO.lastName) \(doctor!.userDTO.firstName) \(doctor!.userDTO.middleName)"
         doctorJob.text = doctor?.profession
-        for i in drugs.split(separator: ",") {
+        for i in drugs.split(separator: "@") {
             drugsList.append(String(i))
         }
         guard let imageUrl = checklist.patientVisitDTO?.doctorDTO?.imageUrl else {
@@ -97,7 +100,7 @@ class DrugViewController: BaseViewController {
         doctorName.snp.makeConstraints { make in
             make.left.equalTo(doctorImage.snp.right).inset(-18)
             make.top.equalToSuperview().inset(113)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(105)
         }
         
         doctorJob.snp.makeConstraints { make in
@@ -112,30 +115,38 @@ class DrugViewController: BaseViewController {
             
         }
         
-        
-        collectionView.snp.makeConstraints{make in
+        tableView.snp.makeConstraints{make in
             make.top.equalTo(titleFor.snp.bottom).offset(14)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.bottom.equalToSuperview().inset(90)
         }
         
     }
 }
 
-extension DrugViewController : UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension DrugViewController : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return drugsList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.getReuseCell(DrugCollectionViewCell.self, indexPath: indexPath)
-        cell.setUpData(model: drugsList[indexPath.row])
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DrugTableViewCell
+        let model = drugsList[indexPath.section].split(separator: "|")
+        cell.setUpData(model: Drugs(title: String(model[0]), description: String(model[1])))
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: 67)
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .white
+        return headerView
     }
-    
-    
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
 }

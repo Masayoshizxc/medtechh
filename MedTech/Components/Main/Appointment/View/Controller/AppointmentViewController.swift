@@ -378,6 +378,7 @@ class AppointmentViewController: BaseViewController {
                 } else {
                     DispatchQueue.main.async {
                         strongSelf.scrollView.makeToast("Вы не можете записаться на пройденный день!", point:strongSelf.collectionViewB.center, title: nil, image: nil, completion: nil)
+                        strongSelf.containerView.hideToastActivity()
                         strongSelf.dismiss(animated: true)
                     }
                 }

@@ -142,6 +142,7 @@ class LoginViewController: BaseViewController {
             
             switch result {
             case .success:
+                UserDefaultsService.shared.isSignedIn(signedIn: true)
                 if model.pwdChangeRequired {
                     let vc = NewPasswordViewController()
                     strongSelf.navigationController?.pushViewController(vc, animated: true)

@@ -43,6 +43,7 @@ internal enum Icons {
   internal static let launchText = ImageAsset(name: "launchText")
   internal static let line = ImageAsset(name: "line")
   internal static let location = ImageAsset(name: "location")
+  internal static let nocontent = ImageAsset(name: "nocontent")
   internal static let notifDay = ImageAsset(name: "notifDay")
   internal static let notifLocation = ImageAsset(name: "notifLocation")
   internal static let notifTime = ImageAsset(name: "notifTime")

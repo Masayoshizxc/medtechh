@@ -81,7 +81,7 @@ class AnalysesViewController: BaseViewController {
         doctorName.snp.makeConstraints { make in
             make.left.equalTo(doctorImage.snp.right).inset(-18)
             make.top.equalToSuperview().inset(113)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(105)
         }
         
         doctorJob.snp.makeConstraints { make in

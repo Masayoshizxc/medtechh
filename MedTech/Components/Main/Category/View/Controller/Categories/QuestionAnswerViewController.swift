@@ -45,14 +45,6 @@ class QuestionAnswerViewController: BaseViewController {
         return label
     }()
     
-    private lazy var titleFor : UILabel = {
-        let l = UILabel()
-        l.numberOfLines = 0
-        l.text = "Обследование"
-        l.font = .boldSystemFont(ofSize: 19)
-        l.textColor = UIColor(named: "Violet")
-        return l
-    }()
     private lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -78,8 +70,8 @@ class QuestionAnswerViewController: BaseViewController {
         view.addSubviews(collectionView,
                          doctorImage,
                          doctorName,
-                         doctorJob,
-                         titleFor)
+                         doctorJob
+        )
     }
     
     func getAnswers() {
@@ -91,7 +83,9 @@ class QuestionAnswerViewController: BaseViewController {
             switch result {
             case .success:
                 print("Successfule")
-                self.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure:
                 print("There was an error with downloading answers!")
             default:
@@ -122,8 +116,9 @@ class QuestionAnswerViewController: BaseViewController {
         
         doctorName.snp.makeConstraints { make in
             make.left.equalTo(doctorImage.snp.right).inset(-18)
-            make.top.equalToSuperview().inset(113)
+//            make.top.equalToSuperview().inset(113)
             make.right.equalToSuperview()
+            make.bottom.equalTo(doctorImage.snp.centerY)
         }
         
         doctorJob.snp.makeConstraints { make in
@@ -134,14 +129,8 @@ class QuestionAnswerViewController: BaseViewController {
         
         collectionView.snp.makeConstraints{make in
             make.left.right.equalToSuperview().inset(27)
-            make.top.equalTo(237)
-            make.bottom.equalToSuperview().inset(90)
-            
-        }
-        titleFor.snp.makeConstraints{make in
-            make.top.equalTo(doctorImage.snp.bottom).offset(29)
-            make.left.equalToSuperview().inset(27)
-            
+            make.top.equalTo(200)
+            make.bottom.equalToSuperview().inset(tabbarHeight)
         }
     }
 
@@ -160,7 +149,7 @@ extension QuestionAnswerViewController : UICollectionViewDelegateFlowLayout, UIC
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 375, height: 120)
+        return CGSize(width: 375, height: 150)
     }
     
 }

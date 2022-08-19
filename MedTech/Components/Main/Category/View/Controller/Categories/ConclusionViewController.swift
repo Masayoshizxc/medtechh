@@ -35,14 +35,7 @@ class ConclusionViewController: BaseViewController {
         label.font = Fonts.SFProText.regular.font(size: 14)
         return label
     }()
-    
-    private let titleLabel : UILabel = {
-        let label = UILabel()
-        label.text = "Заключение"
-        label.textColor = UIColor(named: "Violet")
-        label.font = Fonts.SFProText.semibold.font(size: 16)
-        return label
-    }()
+
     
     private let icon: UIImageView = {
         let imageView = UIImageView()
@@ -69,7 +62,6 @@ class ConclusionViewController: BaseViewController {
             doctorImage,
             doctorName,
             doctorJob,
-            titleLabel,
             icon,
             textLabel
         )
@@ -102,7 +94,7 @@ class ConclusionViewController: BaseViewController {
         doctorName.snp.makeConstraints { make in
             make.left.equalTo(doctorImage.snp.right).inset(-18)
             make.top.equalToSuperview().inset(113)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(105)
         }
         
         doctorJob.snp.makeConstraints { make in
@@ -111,22 +103,15 @@ class ConclusionViewController: BaseViewController {
             make.right.equalToSuperview()
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(doctorImage.snp.bottom).offset(29)
-            make.left.equalToSuperview().inset(27)
-            make.width.equalTo(102)
-            make.height.equalTo(19)
-        }
-        
         icon.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(17.5)
+            make.top.equalTo(doctorImage.snp.bottom).offset(25)
             make.left.equalToSuperview().inset(27)
             make.width.equalTo(16.5)
             make.height.equalTo(21)
         }
         
         textLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(17.5)
+            make.top.equalTo(icon.snp.top)
             make.left.equalTo(icon.snp.right).offset(11)
             make.right.equalToSuperview().inset(27)
         }

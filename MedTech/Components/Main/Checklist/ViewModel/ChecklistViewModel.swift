@@ -62,8 +62,10 @@ class ChecklistViewModel: ChecklistViewModelProtocol {
                 completion(.failure)
                 return
             }
-            self.answers = result
-            completion(.success)
+            DispatchQueue.global(qos: .utility).async {
+                self.answers = result
+                completion(.success)
+            }
         }
     }
 }

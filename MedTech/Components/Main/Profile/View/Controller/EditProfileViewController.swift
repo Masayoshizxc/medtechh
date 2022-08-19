@@ -25,12 +25,6 @@ class EditProfileViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var saveButton : UIButton = {
-        let button = UIButton()
-        button.setImage(Icons.done.image, for: .normal)
-        button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
-        return button
-    }()
     let profileImage : UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true
@@ -100,7 +94,7 @@ class EditProfileViewController: BaseViewController {
         let label = UITextField()
         label.textColor = UIColor(red: 0.361, green: 0.282, blue: 0.416, alpha: 1)
         label.font = UIFont(name: "SFProText-Semibold", size: 14)
-        label.keyboardType = .namePhonePad
+        label.keyboardType = .phonePad
         let bottomBorder = CALayer()
         bottomBorder.frame = CGRect(x: 0, y: 25, width: view.frame.size.width - 60, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
@@ -124,6 +118,15 @@ class EditProfileViewController: BaseViewController {
         return label
     }()
     
+    private lazy var editButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("Изменить пароль", for: .normal)
+        button.addTarget(self, action: #selector(didTapChangePassword), for: .touchUpInside)
+        button.backgroundColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
+        button.layer.cornerRadius = 20
+        return button
+    }()
+    
     private lazy var confirmButton: LoginButton = {
         let button = LoginButton()
         button.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
@@ -134,7 +137,6 @@ class EditProfileViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Изменить профиль"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
         
         setUpData()
     }
@@ -154,14 +156,22 @@ class EditProfileViewController: BaseViewController {
             userNumber,
             userBirth,
             userAddress,
+            editButton,
             confirmButton
         )
         setUpConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        title = "Изменить профиль"
+        navigationItem.hidesBackButton = false
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         title = ""
+        navigationItem.hidesBackButton = true
     }
     
     func setUpData() {
@@ -189,7 +199,7 @@ class EditProfileViewController: BaseViewController {
         self.profileImage.sd_setImage(with: image)
     }
     
-    @objc func didTapDone() {
+    @objc func didTapChangePassword() {
         let vc = PasswordViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -315,11 +325,16 @@ class EditProfileViewController: BaseViewController {
             make.top.equalTo(placeUserAddress.snp.bottom).offset(16)
         }
         
+        editButton.snp.makeConstraints { make in
+            make.top.equalTo(userAddress.snp.bottom).offset(36)
+            make.left.right.equalToSuperview().inset(27)
+            make.height.equalTo(44)
+        }
+        
         confirmButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(userAddress.snp.bottom).offset(40)
-            make.width.equalTo(336)
+            make.left.right.equalToSuperview().inset(27)
             make.height.equalTo(50)
+            make.bottom.equalToSuperview().inset(45)
         }
     }
 }

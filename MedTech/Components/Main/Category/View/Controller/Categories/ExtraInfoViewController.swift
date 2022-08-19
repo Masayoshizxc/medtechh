@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ExtraInfoViewController: BaseViewController {
     
     var checklist: ChecklistModel?
+    var model = [String]()
     
     private let doctorImage: UIImageView = {
         let imageView = UIImageView()
@@ -71,9 +73,15 @@ class ExtraInfoViewController: BaseViewController {
         guard let checklist = checklist else {
             return
         }
+        guard let extra = checklist.extraInfo else {
+            return
+        }
         let doctor = checklist.patientVisitDTO?.doctorDTO
         doctorName.text = "\(doctor!.userDTO.lastName) \(doctor!.userDTO.firstName) \(doctor!.userDTO.middleName)"
         doctorJob.text = doctor?.profession
+        for i in extra.split(separator: "@") {
+            model.append(String(i))
+        }
         guard let imageUrl = checklist.patientVisitDTO?.doctorDTO?.imageUrl else {
             return
         }
@@ -90,7 +98,7 @@ class ExtraInfoViewController: BaseViewController {
         doctorName.snp.makeConstraints { make in
             make.left.equalTo(doctorImage.snp.right).inset(-18)
             make.top.equalToSuperview().inset(113)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(105)
         }
         
         doctorJob.snp.makeConstraints { make in
@@ -109,14 +117,17 @@ class ExtraInfoViewController: BaseViewController {
 
 extension ExtraInfoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return model.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ExtraInfoTableViewCell
-        cell.setUpData(model: checklist?.extraInfo ?? "")
+        cell.setUpData(model: model[indexPath.row])
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
+    }
     
 }
