@@ -42,10 +42,19 @@ class AnalysesViewController: BaseViewController {
         cv.dataSource = self
         return cv
     }()
+    
+    private lazy var label : UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
+        label.text = "Список данных анализов должен быть сдан до следующего планового осмотра"
+        label.numberOfLines = 0
+        return label
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         setData()
         setUpSubviews()
         setUpConstraints()
@@ -55,7 +64,9 @@ class AnalysesViewController: BaseViewController {
         view.addSubviews(doctorImage,
                          doctorName,
                          doctorJob,
-                         collectionView)
+                         collectionView,
+                         label
+        )
     }
     
     func setData() {
@@ -96,6 +107,11 @@ class AnalysesViewController: BaseViewController {
             make.bottom.equalToSuperview().inset(90)
         }
         
+        label.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(64 + tabbarHeight)
+        }
+        
     }
 }
 
@@ -115,4 +131,7 @@ extension AnalysesViewController : UICollectionViewDelegateFlowLayout, UICollect
         return CGSize(width: collectionView.frame.size.width, height: 44)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return (CGSize(width: view.frame.size.width, height: 60))
+    }
 }

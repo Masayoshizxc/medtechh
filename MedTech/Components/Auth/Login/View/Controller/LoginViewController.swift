@@ -199,18 +199,18 @@ class LoginViewController: BaseViewController {
         
         emailField.snp.makeConstraints { make in
             make.bottom.equalTo(passwordField.snp.top).offset(-25)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
         passwordField.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.height.equalTo(50)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
         }
         loginButton.snp.makeConstraints { make in
             make.top.equalTo(passwordField.snp.bottom).offset(30)
             make.height.equalTo(50)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
         }
         forgotPasswordButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

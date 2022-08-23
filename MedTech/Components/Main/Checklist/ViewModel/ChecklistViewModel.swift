@@ -45,6 +45,7 @@ class ChecklistViewModel: ChecklistViewModelProtocol {
             self.checklist.removeAll()
             for i in 0..<self.model.count {
                 let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "ru")
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateDate = dateFormatter.date(from: self.model[i].patientVisitDTO!.dateVisit!)
                 dateFormatter.dateFormat = "d MMMM yyyy"

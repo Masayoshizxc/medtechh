@@ -26,7 +26,7 @@ class NotificationsViewController: BaseViewController {
 
     private lazy var exitButton : UIButton = {
        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.setImage(Icons.downArrow.image, for: .normal)
         button.tintColor = UIColor(red: 92/255, green: 72/255, blue: 106/255, alpha: 1)
         button.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         return button
@@ -113,8 +113,8 @@ class NotificationsViewController: BaseViewController {
     func setUpConstraints(){
         exitButton.snp.makeConstraints{make in
             make.width.height.equalTo(40)
-            make.top.equalToSuperview().inset(40)
-            make.right.equalToSuperview().inset(30)
+            make.top.equalToSuperview().inset(10)
+            make.centerX.equalToSuperview()
         }
         titleForPage.snp.makeConstraints{make in
             make.left.equalToSuperview().inset(27)

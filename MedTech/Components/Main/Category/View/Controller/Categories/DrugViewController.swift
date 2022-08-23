@@ -44,6 +44,7 @@ class DrugViewController: BaseViewController {
         l.font = .boldSystemFont(ofSize: 16)
         return l
     }()
+    
     private lazy var tableView : UITableView = {
         let tableView = UITableView()
         tableView.register(DrugTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -53,9 +54,20 @@ class DrugViewController: BaseViewController {
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
+    
+    private lazy var label : UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "Violet")
+        label.textAlignment = .center
+        label.text = "Список медикаментов до следующего планового осмотра"
+        label.numberOfLines = 0
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.isScrollEnabled = false
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 140
         tableView.separatorColor = .clear
@@ -70,7 +82,9 @@ class DrugViewController: BaseViewController {
                          doctorName,
                          doctorJob,
                          titleFor,
-                         tableView)
+                         tableView,
+                         label
+        )
     }
     
     func setData() {
@@ -121,6 +135,11 @@ class DrugViewController: BaseViewController {
             make.bottom.equalToSuperview().inset(90)
         }
         
+        label.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(64 + tabbarHeight)
+        }
+        
     }
 }
 
@@ -149,4 +168,5 @@ extension DrugViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
+    
 }

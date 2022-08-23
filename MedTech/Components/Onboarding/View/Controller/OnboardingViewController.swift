@@ -95,7 +95,7 @@ class OnboardingViewController: BaseViewController {
         
         skipButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(64)
-            make.right.equalToSuperview().inset(27)
+            make.right.equalToSuperview().inset(10)
             make.width.equalTo(150)
             make.height.equalTo(40)
         }

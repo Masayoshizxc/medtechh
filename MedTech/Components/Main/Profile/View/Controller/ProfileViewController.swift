@@ -28,14 +28,12 @@ class ProfileViewController: BaseViewController {
     
     private lazy var logOutButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.left.to.line.alt"), for: .normal)
-        button.setTitle(" Выйти", for: .normal)
-        button.setTitleColor(UIColor(named: "Violet"), for: .normal)
+        button.setImage(Icons.logout.image, for: .normal)
         button.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
         button.backgroundColor = UIColor(named: "LightestPeach")
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 16
         button.tintColor = UIColor(named: "Violet")
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.frame = CGRect(x: 0, y: 0, width: 56, height: 44)
         return button
     }()
 
@@ -113,8 +111,8 @@ class ProfileViewController: BaseViewController {
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.backgroundColor = .white
-        button.layer.borderColor = UIColor.red.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(named: "LightPeach")?.cgColor
+        button.layer.borderWidth = 3
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapDownloadButton), for: .touchUpInside)
         return button
@@ -163,7 +161,7 @@ class ProfileViewController: BaseViewController {
         label.text = "Гинеколог"
         label.textColor = UIColor(named: "Violet")
         let bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(x: 0, y: 40, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.frame = CGRect(x: 0, y: 40, width: view.frame.size.width - 32, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
         return label
@@ -183,7 +181,7 @@ class ProfileViewController: BaseViewController {
         label.text = "Почта"
         label.textColor = UIColor(named: "Violet")
         let bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 32, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
         return label
@@ -201,7 +199,7 @@ class ProfileViewController: BaseViewController {
         label.text = "Номер телефона"
         label.textColor = UIColor(named: "Violet")
         let bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 32, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
         return label
@@ -219,7 +217,7 @@ class ProfileViewController: BaseViewController {
         label.text = "Дата рождения"
         label.textColor = UIColor(named: "Violet")
         let bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 55, height: 1.0)
+        bottomBorder.frame = CGRect(x: 0, y: 35, width: view.frame.size.width - 32, height: 1.0)
         bottomBorder.backgroundColor = UIColor(named: "LightViolet")?.cgColor
         label.layer.addSublayer(bottomBorder)
         return label
@@ -254,6 +252,7 @@ class ProfileViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Профиль"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logOutButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sosButton)
         scrollView.showsVerticalScrollIndicator = false
         addProgressBar()
@@ -268,7 +267,6 @@ class ProfileViewController: BaseViewController {
             userName,
             viewAsTableView,
             viewInView,
-            logOutButton,
             editButton
         )
         downloadButton.addSubview(imageView)
@@ -360,6 +358,7 @@ class ProfileViewController: BaseViewController {
                 strongSelf.numberName.text = user?.phoneNumber
 
                 let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "ru")
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateDate = dateFormatter.date(from: (user?.dob)!)
                 dateFormatter.dateFormat = "d MMMM yyyy"
@@ -448,13 +447,6 @@ class ProfileViewController: BaseViewController {
     }
     
     func setUpConstraints() {
-        logOutButton.snp.makeConstraints { make in
-            make.top.equalTo(editButton.snp.bottom).offset(65)
-            make.width.equalTo(128)
-            make.height.equalTo(44)
-            make.left.right.equalToSuperview().inset(27)
-            
-        }
         
         sosButton.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(65)
@@ -470,7 +462,7 @@ class ProfileViewController: BaseViewController {
         }
         trimestImage.snp.makeConstraints{make in
             make.top.equalTo(profileImage.snp.bottom).offset(27)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(120)
         }
         weekLabel.snp.makeConstraints{make in
@@ -488,25 +480,25 @@ class ProfileViewController: BaseViewController {
         }
         downloadButton.snp.makeConstraints{make in
             make.top.equalTo(trimestImage.snp.bottom).offset(30)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(60)
         }
         
         viewInView.snp.makeConstraints{make in
             make.top.equalTo(downloadButton.snp.bottom).offset(30)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(300)
         }
 
         editButton.snp.makeConstraints{make in
             make.top.equalTo(viewInView.snp.bottom).offset(5)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
         userName.snp.makeConstraints{make in
             make.centerY.equalTo(profileImage)
             make.left.equalTo(profileImage.snp.right).offset(30)
-            make.right.equalToSuperview().inset(27)
+            make.right.equalToSuperview().inset(16)
         }
         dataView.snp.makeConstraints{make in
             make.width.equalTo(view.frame.size.width)

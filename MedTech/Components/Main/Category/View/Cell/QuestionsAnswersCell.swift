@@ -32,22 +32,13 @@ class QuestionsAnswersCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var button : UILabel = {
-        let btn = UILabel()
-        btn.clipsToBounds = true
-        btn.backgroundColor = UIColor(named: "Violet")
-        btn.layer.borderColor = UIColor.red.cgColor
-        btn.layer.cornerRadius = 16
-        btn.textAlignment = .center
-        btn.text = "Да"
-        btn.font = Fonts.SFProText.semibold.font(size: 16)
-        btn.textColor = .white
-        return btn
+    private lazy var image: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
     }()
 
     override init(frame: CGRect){
         super.init(frame: frame)
-        button.isHidden = true
         setUpSubviews()
         setUpConstraints()
     }
@@ -59,7 +50,7 @@ class QuestionsAnswersCell: UICollectionViewCell {
         contentView.addSubviews(questionIcon,
                                 questionLabel,
                                 answerLabel,
-                                button)
+                                image)
     }
     
     func setUpData(model: Basic_questions, answer: Answers) {
@@ -68,13 +59,10 @@ class QuestionsAnswersCell: UICollectionViewCell {
         guard let status = answer.answerStatus else {
             return
         }
-        button.isHidden = false
         if status {
-            button.text = "Да"
-            button.backgroundColor = UIColor(named: "Violet")
+            image.image = Icons.checkmark2.image
         } else {
-            button.text = "Нет"
-            button.backgroundColor = UIColor(red: 0.921, green: 0.385, blue: 0.385, alpha: 1)
+            image.image = Icons.xmark.image
         }
         
     }
@@ -88,20 +76,19 @@ class QuestionsAnswersCell: UICollectionViewCell {
         questionLabel.snp.makeConstraints{make in
             make.top.equalToSuperview().inset(5)
             make.left.equalTo(questionIcon.snp.right).offset(10)
-            make.right.equalToSuperview().inset(5)
+            make.right.equalTo(image.snp.left).inset(-16)
         }
         
         answerLabel.snp.makeConstraints { make in
             make.top.equalTo(questionLabel.snp.bottom).offset(13)
             make.left.equalTo(questionIcon.snp.right).offset(10)
-            make.right.equalToSuperview().inset(27)
+            make.right.equalTo(image.snp.left).inset(-16)
         }
         
-        button.snp.makeConstraints{make in
-            make.top.equalTo(answerLabel.snp.bottom).offset(13)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(60)
-            make.height.equalTo(40)
+        image.snp.makeConstraints{make in
+            make.bottom.equalTo(answerLabel.snp.top)
+            make.right.equalToSuperview().inset(16)
+            make.width.height.equalTo(24)
         }
 
     }

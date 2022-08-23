@@ -74,15 +74,11 @@ class HomeViewModel: HomeViewModelProtocol {
     
     func deleteAllNotifications() {
         let userId = UserDefaultsService.shared.getUserId()
-        service.deleteAllNotifications(patientId: userId) { result in
-            print(result)
-        }
+        service.deleteAllNotifications(patientId: userId)
     }
     
     func deleteNotificationsById(id: Int) {
-        service.deleteNotificationsById(id: id) { result in
-            print(result)
-        }
+        service.deleteNotificationsById(id: id)
     }
     
     func sortAnArrayOfArray() {

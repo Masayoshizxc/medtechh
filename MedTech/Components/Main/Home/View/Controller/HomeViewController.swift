@@ -17,7 +17,7 @@ class HomeViewController: BaseViewController {
     
     let notificationsView = NotificationsViewController()
         
-    var selectedWeek = 1
+    var selectedWeek = 0
     var currentWeek = 1
         
     init(vm: HomeViewModelProtocol = HomeViewModel(), vm2: AppointmentViewModelProtocol = AppointmentViewModel()) {
@@ -285,7 +285,6 @@ class HomeViewController: BaseViewController {
     
     @objc func didTapNotificationsButton(){
         let loadVC = NotificationsViewController()
-        loadVC.modalPresentationStyle = .fullScreen
         guard let model = viewModel.notifications else {
             return
         }
@@ -341,7 +340,7 @@ class HomeViewController: BaseViewController {
         }
         remindButton.snp.makeConstraints{ make in
             make.top.equalToSuperview().inset(32)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
         
@@ -377,7 +376,7 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout, UICollectionV
         }
         
         if !model.isEmpty {
-            if indexPath.row < currentWeek {
+            if indexPath.row + 1 == currentWeek {
                 cell.setBeforeDate(text: model[indexPath.row].weekday)
             } else {
                 cell.fill(text: model[indexPath.row].weekday)

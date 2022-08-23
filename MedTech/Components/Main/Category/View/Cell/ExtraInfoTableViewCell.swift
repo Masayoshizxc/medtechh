@@ -44,8 +44,8 @@ class ExtraInfoTableViewCell: UITableViewCell {
     func setUpConstraints() {
 
         image.snp.makeConstraints { make in
+            make.top.equalTo(label)
             make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
             make.width.equalTo(16)
             make.height.equalTo(20)
         }

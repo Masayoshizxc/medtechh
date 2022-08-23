@@ -183,6 +183,7 @@ class EditProfileViewController: BaseViewController {
             return
         }
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ru")
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateDate = dateFormatter.date(from: dob)
         dateFormatter.dateFormat = "d MMMM yyyy"

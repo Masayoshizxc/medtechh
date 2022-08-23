@@ -120,12 +120,12 @@ class ForgotPasswordViewController: BaseViewController {
         }
         emailField.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
         sendButton.snp.makeConstraints { make in
             make.top.equalTo(emailField.snp.bottom).offset(60)
-            make.left.right.equalToSuperview().inset(27)
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(50)
         }
     }

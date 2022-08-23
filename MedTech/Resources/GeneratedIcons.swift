@@ -28,12 +28,14 @@ internal enum Icons {
   internal static let callWhite = ImageAsset(name: "callWhite")
   internal static let checkQuestion = ImageAsset(name: "checkQuestion")
   internal static let checkmark = ImageAsset(name: "checkmark")
+  internal static let checkmark2 = ImageAsset(name: "checkmark2")
   internal static let childObserve = ImageAsset(name: "childObserve")
   internal static let conclusion = ImageAsset(name: "conclusion")
   internal static let date = ImageAsset(name: "date")
   internal static let doctor = ImageAsset(name: "doctor")
   internal static let domino = ImageAsset(name: "domino")
   internal static let done = ImageAsset(name: "done")
+  internal static let downArrow = ImageAsset(name: "downArrow")
   internal static let download = ImageAsset(name: "download")
   internal static let error = ImageAsset(name: "error")
   internal static let extra = ImageAsset(name: "extra")
@@ -43,6 +45,7 @@ internal enum Icons {
   internal static let launchText = ImageAsset(name: "launchText")
   internal static let line = ImageAsset(name: "line")
   internal static let location = ImageAsset(name: "location")
+  internal static let logout = ImageAsset(name: "logout")
   internal static let nocontent = ImageAsset(name: "nocontent")
   internal static let notifDay = ImageAsset(name: "notifDay")
   internal static let notifLocation = ImageAsset(name: "notifLocation")
@@ -58,6 +61,7 @@ internal enum Icons {
   internal static let time = ImageAsset(name: "time")
   internal static let unhide = ImageAsset(name: "unhide")
   internal static let warning = ImageAsset(name: "warning")
+  internal static let xmark = ImageAsset(name: "xmark")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 

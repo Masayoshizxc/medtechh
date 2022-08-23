@@ -15,7 +15,7 @@ protocol AppointmentViewModelProtocol {
     func postAppointments(completion: @escaping ((SuccessFailure?) -> Void))
     func getReservedDates(date: String, completion: @escaping ((SuccessFailure?) -> Void))
     func getLastVisit(id: Int, completion: @escaping ((PatientVisitDTO?) -> Void))
-    
+        
     var timeModel: [TimeModel]? { get set }
     var patientVisit: PatientVisitDTO? { get set }
     var nonFreeTimes: [PatientVisitDTO]? { get set }
@@ -56,6 +56,58 @@ class AppointmentViewModel: AppointmentViewModelProtocol {
         
         }
     }
+    
+//    func getTime(weekday: String, date: String, completion: @escaping ((SuccessFailure?) -> Void)) {
+//        let queue = DispatchQueue(label: "getTimes", attributes: .concurrent)
+//        let group = DispatchGroup()
+//
+//        queue.async(group: group) {
+//            let doctorId = self.userDefaults.getDoctorId()
+//            self.service.getFreeTimes(doctorId: doctorId!, weekday: weekday) { result in
+//                guard let result = result else {
+//                    return
+//                }
+//                if !result.isEmpty {
+//                    self.timeModel = result
+//                }
+//
+//            }
+//        }
+//
+//        queue.async(group: group) {
+//            self.service.getNonFreeTimes(date: date) { [weak self] result in
+//                guard let timeModel = self?.timeModel else {
+//                    completion(.failure)
+//                    return
+//                }
+//                self?.freeTimes.removeAll()
+//                let nonFree = self?.nonFreeTimes
+//                for i in 0..<timeModel.count {
+//                    let time = timeModel[i].scheduleStartTime
+//                    if result == nil {
+//                        self?.nonFreeTimes = result
+//                        for j in 0..<nonFree!.count {
+//                            let nonFreeTime = nonFree![j].visitStartTime
+//                            if time != nonFreeTime {
+//                                let timee = time?.dropLast(3)
+//                                self?.freeTimes.append(Time(time: String(timee!)))
+//                            }
+//                        }
+//                    } else {
+//                        let timee = time?.dropLast(3)
+//                        self?.freeTimes.append(Time(time: String(timee!)))
+//                        completion(.failure)
+//                    }
+//                }
+//            }
+//        }
+//
+//        group.notify(queue: .main) {
+//            print("Hey Hey")
+//            completion(.success)
+//        }
+//
+//    }
     
     func getFreeTimes(weekday: String, completion: @escaping ((SuccessFailure?) -> Void)) {
         let doctorId = userDefaults.getDoctorId()
